@@ -1,0 +1,237 @@
+body
+{
+	padding: 0px;
+	margin: 0px;
+	font-family: "Arial Narrow", Arial, sans-serif;
+	overflow: hidden;
+	/* stop any scrolling of whole browser contents */
+}
+
+/* -------------------------------------------------------------------------------------*/
+
+.header
+{
+	height: 30px;
+	font-size: 24px;
+	border-bottom: 1px solid rgb(192,192,192);
+	/* background-color:orange;
+		color:white; */
+	/*padding:10px;*/
+}
+
+/* -------------------------------------------------------------------------------------*/
+
+.content
+{
+	display: flex;
+	flex: 1;
+}
+
+/* main panel */
+.main
+{
+	height: calc(100vh - 50px);
+	flex: 2 0 0;
+}
+
+/* side panel */
+.side
+{
+	padding: 10px;
+	border-left: 1px solid rgb(192,192,192);
+	height: calc(100vh - 50px);
+	//background-color: orange;
+	overflow-y: auto;
+	/* have a scrollbar */
+	flex: 1 0 0;
+}
+
+/* -------------------------------------------------------------------------------------*/
+/*.  https://stackoverflow.com/a/14758993/9684.  */
+/* Use class "clearfix" to ensure parent div includes child divs */
+.clearfix:before,
+.clearfix:after {
+    content: " "; 
+    display: table; 
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+/* -------------------------------------------------------------------------------------*/
+/* based on https://stackoverflow.com/a/43936462/9684 */
+.search_form
+{
+	/* This bit sets up the horizontal layout */
+	display: flex;
+	flex-direction: row;
+	/* This bit draws the box around it */
+	/*border:1px solid grey; */
+	background-color: white;
+	padding: 2px;
+}
+
+.search_input
+{
+	/* Tell the input to use all the available space */
+	flex-grow: 2;
+	/* And hide the input's outline, so the form looks like the outline */
+	border: none;
+	font-size: 18px;
+}
+
+.search_button
+{
+	/* Just a little styling to make it pretty */
+	border: 1px solid blue;
+	background: blue;
+	color: white;
+}
+
+/* -------------------------------------------------------------------------------------*/
+/* Explanations of content */
+.explain
+{
+	padding:10px;
+	margin:10px;
+	/* border:1px solid #CCC; */
+	color: #999;
+	font-size:1.0em;
+}
+
+/* -------------------------------------------------------------------------------------*/
+
+#viewer
+{
+	background-color: rgb(192,192,192);
+	width: 100%;
+	height: 300px;
+}
+
+/* -------------------------------------------------------------------------------------*/
+.main_header
+{
+	height: 30px;
+	border-bottom: 1px solid rgb(192,192,192);
+	box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
+}
+
+.main_content
+{
+	/*height:calc(100vh - 60px); */
+	/* allow for list heading */
+	height: calc(100vh - 30px);
+	/* allow for list heading */
+	overflow-y: auto;
+	/* have a scrollbar */
+	/*background-color:rgb(242,242,242);*/
+}
+
+/* -------------------------------------------------------------------------------------*/
+/* entity title with thumbnail, basically a "card" without many details.  */
+.heading-block
+{
+	margin: 20px;
+	/*padding:10px;*/
+	min-height: 100px;
+	background-color: white;
+}
+
+.heading-thumbnail
+{
+	border:1px solid rgb(192,192,192); 
+	min-height: 100px;
+	width: 100px;
+	float: left;
+}
+
+/* Ensure we can fit a document thumbnail */
+.heading-thumbnail img
+{
+	width: 100px;
+}
+
+.heading-body
+{
+	font-size: 1.0em;
+	margin-left: 110px;
+	line-height: 0.8em;	
+}
+
+.heading-title
+{
+	font-size: 1.4em;
+	line-height: 1.2em;
+}
+
+/* -------------------------------------------------------------------------------------*/
+/* Authors */
+ul.creator {
+	padding-left:0px;
+}
+
+ul.creator li {
+    display:inline;
+    padding:2px;
+    /* background-color:rgb(192,192,192); */
+}
+
+ul.creator li:before {
+  content: "\f007";
+  font-family: "Font Awesome 5 Free";
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  padding-right: 4px;
+}
+
+/* -------------------------------------------------------------------------------------*/
+/* list of "cards" */
+.list-item {
+	margin-left:20px;
+	margin-bottom:10px;
+	/*padding:10px;*/
+	min-height:100px;
+	background-color:white;
+	/*border:1px solid rgb(192,192,192);*/
+}
+
+.list-item-thumbnail {
+	border:1px solid rgb(128,128,128);
+	width:100px;height:100px;
+	background-color:rgb(192,192,192);
+	float:left;
+}
+
+/* Ensure we can fit a document thumbnail */
+/* centre image in middle, object-fit: contain; normally does this but I need white background
+   to handle page images that have transparent backgrounds */
+.list-item-thumbnail img {
+	background-color:white;
+	height:100px;
+	object-fit: contain;
+	display:block;
+	margin:auto;
+}
+
+.list-item-body {
+	margin-left:100px;
+	line-height:0.8em;
+	padding:10px;
+}
+
+.list-item-title {
+	font-size: 1.0em;
+	margin-bottom:0.3em;
+	line-height:1.2em;
+}
+
+.list-item-description {
+	font-size: 0.6em;
+}
+
