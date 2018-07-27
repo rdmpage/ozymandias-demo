@@ -83,6 +83,7 @@ body
 	/* And hide the input's outline, so the form looks like the outline */
 	border: none;
 	font-size: 18px;
+	
 }
 
 .search_button

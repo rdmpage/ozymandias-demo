@@ -82,14 +82,21 @@ function display_work($entity)
 	echo '
 					</div>';
 					
-	echo '<div id="creator"></div>';					
+	echo '
+					<div id="creator"></div>';					
 	echo '									
 				</div>
 			</div>';
-
-
+			
+			
+	echo '
+			<div id="viewer">				
+			</div>';
+			
+			
 	echo '
 		<script>creators_for_entity("' . $entity->{'@id'} . '", "creator"); </script>
+		<script>pdf_viewer("' . $entity->{'@id'} . '", "viewer"); </script>
 	';
 }
 
@@ -319,7 +326,7 @@ function display_entity($uri)
 		. json_encode($entity, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
     	. "\n" . '</script>';
 	
-	display_html_start($title, $meta, $script);
+	display_html_start($title, $meta, $script, '$(window).resize();');
 	
 	echo '
 	<div class="header">
@@ -437,11 +444,36 @@ function display_html_start($title = '', $meta = '', $script = '', $onload = '')
     <script src="js/citation.js"></script>
     <script src="js/identifiers.js"></script>
     <script src="js/taxon.js"></script>
-    <script src="js/viewer.js"></script>
     <script src="js/work.js"></script>
 
 	<!-- hacks to find external identifiers -->
     <script src="js/identifier-queries.js"></script>
+    
+    <script>
+	function pdf_viewer (uri, element_id) {
+		var query = `SELECT *
+WHERE
+{
+  <` + uri + `> <http://schema.org/encoding> ?encoding .
+  ?encoding <http://schema.org/fileFormat> ?"application/pdf" .
+  ?encoding <http://schema.org/contentUrl> ?contentUrl .
+  ?encoding <http://id.loc.gov/vocabulary/preservation/cryptographicHashFunctions/sha1> ?sha1 .
+}`;
+	
+		$.getJSON(\'query.php?query=\' + encodeURIComponent(query)
+				+ \'&callback=?\',
+			function(data){
+				console.log(JSON.stringify(data, null, 2));  	
+				
+				if (data.results.bindings.length == 1) {
+					var html = \'<iframe id="pdf" width="100%" height="800" src="external/pdfjs/web/viewer.html?file=\' + encodeURIComponent(\'' . $config['web_server'] . $config['web_root'] . '/pdf_proxy.php?url=\' + encodeURIComponent(data.results.bindings[0].contentUrl.value)) + \'" />\';				
+					$(\'#\' + element_id).html(html);					
+					$(window).resize();
+				}
+			}
+		);				
+}    
+	</script>
 	
 	'	
 	. $script . '
@@ -467,6 +499,17 @@ function display_html_start($title = '', $meta = '', $script = '', $onload = '')
 function display_html_end()
 {
 	global $config;
+	
+	echo '<script>
+	/* http://stackoverflow.com/questions/6762564/setting-div-width-according-to-the-screen-size-of-user */
+	$(window).resize(function() { 
+		/* Only resize document window if we have a document cloud viewer */
+		var windowHeight =$(window).height() -  30;		
+		$("#viewer").css({"height":windowHeight });
+		$("#pdf").css({"height":windowHeight });
+	});	
+</script>
+';
 
 	echo '</body>';
 	echo '</html>';
