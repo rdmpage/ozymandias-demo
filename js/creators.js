@@ -27,7 +27,7 @@ ORDER BY (xsd:integer(?position))`;
 					+ data.results.bindings[i].creator.value.replace(/#/, '%23')
 					+ '">';
 				
-				html += data.results.bindings[i].name.value;
+				html += data.results.bindings[i].name.value.replace(/\s+/, '&nbsp;');
 				
 				html += '</a>';
 				

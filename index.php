@@ -60,6 +60,66 @@ function get_literal_display($value)
 }
 
 //----------------------------------------------------------------------------------------
+// Container of works
+function display_container($entity)
+{
+	echo '
+			<div class="heading-block clearfix">
+				<div class="heading-thumbnail">';
+				
+	if (isset($entity->thumbnailUrl))
+	{
+		echo '<img src="' . $entity->thumbnailUrl . '" />';
+	}	
+
+	echo '
+				</div>
+				<div class="heading-body">
+					<div class="heading-title">';
+					
+	echo  get_literal_display($entity->name);
+	echo '
+					</div>';
+					
+	echo '
+	            <div class="heading-description">';
+
+	$issn = array();
+	if (isset($entity->issn))
+	{
+		if (is_array($entity->issn))
+		{
+			$issn = $entity->issn;
+		}
+		else
+		{
+			$issn[] = $entity->issn;
+		}
+	}
+	
+	if (count($issn) > 0)
+	{
+		echo '<span>ISSN: ' . $issn[0] . '</span>';
+	
+		echo '<script>issn_in_wikidata("' . $issn[0] . '", "wikidata"); </script>';
+	}
+	
+	echo '
+	             </div>
+	        </div>
+	    </div>
+	';	            
+
+	
+	echo '<div id="works"></div>';
+	
+	echo '
+		<script>container_parts("' . $entity->{'@id'} . '", "works"); </script>
+	';	
+	
+}
+
+//----------------------------------------------------------------------------------------
 // Published work
 function display_work($entity)
 {
@@ -82,11 +142,48 @@ function display_work($entity)
 	echo '
 					</div>';
 					
+	// Display bibliographic details (SPARQL)		
+	echo '					
+					<div class="heading-description">
+						<span id="container"></span>';
+	
+	$terms = array();
+	$terms[] = ' ';
+	if (isset($entity->datePublished))
+	{
+		$terms[] = $entity->datePublished;
+	}
+	$terms[] = '; ';
+	if (isset($entity->volume))
+	{
+		$terms[] = $entity->volume;
+	}
+	if (isset($entity->issueNumber))
+	{
+		$terms[] = '(';
+		$terms[] = $entity->issueNumber;
+		$terms[] = ')';
+	}
+	if (isset($entity->pagination))
+	{
+		$terms[] = ': ';
+		$terms[] = $entity->pagination;
+	}
+	
+	echo '<span id="details">' . join('', $terms) . '</span>';
+	echo '</div>';	
+											
+	// Display authors (SPARQL)		
 	echo '
 					<div id="creator"></div>';					
+	echo '
+					<div id="identifiers"></div>';										
 	echo '									
 				</div>
 			</div>';
+			
+			
+	echo '<div id="figures" class="figures"></div>';
 			
 			
 	echo '
@@ -95,7 +192,10 @@ function display_work($entity)
 			
 			
 	echo '
+		<script>container("' . $entity->{'@id'} . '", "container"); </script>	
 		<script>creators_for_entity("' . $entity->{'@id'} . '", "creator"); </script>
+		<script>identifiers_for_entity("' . $entity->{'@id'} . '", "identifiers"); </script>
+		<script>figures("' . $entity->{'@id'} . '", "figures"); </script>		
 		<script>pdf_viewer("' . $entity->{'@id'} . '", "viewer"); </script>
 	';
 }
@@ -402,11 +502,13 @@ function display_entity($uri)
 		</div>
 				
 		<div class="side">
-		2
+			<div class="explain">Connections within this knowledge graph.</div>
 		</div>
 
 		<div class="side">
-		3
+			<div class="explain">External knowledge graphs.</div>
+			<div id="wikidata"></div>
+			<div id="orcid"></div>
 		</div>
 	</div>';
 	

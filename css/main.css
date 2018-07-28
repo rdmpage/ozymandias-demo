@@ -13,7 +13,7 @@ body
 {
 	height: 30px;
 	font-size: 24px;
-	border-bottom: 1px solid rgb(192,192,192);
+	border-bottom: 1px solid rgb(229,229,229);
 	/* background-color:orange;
 		color:white; */
 	/*padding:10px;*/
@@ -38,9 +38,8 @@ body
 .side
 {
 	padding: 10px;
-	border-left: 1px solid rgb(192,192,192);
+	border-left: 1px solid rgb(229,229,229);
 	height: calc(100vh - 50px);
-	//background-color: orange;
 	overflow-y: auto;
 	/* have a scrollbar */
 	flex: 1 0 0;
@@ -109,7 +108,7 @@ body
 
 #viewer
 {
-	background-color: rgb(192,192,192);
+	background-color: rgb(229,229,229);
 	width: 100%;
 	height: 300px;
 }
@@ -118,8 +117,8 @@ body
 .main_header
 {
 	height: 30px;
-	border-bottom: 1px solid rgb(192,192,192);
-	box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1);
+	border-bottom: 1px solid rgb(229,229,229);
+	box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); 
 }
 
 .main_content
@@ -170,6 +169,11 @@ body
 	line-height: 1.2em;
 }
 
+.heading-description
+{
+	line-height: 1.2em;
+}
+
 /* -------------------------------------------------------------------------------------*/
 /* Authors */
 ul.creator {
@@ -179,11 +183,15 @@ ul.creator {
 ul.creator li {
     display:inline;
     padding:2px;
-    /* background-color:rgb(192,192,192); */
+    background-color:rgb(229,229,229); 
+    border:1px solid rgb(192,192,192);
+    border-radius: 4px;
+    line-height: 1.6em;
+    margin:2px;    
 }
 
 ul.creator li:before {
-  content: "\f007";
+  content: "\f007\00A0";
   font-family: "Font Awesome 5 Free";
   font-weight: normal;
   font-style: normal;
@@ -203,9 +211,9 @@ ul.creator li:before {
 }
 
 .list-item-thumbnail {
-	border:1px solid rgb(128,128,128);
+	border:1px solid rgb(192,192,192);
 	width:100px;height:100px;
-	background-color:rgb(192,192,192);
+	background-color:rgb(229,229,229);
 	float:left;
 }
 
@@ -236,3 +244,64 @@ ul.creator li:before {
 	font-size: 0.6em;
 }
 
+/* -------------------------------------------------------------------------------------*/
+/* links and identifiers */
+
+/* truncate very long identifiers such as LSIDs */
+.external {
+  width:400px;
+  white-space: nowrap;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* links */
+.external:after {
+  content: "\f35d";
+  font-family: "Font Awesome 5 Free";
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  text-decoration: none;
+  padding-left: 3px;
+}
+
+ul.identifier-list  {
+  padding-left: 0px;
+}
+ul.identifier-list li {
+  list-style: none;
+  line-height: 1.2em;
+}
+
+/* -------------------------------------------------------------------------------------*/
+/* figures in a work */
+	
+.figures {
+}
+
+section{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+section::after{
+  content: \'\';
+  flex-grow: 999999999;
+}
+
+div.figure{
+  flex-grow: 1;
+  margin: 4px;
+  height: 100px;
+}
+
+img.figure{
+  height: 100px;
+  object-fit: cover;
+  max-width: 100%;
+  min-width: 100%;
+  vertical-align: bottom;
+  border:1px solid rgb(192,192,192);
+}	
