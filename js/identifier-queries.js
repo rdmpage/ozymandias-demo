@@ -11,7 +11,7 @@ WHERE
 			$.getJSON('https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=' + encodeURIComponent(sparql),
 				function(data){
 				  if (data.results.bindings.length == 1) {
-            		html = 'DOI in Wikidata <a href="' + data.results.bindings[0].work.value + '" target="_new">' + data.results.bindings[0].work.value.replace("http://www.wikidata.org/entity/","") + '</a>';
+            		html = 'DOI in Wikidata <a class="external" href="' + data.results.bindings[0].work.value + '" target="_new">' + data.results.bindings[0].work.value.replace("http://www.wikidata.org/entity/","") + '</a>';
 				  } else {
 				     html = 'DOI not in Wikidata';         
 				  }
@@ -32,8 +32,7 @@ WHERE
                 } else {
                   for (var i in data.orcid) {
                     html += '<div>';
-                    html += '<img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" align="center">';
-                    html += ' <a href="https://orcid.org/' + data.orcid[i] + '" target="_new">orcid.org/' + data.orcid[i] + '</a>';
+                    html += ' <a class="external orcid" href="https://orcid.org/' + data.orcid[i] + '" target="_new">orcid.org/' + data.orcid[i] + '</a>';
                     html += '</div>';                 
                   }
                 }
