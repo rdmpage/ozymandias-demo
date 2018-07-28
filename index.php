@@ -196,6 +196,8 @@ function display_work($entity)
 		<script>creators_for_entity("' . $entity->{'@id'} . '", "creator"); </script>
 		<script>identifiers_for_entity("' . $entity->{'@id'} . '", "identifiers"); </script>
 		<script>figures("' . $entity->{'@id'} . '", "figures"); </script>		
+		<script>cited_by("' . $entity->{'@id'} . '", "cited_by"); </script>
+		<script>cites("' . $entity->{'@id'} . '", "cites"); </script>		
 		<script>pdf_viewer("' . $entity->{'@id'} . '", "viewer"); </script>
 	';
 }
@@ -231,6 +233,66 @@ function display_creator($entity)
 
 	echo '
 		<script>works_by_creator("' . $entity->{'@id'} . '", "works");</script>
+	';
+}
+
+//----------------------------------------------------------------------------------------
+// Image (such as a Zenodo figure)
+function display_image($entity)
+{
+	global $config;
+	
+	echo '
+			<div class="heading-block clearfix">
+				<div class="heading-thumbnail">';
+				
+	
+	if (isset($entity->thumbnailUrl))
+	{
+		if (is_object($entity->thumbnailUrl)) {
+			echo '<img src="' . $config['thumbnail_cdn'] . $entity->thumbnailUrl->{'@id'} . '" />';		
+		}
+		else
+		{
+			echo '<img src="' . $config['thumbnail_cdn'] . $entity->thumbnailUrl . '" />';
+		}
+	}	
+		
+	echo '
+				</div>
+				<div class="heading-body">
+					<div class="heading-title">';
+					
+	echo  get_literal_display($entity->name);
+	echo '
+					</div>
+					<div class="heading-description">';
+					
+	if (isset($entity->description))
+	{
+		echo '<div class="caption">' . get_literal_display($entity->description) . '</div>';
+	}			
+	
+	echo '<div id="identifiers">';
+	echo '<ul class="identifier-list">';
+	echo '<li><a class="external" href="' . $entity->{'@id'} . '" target="_new">' . $entity->{'@id'} . '</a></li>';
+	echo '</ul>';
+	echo '</div>';			
+											
+	echo '
+					</div>
+				</div>
+			</div>';
+			
+	// Display image
+	echo '<div>';	
+	echo '<img class="image" src="' .$entity->contentUrl->{'@id'} . '" />';	
+	echo '</div>';
+
+
+
+	echo '
+		<!-- <script>works_by_creator("' . $entity->{'@id'} . '", "works");</script> -->
 	';
 }
 
@@ -503,6 +565,10 @@ function display_entity($uri)
 				
 		<div class="side">
 			<div class="explain">Connections within this knowledge graph.</div>
+			
+			<div id="cited_by"></div>
+			<div id="cites"></div>
+			
 		</div>
 
 		<div class="side">

@@ -38,6 +38,10 @@ switch ($site)
 		$config['web_root']		= '/~rpage/ozymandias-demo/';
 }
 
+
+$config['thumbnail_cdn'] = 'http://exeg5le.cloudimg.io/height/100/n/';
+
+
 $config['sparql_endpoint'] 	= '';
 $config['triplestore'] 		= 'blazegraph';
 
