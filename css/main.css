@@ -171,6 +171,7 @@ body
 
 .heading-description
 {
+	color:rgb(128,128,128);
 	line-height: 1.2em;
 }
 
@@ -267,6 +268,12 @@ ul.creator li:before {
   padding-left: 3px;
 }
 
+.orcid:before {
+  content: url('../images/orcid_16x16.png');
+  vertical-align: middle;
+  padding-right: 3px;
+}
+
 ul.identifier-list  {
   padding-left: 0px;
 }
@@ -276,7 +283,7 @@ ul.identifier-list li {
 }
 
 /* -------------------------------------------------------------------------------------*/
-/* figures in a work */
+/* figures in a work displayed all at once */
 	
 .figures {
 }
@@ -305,3 +312,32 @@ img.figure{
   vertical-align: bottom;
   border:1px solid rgb(192,192,192);
 }	
+
+/* -------------------------------------------------------------------------------------*/
+/* one image, such as a figure in a work */
+
+
+.image {
+	width:100%;
+}
+
+/* -------------------------------------------------------------------------------------*/
+/* Simple list of documents with document icon */
+/* based on https://stackoverflow.com/a/13354689/9684 */
+ ul.work-list {
+  list-style: none;
+  padding: 0;
+}
+
+.work-list li {
+  padding-left: 1.3em;  
+  list-style: none;
+}
+
+.work-list li:before {
+  content: "\f15C"; /* FontAwesome Unicode */
+  font-family: "Font Awesome 5 Free";
+  display: inline-block;
+  margin-left: -1.3em; /* same as padding-left set on li */
+  width: 1.3em; /* same as padding-left set on li */
+}
