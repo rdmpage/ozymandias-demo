@@ -24,7 +24,7 @@ WHERE
 				
 					case 'biostor':
 						html += '<li>';	
-						html += '<a class="external" href="https://biostor.org/reference/' + data.results.bindings[i].value.value + '" target="_new">' + 'biostor:' + data.results.bindings[i].value.value + '</a>';
+						html += '<a class="external" href="https://biostor.org/reference/' + data.results.bindings[i].value.value + '" target="_new">' + 'https://biostor.org/reference/' + data.results.bindings[i].value.value + '</a>';
 						html += '</li>';	
 						break;  						
 				
@@ -41,7 +41,7 @@ WHERE
 						
 					case 'handle':
 						html += '<li>';	
-						html += '<a class="external" href="https://hdl.handle.net/' + data.results.bindings[i].value.value + '" target="_new">' + 'hdl:' + data.results.bindings[i].value.value + '</a>';
+						html += '<a class="external" href="https://hdl.handle.net/' + data.results.bindings[i].value.value + '" target="_new">' + 'https://hdl.handle.net/' + data.results.bindings[i].value.value + '</a>';
 						html += '</li>';	
 						break;
 
@@ -53,7 +53,7 @@ WHERE
 						
 					case 'pmid':
 						html += '<li>';	
-						html += '<a class="external" href="https://www.ncbi.nlm.nih.gov/pubmed/' + data.results.bindings[i].value.value + '" target="_new">' + 'pmid:' + data.results.bindings[i].value.value + '</a>';
+						html += '<a class="external" href="https://www.ncbi.nlm.nih.gov/pubmed/' + data.results.bindings[i].value.value + '" target="_new">' + 'https://www.ncbi.nlm.nih.gov/pubmed/' + data.results.bindings[i].value.value + '</a>';
 						html += '</li>';	
 						break;
 
