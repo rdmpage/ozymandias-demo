@@ -302,7 +302,7 @@ html {
 body {
   height: 100%;
   width: 100%;
-  background-color: #404040;
+  background-color: rgb(229,229,229); /*#404040;*/
   background-image: url(images/texture.png);
 }
 
@@ -2163,7 +2163,7 @@ html[dir='rtl'] #documentPropertiesOverlay .row > * {
   }
   #sidebarContent {
     top: 32px;
-    background-color: hsla(0,0%,0%,.7);
+    background-color: hsla(0,0%,0%,.5); 
   }
 
   html[dir='ltr'] #outerContainer.sidebarOpen > #mainContainer {
