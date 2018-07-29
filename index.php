@@ -60,6 +60,24 @@ function get_literal_display($value)
 }
 
 //----------------------------------------------------------------------------------------
+// thumbnailUrl should be a string in schema.org but in some datasets it is treated as
+// a URI, so use this function to get the string value so we can use it to get the image.
+function get_thumbnail_url($value)
+{
+	$thumbnailUrl = '';
+	
+	if (is_object($value)) {
+		$thumbnailUrl = $value->{'@id'};		
+	}
+	else
+	{
+		$thumbnailUrl = $value;	
+	}
+	
+	return $thumbnailUrl;
+}
+
+//----------------------------------------------------------------------------------------
 // Container of works
 function display_container($entity)
 {
@@ -69,7 +87,7 @@ function display_container($entity)
 				
 	if (isset($entity->thumbnailUrl))
 	{
-		echo '<img src="' . $entity->thumbnailUrl . '" />';
+		echo '<img src="' . get_thumbnail_url($entity->thumbnailUrl) . '" />';
 	}	
 
 	echo '
@@ -130,7 +148,7 @@ function display_work($entity)
 				
 	if (isset($entity->thumbnailUrl))
 	{
-		echo '<img src="' . $entity->thumbnailUrl . '" />';
+		echo '<img src="' . get_thumbnail_url($entity->thumbnailUrl) . '" />';
 	}	
 
 	echo '
@@ -213,7 +231,7 @@ function display_creator($entity)
 				
 	if (isset($entity->thumbnailUrl))
 	{
-		echo '<img src="' . $entity->thumbnailUrl . '" />';
+		echo '<img src="' . get_thumbnail_url($entity->thumbnailUrl) . '" />';
 	}	
 
 	echo '
@@ -249,13 +267,7 @@ function display_image($entity)
 	
 	if (isset($entity->thumbnailUrl))
 	{
-		if (is_object($entity->thumbnailUrl)) {
-			echo '<img src="' . $config['thumbnail_cdn'] . $entity->thumbnailUrl->{'@id'} . '" />';		
-		}
-		else
-		{
-			echo '<img src="' . $config['thumbnail_cdn'] . $entity->thumbnailUrl . '" />';
-		}
+		echo '<img src="' . $config['thumbnail_cdn'] . get_thumbnail_url($entity->thumbnailUrl) . '" />';		
 	}	
 		
 	echo '
@@ -292,7 +304,52 @@ function display_image($entity)
 
 
 	echo '
-		<!-- <script>works_by_creator("' . $entity->{'@id'} . '", "works");</script> -->
+		<script>figure_is_part_of("' . $entity->{'@id'} . '", "cited_by");</script> 
+	';
+}
+
+//----------------------------------------------------------------------------------------
+// Taxon
+function display_taxon($entity)
+{
+	global $config;
+	
+	echo '
+			<div class="heading-block clearfix">
+				<div class="heading-thumbnail">
+					<!-- fill img src using query -->
+					<img id="taxon-thumbnail" src="" />';
+		
+	echo '
+				</div>
+				<div class="heading-body">
+					<div class="heading-title">';
+					
+	echo  get_literal_display($entity->name);
+	echo '
+					</div>
+					<div class="heading-description">';
+	
+	echo '<div id="identifiers">';
+	echo '<ul class="identifier-list">';
+	echo '<li><a class="external" href="' . $entity->{'@id'} . '" target="_new">' . $entity->{'@id'} . '</a></li>';
+	echo '</ul>';
+	echo '</div>';			
+											
+	echo '
+						<div id="lineage" class="lineage"></div>
+					</div>
+				</div>
+			</div>';
+			
+	echo '<div id="children"></div>';
+
+	echo '
+		<!-- <script>figure_is_part_of("' . $entity->{'@id'} . '", "cited_by");</script> -->
+		<script>taxon_children("' . $entity->{'@id'} . '", "children"); </script> 
+		<script>taxon_lineage("' . $entity->{'@id'} . '", "lineage"); </script>
+		<script>taxon_thumbnail("' . $entity->{'@id'} . '", "taxon-thumbnail"); </script>
+		<script>works_for_taxon("' . $entity->{'@id'} . '", "taxon-works"); </script>
 	';
 }
 
@@ -568,6 +625,10 @@ function display_entity($uri)
 			
 			<div id="cited_by"></div>
 			<div id="cites"></div>
+			
+			<div id="taxon-works"></div>
+			
+			
 			
 		</div>
 

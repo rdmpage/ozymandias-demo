@@ -76,3 +76,57 @@ ORDER BY (?part)`;
 
 }	
 
+
+// Work that contains this figure
+function figure_is_part_of(uri, element_id) {
+
+	$('#' + element_id).html();
+	
+	var query = `PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT * 
+WHERE 
+{
+<` + uri + `> <http://schema.org/isPartOf> ?zenodo .
+  
+BIND(REPLACE(STR(?zenodo), "https://zenodo.org/record/", "", "i") AS ?identifier_value).
+  
+?identifier <http://schema.org/value> ?identifier_value .  
+?identifier <http://schema.org/propertyID> "zenodo" .
+?work <http://schema.org/identifier> ?identifier .
+?work <http://schema.org/name> ?name .
+}`;
+
+	$.getJSON('query.php?query=' + encodeURIComponent(query)
+			+ '&callback=?',
+		function(data){
+			console.log(JSON.stringify(data, null, 2));
+			
+			if (data.results.bindings.length > 0) {
+				var html = '<h4>Part of</h4>';	
+			
+				html += '<ul class="work-list">';			
+			
+				for (var i in data.results.bindings) {
+					html += '<li>';	
+				
+					html += '<a href="?uri=' + data.results.bindings[i].work.value + '">';
+					html += data.results.bindings[i].name.value;
+					html += '</a>';
+
+					html += '</li>';	
+				} 
+				
+				html += '</ul>';
+				
+				$('#' + element_id).html(html);  	
+			}
+			
+
+		}
+	);
+	
+
+
+}	
+
+

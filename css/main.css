@@ -13,7 +13,7 @@ body
 {
 	height: 30px;
 	font-size: 24px;
-	border-bottom: 1px solid rgb(229,229,229);
+	border-bottom: 3px solid rgb(82,169, 212);
 	/* background-color:orange;
 		color:white; */
 	/*padding:10px;*/
@@ -145,7 +145,7 @@ body
 .heading-thumbnail
 {
 	border:1px solid rgb(192,192,192); 
-	min-height: 100px;
+	/* min-height: 100px; */ /* works as default for no thumbnail, but bad for images */
 	width: 100px;
 	float: left;
 }
@@ -184,8 +184,8 @@ ul.creator {
 ul.creator li {
     display:inline;
     padding:2px;
-    background-color:rgb(229,229,229); 
-    border:1px solid rgb(192,192,192);
+    background-color:rgb(240,240,240); 
+    border:1px solid blue;
     border-radius: 4px;
     line-height: 1.6em;
     margin:2px;    
@@ -341,3 +341,56 @@ img.figure{
   margin-left: -1.3em; /* same as padding-left set on li */
   width: 1.3em; /* same as padding-left set on li */
 }
+
+/* -------------------------------------------------------------------------------------*/
+/* display taxa as a grid of thumbnails */
+.taxa-grid {
+}
+
+.taxa-thumbnail {
+	position:relative;
+	float:left; 
+	width:100px;
+	height:100px;
+	border:1px solid rgb(192,192,192);
+	margin:5px;
+	background-color:white;
+}
+
+.taxa-thumbnail span {
+	font-size:10px;
+	position:absolute;
+	left:0px;
+	top:0px;
+	width:100%;
+	background-color:rgba(0, 0, 0, 0.4);
+	color:white;
+	z-index:10;
+}
+
+/* -------------------------------------------------------------------------------------*/
+/* BBC-inspired lineage */
+.lineage{
+ width:200px;
+ font-size:1.0em;
+ background-size: contain;
+ background-position: center; 
+ background-image: url(../images/triangle.svg);
+ background-repeat: no-repeat;
+ list-style-type: none;
+ margin:0px;padding:0px;
+ /* border:1px solid red; */
+}	
+
+.lineage ol {
+	padding-left: 0px;
+}
+
+.lineage li {
+	list-style: none;
+	border-bottom:2px solid white;
+}
+
+.lineage a {
+ 	text-decoration: none;
+ }
