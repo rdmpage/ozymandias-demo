@@ -495,7 +495,7 @@ WHERE {
 		{
 			foreach ($result->results->bindings[0] as $k => $v)
 			{
-				$meta_list[] = '<meta name="' . $k . '" value="' . htmlentities($v->value, ENT_COMPAT | ENT_HTML5, 'UTF-8') . '" />';
+				$meta_list[] = '<meta name="' . $k . '" content="' . htmlentities($v->value, ENT_COMPAT | ENT_HTML5, 'UTF-8') . '" />';
 			}		
 		}	
 	}
