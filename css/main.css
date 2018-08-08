@@ -7,6 +7,15 @@ body
 	/* stop any scrolling of whole browser contents */
 }
 
+a {
+	text-decoration:none;
+	color:rgb(28,27,168);
+}
+
+a:hover {
+	text-decoration:underline;
+}
+
 /* -------------------------------------------------------------------------------------*/
 
 .header
@@ -64,7 +73,7 @@ body
 
 /* -------------------------------------------------------------------------------------*/
 /* based on https://stackoverflow.com/a/43936462/9684 */
-.search_form
+.search_container
 {
 	/* This bit sets up the horizontal layout */
 	display: flex;
@@ -78,11 +87,10 @@ body
 .search_input
 {
 	/* Tell the input to use all the available space */
-	flex-grow: 2;
+	flex-grow: 1;
 	/* And hide the input's outline, so the form looks like the outline */
 	border: none;
-	font-size: 18px;
-	
+	font-size: 18px;	
 }
 
 .search_button
@@ -108,7 +116,7 @@ body
 
 #viewer
 {
-	background-color: rgb(229,229,229);
+	/* background-color: rgb(229,229,229); */ /* Debugging */
 	width: 100%;
 	height: 300px;
 }
@@ -148,6 +156,7 @@ body
 	/* min-height: 100px; */ /* works as default for no thumbnail, but bad for images */
 	width: 100px;
 	float: left;
+	line-height:0px; /* make sure there is no stray padding */
 }
 
 /* Ensure we can fit a document thumbnail */
@@ -167,6 +176,8 @@ body
 {
 	font-size: 1.4em;
 	line-height: 1.2em;
+	font-weight:bold;
+	color:#333;
 }
 
 .heading-description
@@ -216,6 +227,7 @@ ul.creator li:before {
 	width:100px;height:100px;
 	background-color:rgb(229,229,229);
 	float:left;
+	overflow:hidden; /* make sure we hide overflow of images that are wider than 100px */
 }
 
 /* Ensure we can fit a document thumbnail */
@@ -226,7 +238,7 @@ ul.creator li:before {
 	height:100px;
 	object-fit: contain;
 	display:block;
-	margin:auto;
+	margin:auto;	
 }
 
 .list-item-body {
@@ -236,13 +248,20 @@ ul.creator li:before {
 }
 
 .list-item-title {
-	font-size: 1.0em;
+	font-size: 1.2em;
 	margin-bottom:0.3em;
-	line-height:1.2em;
+	line-height:1.2em;	
+	/* font-weight:bold;
+	color:#333; */
+}
+
+.list-item a {
+	/* text-decoration: none; */
 }
 
 .list-item-description {
-	font-size: 0.6em;
+	font-size: 1.0em;
+	line-height:1.0em;
 }
 
 /* -------------------------------------------------------------------------------------*/
@@ -255,6 +274,8 @@ ul.creator li:before {
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-decoration: underline;
+  color:blue;
 }
 
 /* links */
@@ -394,3 +415,168 @@ img.figure{
 .lineage a {
  	text-decoration: none;
  }
+ 
+ 
+/* -------------------------------------------------------------------------------------*/
+/* name list, i.e., names for a taxon with associated works and status */
+
+ul.name{
+list-style: none;
+padding: 0;
+}
+
+.name li {
+   padding-left: 1.3em;  
+  list-style: none;
+}
+
+.name-details li {
+  padding-left: 1.3em;  
+  list-style: none;
+}
+
+li.invalidum {
+	background-color:#F93;
+}
+
+li.unknown:before {
+ content: "\f111";
+ font-family: "Font Awesome 5 Free";
+  display: inline-block;
+  margin-left: -1.3em; /* same as padding-left set on li */
+  width: 1.3em; /* same as padding-left set on li */ 
+}
+
+li.accepted:before {
+ content: "✓";
+ font-family: "Font Awesome 5 Free";
+  display: inline-block;
+  margin-left: -1.3em; /* same as padding-left set on li */
+  width: 1.3em; /* same as padding-left set on li */ 
+}
+
+li.synonym:before {
+ content: "=";
+ font-family: "Font Awesome 5 Free";
+  display: inline-block;
+  margin-left: -1.3em; /* same as padding-left set on li */
+  width: 1.3em; /* same as padding-left set on li */ 
+}
+
+li.combinatio:before {
+ content: "\f35a";
+ font-family: "Font Awesome 5 Free";
+  display: inline-block;
+  margin-left: -1.3em; /* same as padding-left set on li */
+  width: 1.3em; /* same as padding-left set on li */ 
+}
+
+li.guid:before {
+  content: "\f02a"; /* FontAwesome Unicode */
+  font-family: "Font Awesome 5 Free";
+  display: inline-block;
+  margin-left: -1.3em; /* same as padding-left set on li */
+  width: 1.3em; /* same as padding-left set on li */
+}
+
+
+li.work:before {
+  content: "\f15C"; /* FontAwesome Unicode */
+  font-family: "Font Awesome 5 Free";
+  display: inline-block;
+  margin-left: -1.3em; /* same as padding-left set on li */
+  width: 1.3em; /* same as padding-left set on li */
+}
+
+li.remarks:before {
+  content: "\f075"; /* FontAwesome Unicode */
+  font-family: "Font Awesome 5 Free";
+  display: inline-block;
+  margin-left: -1.3em; /* same as padding-left set on li */
+  width: 1.3em; /* same as padding-left set on li */
+}
+ 
+/* -------------------------------------------------------------------------------------*/
+/* Static image viewer for BioStor */
+.image-viewer {
+	background-color:rgb(229,229,229); /* Google Books */
+	height:800px;
+	overflow-y:auto;
+	text-align:center;
+	
+	border-top: 1px solid rgb(192,192,192);
+}
+
+.image-viewer img {
+ 	background-color:white;
+ 	width:90%;
+}
+
+/* -------------------------------------------------------------------------------------*/
+.badge:before {
+	content: "";
+}
+
+.badge {
+	margin-left:0.5em;
+	padding-left:4px;
+	padding-right:4px;
+	padding-top:1px;
+	padding-bottom:1px;
+	background-color: green;
+	color:white;
+	font-size:0.8em;
+}
+ 
+/* -------------------------------------------------------------------------------------*/
+/* tree */
+/* https://two-wrongs.com/draw-a-tree-structure-with-only-css */
+
+tree, .tree ul, .tree li {
+     position: relative;
+}
+
+.tree ul {
+    list-style: none;
+    padding-left: 1em;
+}
+
+.tree li::before, .tree li::after {
+    content: "";
+    position: absolute;
+    left: -12px;
+}
+
+.tree li::before {
+    border-top: 2px solid rgb(192,192,192);
+    top: 9px;
+    width: 8px;
+    height: 0;
+}
+
+.tree li::after {
+    border-left: 2px solid rgb(192,192,192);
+    height: 100%;
+    width: 0px;
+    top: 2px;
+}
+
+.tree ul > li:last-child::after {
+    height: 8px;
+}
+
+/* -------------------------------------------------------------------------------------*/
+/* style scientific names */
+/*
+.scientific-name {
+
+}
+
+.rank-genus .name {
+	font-style: italic;
+}
+
+.rank-species .name {
+	font-style: italic;
+}
+*/

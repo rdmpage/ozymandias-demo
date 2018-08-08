@@ -89,6 +89,10 @@ function display_container($entity)
 	{
 		echo '<img src="' . get_thumbnail_url($entity->thumbnailUrl) . '" />';
 	}	
+	else
+	{
+		echo '<img src="images/no-icon.svg" />';
+	}
 
 	echo '
 				</div>
@@ -149,7 +153,11 @@ function display_work($entity)
 	if (isset($entity->thumbnailUrl))
 	{
 		echo '<img src="' . get_thumbnail_url($entity->thumbnailUrl) . '" />';
-	}	
+	}
+	else
+	{
+		echo '<img src="images/no-icon.svg" />';
+	}
 
 	echo '
 				</div>
@@ -193,7 +201,13 @@ function display_work($entity)
 											
 	// Display authors (SPARQL)		
 	echo '
-					<div id="creator"></div>';					
+					<div id="creator"></div>';	
+					
+	if (isset($entity->url))
+	{
+		echo '<ul class="identifier-list"><li><a class="external" href="' . $entity->url . '" target="_new">' . $entity->url . '</a></li></ul>';					
+	}
+								
 	echo '
 					<div id="identifiers"></div>';										
 	echo '									
@@ -215,11 +229,62 @@ function display_work($entity)
 		<script>identifiers_for_entity("' . $entity->{'@id'} . '", "identifiers"); </script>
 		<script>figures("' . $entity->{'@id'} . '", "figures"); </script>		
 		<script>cited_by("' . $entity->{'@id'} . '", "cited_by"); </script>
-		<script>cites("' . $entity->{'@id'} . '", "cites"); </script>		
+		<script>cites("' . $entity->{'@id'} . '", "cites"); </script>
+		<script>taxa_in_work("' . $entity->{'@id'} . '", "taxa"); </script> 		
 		<script>pdf_viewer("' . $entity->{'@id'} . '", "viewer"); </script>
+		<!-- <script>biostor_viewer("' . $entity->{'@id'} . '", "viewer"); </script> -->
 	';
 }
 
+//----------------------------------------------------------------------------------------
+// Website 
+function display_website($entity)
+{
+	echo '
+			<div class="heading-block clearfix">
+				<div class="heading-thumbnail">';
+				
+	if (isset($entity->thumbnailUrl))
+	{
+		echo '<img src="' . get_thumbnail_url($entity->thumbnailUrl) . '" />';
+	}
+	else
+	{
+		echo '<img src="images/no-icon.svg" />';
+	}
+
+	echo '
+				</div>
+				<div class="heading-body">
+					<div class="heading-title">';
+					
+	echo  get_literal_display($entity->name);
+	echo '
+					</div>';
+					
+	echo '					
+					<div class="heading-description">
+                    </div>';	
+											
+	// Display authors (SPARQL)		
+	echo '
+					<div id="creator"></div>';	
+					
+	if (isset($entity->url))
+	{
+		echo '<ul class="identifier-list"><li><a class="external" href="' . $entity->url . '" target="_new">' . $entity->url . '</a></li></ul>';					
+	}
+								
+	echo '
+					<div id="identifiers"></div>';										
+	echo '									
+				</div>
+			</div>';
+			
+	echo '
+		<script>creators_for_entity("' . $entity->{'@id'} . '", "creator"); </script>
+	';
+}
 //----------------------------------------------------------------------------------------
 // Creator (usually a person)
 function display_creator($entity)
@@ -233,6 +298,10 @@ function display_creator($entity)
 	{
 		echo '<img src="' . get_thumbnail_url($entity->thumbnailUrl) . '" />';
 	}	
+	else
+	{
+		echo '<img src="images/no-icon.svg" />';
+	}
 
 	echo '
 				</div>
@@ -251,6 +320,9 @@ function display_creator($entity)
 
 	echo '
 		<script>works_by_creator("' . $entity->{'@id'} . '", "works");</script>
+		<script>creator_cocreators("' . $entity->{'@id'} . '", "creator_cocreators");</script>
+		<script>creator_containers("' . $entity->{'@id'} . '", "creator_containers");</script>
+		<script>creator_taxa("' . $entity->{'@id'} . '", "creator_taxa");</script>
 	';
 }
 
@@ -269,6 +341,10 @@ function display_image($entity)
 	{
 		echo '<img src="' . $config['thumbnail_cdn'] . get_thumbnail_url($entity->thumbnailUrl) . '" />';		
 	}	
+	else
+	{
+		echo '<img src="images/no-icon.svg" />';
+	}
 		
 	echo '
 				</div>
@@ -316,10 +392,8 @@ function display_taxon($entity)
 	
 	echo '
 			<div class="heading-block clearfix">
-				<div class="heading-thumbnail">
-					<!-- fill img src using query -->
-					<img id="taxon-thumbnail" src="" />';
-		
+				<div class="heading-thumbnail">					
+					<img id="taxon-thumbnail" src="images/no-icon.svg" />';		
 	echo '
 				</div>
 				<div class="heading-body">
@@ -439,8 +513,7 @@ function display_entity($uri)
 	
 	// Handle hash identifiers
 	$uri = str_replace('%23', '#', $uri);
-	
-	
+		
 	// By default we assume we have this entity so we can get basic info using DESCRIBE
 	$json = sparql_describe($config['sparql_endpoint'], $uri);
 	
@@ -604,6 +677,17 @@ function display_entity($uri)
 				$displayed = true;	
 				break;	
 				
+			case 'CreativeWork':
+				display_work($entity);
+				$displayed = true;	
+				break;
+
+			case 'WebSite':
+				display_website($entity);
+				$displayed = true;	
+				break;
+								
+			// taxon
 			case 'http://rs.tdwg.org/ontology/voc/TaxonConcept#TaxonConcept':	
 				display_taxon($entity);
 				$displayed = true;									
@@ -623,12 +707,17 @@ function display_entity($uri)
 		<div class="side">
 			<div class="explain">Connections within this knowledge graph.</div>
 			
+			<!-- works -->
 			<div id="cited_by"></div>
 			<div id="cites"></div>
 			
 			<div id="taxon-works"></div>
+			<div id="taxa"></div>
 			
-			
+			<!-- creator -->
+			<div id="creator_cocreators"></div>
+			<div id="creator_containers"></div>	
+			<div id="creator_taxa"></div>			
 			
 		</div>
 
@@ -664,8 +753,15 @@ function display_html_start($title = '', $meta = '', $script = '', $onload = '')
 	<link href="external/fontawesome/css/all.css" rel="stylesheet">     
     
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script> -->
+    
+	<!-- lazy loader -->
+	<script type="text/javascript" src="external/jquery.lazy-master/jquery.lazy.min.js"></script>  
+	
+	<!-- tree display -->
+	<script src="js/tree.js"></script>	  
        
     <!-- SPARQL queries -->
+    <script src="js/biostor.js"></script>
     <script src="js/creators.js"></script>
     <script src="js/blr_figures.js"></script>
     <script src="js/works_by_creator.js"></script>
@@ -698,12 +794,14 @@ WHERE
 					var html = \'<iframe id="pdf" width="100%" height="800" src="external/pdfjs/web/viewer.html?file=\' + encodeURIComponent(\'' . $config['web_server'] . $config['web_root'] . '/pdf_proxy.php?url=\' + encodeURIComponent(data.results.bindings[0].contentUrl.value)) + \'" />\';				
 					$(\'#\' + element_id).html(html);					
 					$(window).resize();
+				} else {
+					biostor_viewer(uri, element_id);
 				}
 			}
 		);				
 }    
 	</script>
-	
+
 	'	
 	. $script . '
 	<title>' . $title . '</title>
@@ -750,10 +848,127 @@ function display_search_bar($q)
 	global $config;
 	
 	echo '
-	<div class="search_form">
-	 <input id="search" class="search_input" placeholder="Search" name="q" value="' . $q . '"/>
-	 <button id="search_button" class="search_button" onclick="search()">Search</button>
+	<div>
+		<form class="search_container" action="' . $config['web_root'] . '"> 
+	 		<input class="search_input" id="search" placeholder="Search" name="q" value="' . $q . '"/>
+	 		<button class="search_button" type="submit"><i class="fa fa-search"></i></button>
+		</form>
 	</div>';
+	
+}
+
+//----------------------------------------------------------------------------------------
+function display_search($q)
+{
+	global $config;
+	global $elastic;
+	
+	$rows_per_page = 20;	
+
+	$json = '{
+"size":20,
+    "query": {
+       "multi_match" : {
+      "query": "",
+      "fields":["search_data.fulltext", "search_data.fulltext_boosted^4"] 
+    }
+},
+
+"aggs": {
+"type" :{
+    "terms": { "field" : "search_data.type.keyword" }
+  },
+  "year" :{
+    "terms": { "field" : "search_data.year" }
+  },
+  "container" :{
+    "terms": { "field" : "search_data.container.keyword" }
+  },
+  "author" :{
+    "terms": { "field" : "search_data.creator.keyword" }
+  },
+  "classification" :{
+    "terms": { "field" : "search_data.classification.keyword" }
+  }  
+
+}
+
+    
+}';
+
+	$obj = json_decode($json);	
+	$obj->query->multi_match->query = $q;
+	$response = $elastic->send('POST', '_search?pretty', json_encode($obj));
+	
+	$response_obj = json_decode($response);
+	
+	$title = $q;
+	
+	$meta = '';
+	$script = '';
+	
+	display_html_start($title, $meta, $script, '$(window).resize();');
+	
+	echo '
+	<div class="header">
+		<b>' . $config['site_name'] . '</b>
+	</div>
+	
+	<div class="content">	
+		<div  class="main">
+			<div class="main_header">';
+			
+	display_search_bar($q);
+	
+	echo '
+			</div>
+			
+			<div id="main" class="main_content">';
+			
+			echo '<h4>Search results</h4>';
+			
+    foreach ($response_obj->hits->hits as $hit)
+ 	{
+ 		$entity = $hit->_source->search_result_data;
+ 	
+ 		echo '<div class="list-item">';
+ 		echo '  <a href="?uri=' . $entity->id .'">';
+		echo '    <div class="list-item-thumbnail">';
+		
+		if (isset($entity->thumbnailUrl))
+		{
+			echo '<img src="' . $entity->thumbnailUrl . '" />';
+		}
+		else
+		{
+			echo '<img src="images/no-icon.svg" />';
+		}
+		echo '    </div>';
+		echo '    <div class="list-item-body">';
+		echo '       <div class="list-item-title">';
+		echo $entity->name;
+		echo '       </div>';
+		echo '    </div>';
+		echo '  </a>';
+		echo '</div>';
+ 	}
+
+	
+	echo '	</div>
+			
+		</div>
+				
+		<div class="side">
+			<div class="explain"></div>
+		</div>
+
+		<div class="side">
+			<div class="explain"></div>
+		</div>
+	</div>';
+
+
+	display_html_end();	
 }
 
 //----------------------------------------------------------------------------------------
@@ -804,15 +1019,13 @@ function main()
 		exit(0);
 	}
 		
-	/*
 	// Show search (text, author)
 	if (isset($_GET['q']))
 	{	
 		$query = $_GET['q'];
 		display_search($query);
 		exit(0);
-	}
-	*/	
+	}	
 	
 }
 

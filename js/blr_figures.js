@@ -8,7 +8,7 @@ SELECT *
 WHERE
 {
 <` + uri + `> <http://schema.org/sameAs> ?doistring .
-# schema.org valdator requires sameAs to be literal not URI, so we need to cast to URI here :(
+# schema.org validator requires sameAs to be literal not URI, so we need to cast to URI here :(
 BIND(IRI(?doistring) AS ?doi) . 
 {?doi <http://schema.org/hasPart> ?part } UNION { ?part <http://schema.org/isPartOf> ?doi } .
 ?part rdf:type <http://schema.org/ImageObject> .
@@ -32,6 +32,40 @@ BIND(IRI(CONCAT("https://zenodo.org/record/", STR(?identifier_value))) AS ?zenod
 ?part <http://schema.org/thumbnailUrl> ?thumbnailUrl .
 ?part <http://schema.org/description> ?description .
   
+}
+ORDER BY (?part)`;
+
+
+query = `PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT *
+WHERE
+{
+{
+<` + uri + `> <http://schema.org/identifier> ?identifier .
+?identifier <http://schema.org/propertyID> "doi" .
+?identifier <http://schema.org/value> ?identifier_value .
+
+BIND(IRI(CONCAT("https://doi.org/", STR(?identifier_value))) AS ?doi) . 
+
+ ?part <http://schema.org/isPartOf> ?doi  .
+  }
+ UNION 
+{
+ <` + uri + `> <http://schema.org/identifier> ?identifier .
+?identifier <http://schema.org/propertyID> "zenodo" .
+?identifier <http://schema.org/value> ?identifier_value .
+
+BIND(IRI(CONCAT("https://zenodo.org/record/", STR(?identifier_value))) AS ?zenodo) . 
+
+{?zenodo <http://schema.org/hasPart> ?part } UNION { ?part <http://schema.org/isPartOf> ?zenodo } .
+ 
+}
+
+  
+?part rdf:type <http://schema.org/ImageObject> .
+?part <http://schema.org/thumbnailUrl> ?thumbnailUrl .
+?part <http://schema.org/description> ?description .
+
 }
 ORDER BY (?part)`;
 
@@ -76,7 +110,7 @@ ORDER BY (?part)`;
 
 }	
 
-
+//----------------------------------------------------------------------------------------
 // Work that contains this figure
 function figure_is_part_of(uri, element_id) {
 
@@ -86,6 +120,7 @@ function figure_is_part_of(uri, element_id) {
 SELECT * 
 WHERE 
 {
+{
 <` + uri + `> <http://schema.org/isPartOf> ?zenodo .
   
 BIND(REPLACE(STR(?zenodo), "https://zenodo.org/record/", "", "i") AS ?identifier_value).
@@ -94,7 +129,22 @@ BIND(REPLACE(STR(?zenodo), "https://zenodo.org/record/", "", "i") AS ?identifier
 ?identifier <http://schema.org/propertyID> "zenodo" .
 ?work <http://schema.org/identifier> ?identifier .
 ?work <http://schema.org/name> ?name .
-}`;
+}
+UNION
+{
+<` + uri + `> <http://schema.org/isPartOf> ?doi .
+  
+BIND(REPLACE(STR(?doi), "https://doi.org/", "", "i") AS ?identifier_value).
+  
+?identifier <http://schema.org/value> ?identifier_value .  
+?identifier <http://schema.org/propertyID> "doi" .
+?work <http://schema.org/identifier> ?identifier .
+?work <http://schema.org/name> ?name .
+}
+
+}
+
+`;
 
 	$.getJSON('query.php?query=' + encodeURIComponent(query)
 			+ '&callback=?',

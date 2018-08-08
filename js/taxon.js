@@ -18,6 +18,10 @@ OPTIONAL {
 OPTIONAL {
 ?taxonName <http://rs.tdwg.org/ontology/voc/TaxonName#year> ?year .
 }
+
+OPTIONAL {
+?taxonName <http://rs.tdwg.org/dwc/terms/taxonRemarks> ?remarks .
+}
   
   OPTIONAL {
 ?taxonName <http://rs.tdwg.org/ontology/voc/Common#publishedInCitation> ?work .
@@ -42,75 +46,72 @@ ORDER BY (?datePublished)`;
 			//alert(JSON.stringify(data ));
 			
 			console.log(JSON.stringify(data, null, 2));
+						
+			if (data.results.bindings.length > 0) {
+				var html = '<h4>Names for this taxon.</h4>';
 			
-			
-			var html = '<ul>';
-			
-			for (var i in data.results.bindings) {
-			
-				html += '<li>';
+				for (var i in data.results.bindings) {
+					html += '<ul class="name">';
+							
+					html += '<li class="';
 				
-				html += data.results.bindings[i].tname.value + ' ';
+					var css_class = 'unknown';
+					if (data.results.bindings[i].taxonomicStatus) {
+						css_class = data.results.bindings[i].taxonomicStatus.value; 
+					}				
+					if (data.results.bindings[i].nomenclaturalStatus) {
+						css_class += ' ' + data.results.bindings[i].nomenclaturalStatus.value; 
+					}								
+					html += css_class + '">';				
+					html += data.results.bindings[i].tname.value + ' ';
 				
-				if (data.results.bindings[i].taxonomicStatus) {
-					html += ' [' + data.results.bindings[i].taxonomicStatus.value + '] '; 
+					/*
+					if (data.results.bindings[i].taxonomicStatus) {
+						html += ' [' + data.results.bindings[i].taxonomicStatus.value + '] '; 
+					}
+				
+					if (data.results.bindings[i].nomenclaturalStatus) {
+						html += ' [' + data.results.bindings[i].nomenclaturalStatus.value + '] '; 
+					}
+					*/
+				
+					html += '</li>';
+				
+					html += '<ul class="name-details">';
+				
+					// html += '<li class="guid">' + data.results.bindings[i].taxonName.value.replace(/urn:uuid:/, '') + '</li>';
+			
+					if (data.results.bindings[i].work) {
+					  html += '<li class="work">';
+				
+					  html += '<a href="?uri='
+						+ data.results.bindings[i].work.value 
+						+ '">';
+
+					  if (data.results.bindings[i].name) {
+						html += data.results.bindings[i].name.value 
+					  }
+
+					  html += '</a>';
+					  html += '</li>';			      
+					}
+				
+					if (data.results.bindings[i].remarks) {
+					  html += '<li class="remarks">';
+					  html += data.results.bindings[i].remarks.value 
+					  html += '</li>';			      
+					}
+				
+				
+					html += '</ul>'; // name-details
+				
+					html += '</ul>'; // name
 				}
-
-				if (data.results.bindings[i].nomenclaturalStatus) {
-					html += ' [' + data.results.bindings[i].nomenclaturalStatus.value + '] '; 
-				}
-				
-				// Identifier
-				html += '<ul>';
-			    html += '<li>';
-			    html += '<span class="uuid"><a>' + data.results.bindings[i].taxonName.value.replace(/urn:uuid:/, '') + '</a></span>';
-			    html += '</li>';
-
 			
-			    if (data.results.bindings[i].work) {
-			      html += '<li>';
-			    
-				  html += '<a href="?uri='
-					+ data.results.bindings[i].work.value 
-					+ '">';
-
-				  if (data.results.bindings[i].name) {
-				  	html += data.results.bindings[i].name.value 
-				  }
-
-				  html += '</a>';
-				
-   				  if (data.results.bindings[i].doi) {
-					html += ' '
-					    + '<span class="doi">'
-						+ '<a href="https://doi.org/' + data.results.bindings[i].doi.value + '" target="_new">'
-						+ data.results.bindings[i].doi.value 
-						+ '</a>'
-						+ '</span>';
-				  }
-				  html += '</li>';
-			      
-			    }
-			    html += '</ul>';
-				
-					
-				
-				html += '</li>';
-			}
-			html += '</ul>';
-			
-			$('#' + element_id).html(html);
-			
-
-
+				$('#' + element_id).html(html);
+			}			
 		}
-	);
-	
-
-			
-	
-	
-	
+	);	
 }	
 
 

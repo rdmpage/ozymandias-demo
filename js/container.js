@@ -152,128 +152,24 @@ OPTIONAL {
 						html += decades[decade][year][j].name;
 						html += '   </div>';
 						html += '   <div class="list-item-description">';
+						
+						if (decades[decade][year][j].doi) {
+							html += '<a class="external" href="' 
+								+ 'https://doi.org/' + decades[decade][year][j].doi 
+								+ '" target="_new">'
+								+ 'https://doi.org/' + decades[decade][year][j].doi 
+								+ '</a>';
+						}
+						
 						html += '   </div>';
 						html += '</div>';
 				
 						html += '</a>';
 				
 						html += '</div>';
-					
-					
-					
-						/*
-						html += '<li>';
-						
-						html += '<a href="?uri=' + decades[decade][year][j].id + '">';
-						
-						html += decades[decade][year][j].year + '---' + decades[decade][year][j].name;
-						
-						html += '</a>';
-						
-						if (decades[decade][year][j].doi) {
-							html += '<br /><span class="doi"><a href="https://doi.org/' + decades[decade][year][j].doi + '">' + decades[decade][year][j].doi + '</a></span>';
-						}
-						
-						if (decades[decade][year][j].thumbnailUrl) {
-							html += '<br /><img src="' + decades[decade][year][j].thumbnailUrl + '" width="40"/>';
-						}						
-						
-						html += '</li>';	
-						*/			
 					}
-				}
-			
+				}			
 			}
-			
-			
-			
-			
-			/*
-			var list = false;
-			var grid = true;
-			
-			if (list) {
-			var html = '<ul>';
-			}
-			
-			if (grid) {
-			var html = '<div style="width:600px;">';
-			}
-			
-			for (var i in data.results.bindings) {
-			
-			if (grid) {
-
-html += '<div style="position:relative;float:left; width:100px;height:100px;border:1px solid rgb(192,192,192);margin:5px;background-color:orange;overflow:hidden;">';
-
-			if (data.results.bindings[i].thumbnailUrl) {
-				if (data.results.bindings[i].thumbnailUrl.value.match(/^http[s]/)) {
-					html += '<img style="border:1px solid rgb(192,192,192);background-color:white;" src="' 
-						+ 'http://exeg5le.cloudimg.io/height/100/n/'
-						+ data.results.bindings[i].thumbnailUrl.value 
-						+ '" />';  	
-					} else {
-					html += '<img style="background-color:white;height:100%;display: block;margin-left: auto;margin-right: auto;" src="' 
-						+ data.results.bindings[i].thumbnailUrl.value 
-						+ '" />';  	
-					}
-					}
-
-				
-				html += '<a style="font-size:0.6em;line-height:1em;position:absolute;left:0px;top:0px;width:100%;height:4em;overflow:hidden;background-color:rgba(128, 64, 128, 0.5);color:white;text-decoration:  none;" href="?uri='
-					+ data.results.bindings[i].work.value 
-					+ '">'
-					+ data.results.bindings[i].name.value 
-					+ '</a>';
-				
-				
-				html += '</div>';
-
-			
-			
-			}
-			
-			
-			if (list) {
-				html += '<li>';
-			
-				html += '<a href="?uri='
-					+ data.results.bindings[i].work.value 
-					+ '">';
-
-				if (data.results.bindings[i].name) {
-					html += data.results.bindings[i].name.value 
-				}
-
-				html += '</a>';
-
-					
-				if (data.results.bindings[i].doi) {
-					html += ' doi:'
-						+ '<a  style="background-color:blue;color:white;" href="https://doi.org/' + data.results.bindings[i].doi.value + '" target="_new">'
-						+ data.results.bindings[i].doi.value 
-						+ '</a>'
-						+ '';
-				}
-					
-				
-				html += '</li>';
-			  }
-			  
-			  
-			  
-			}
-			
-			if (list) {
-			html += '</ul>';
-			}
-			
-			if (grid) {
-			html += '</div>';
-			}
-			*/
-			
-			
 			
 			$('#' + element_id).html(html);
 			

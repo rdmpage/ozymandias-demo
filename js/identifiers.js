@@ -56,16 +56,22 @@ WHERE
 						html += '<a class="external" href="https://www.ncbi.nlm.nih.gov/pubmed/' + data.results.bindings[i].value.value + '" target="_new">' + 'https://www.ncbi.nlm.nih.gov/pubmed/' + data.results.bindings[i].value.value + '</a>';
 						html += '</li>';	
 						break;
+						
+					case 'sici':
+						break;						
 
 					case 'zenodo':
 						html += '<li>';	
 						html += '<a class="external" href="https://zenodo.org/record/' + data.results.bindings[i].value.value + '" target="_new">' + 'https://zenodo.org/record/' + data.results.bindings[i].value.value + '</a>';
 						html += '</li>';	
 						break;
-
-					case 'sici':
+						
+					case 'zoobank':
+						html += '<li>';	
+						html += '<a class="external" href="http://zoobank.org/' + data.results.bindings[i].value.value + '" target="_new">' + 'http://zoobank.org/' + data.results.bindings[i].value.value + '</a>';
+						html += '</li>';	
 						break;
-				
+						
 					default:
 						html += data.results.bindings[i].namespace.value + ':' + data.results.bindings[i].value.value;
 						break;
