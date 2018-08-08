@@ -28,7 +28,7 @@ $config['proxy_port'] 	= '';
 
 // Elastic--------------------------------------------------------------------------------
 
-if (0)
+if (1)
 {
 	// Bitnami https://google.bitnami.com/vms/bitnami-elasticsearch-dm-c610
 	$config['elastic_options'] = array(
@@ -52,7 +52,7 @@ if (0)
 			);
 }
 
-if (1)
+if (0)
 {		
 	// Windows 10 Docker Elasticsearch version 5.6.10
 	$config['elastic_options'] = array(
