@@ -28,7 +28,7 @@ $config['proxy_port'] 	= '';
 
 // Elastic--------------------------------------------------------------------------------
 
-if (1)
+if (0)
 {
 	// Bitnami https://google.bitnami.com/vms/bitnami-elasticsearch-dm-c610
 	$config['elastic_options'] = array(
@@ -40,7 +40,8 @@ if (1)
 			'password' => '7WbQZedlAvzQ'
 			);
 }
-else
+
+if (0)
 {		
 	// Local Docker Elasticsearch version 5.6.4, e.g. http://localhost:32773
 	$config['elastic_options'] = array(
@@ -48,6 +49,17 @@ else
 			'protocol' => 'http',
 			'host' => '127.0.0.1',
 			'port' => 32773
+			);
+}
+
+if (1)
+{		
+	// Windows 10 Docker Elasticsearch version 5.6.10
+	$config['elastic_options'] = array(
+			'index' => 'ala',
+			'protocol' => 'http',
+			'host' => '130.209.46.63',
+			'port' => 80
 			);
 }
 	
