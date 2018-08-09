@@ -791,7 +791,7 @@ WHERE
 				console.log(JSON.stringify(data, null, 2));  	
 				
 				if (data.results.bindings.length == 1) {
-					var html = \'<iframe id="pdf" width="100%" height="800" src="external/pdfjs/web/viewer.html?file=\' + encodeURIComponent(\'' . $config['web_server'] . $config['web_root'] . '/pdf_proxy.php?url=\' + encodeURIComponent(data.results.bindings[0].contentUrl.value)) + \'" />\';				
+					var html = \'<iframe id="pdf" width="100%" height="800" src="external/pdfjs/web/viewer.html?file=\' + encodeURIComponent(\'' . $config['web_server'] . $config['web_root'] . 'pdf_proxy.php?url=\' + encodeURIComponent(data.results.bindings[0].contentUrl.value)) + \'" />\';				
 					$(\'#\' + element_id).html(html);					
 					$(window).resize();
 				} else {
