@@ -20,7 +20,7 @@ switch ($site)
 	case 'heroku':
 		// Server-------------------------------------------------------------------------
 		$config['web_server']	= 'https://ozymandias-demo.herokuapp.com'; 
-		$config['site_name']	= 'Ozymandias';
+		$config['site_name']	= 'Ozymandias - a knowledge graph';
 
 		// Files--------------------------------------------------------------------------
 		$config['web_dir']		= dirname(__FILE__);
@@ -31,7 +31,7 @@ switch ($site)
 	default:
 		// Server-------------------------------------------------------------------------
 		$config['web_server']	= 'http://localhost'; 
-		$config['site_name']	= 'Ozymandias';
+		$config['site_name']	= 'Ozymandias - a knowledge graph';
 
 		// Files--------------------------------------------------------------------------
 		$config['web_dir']		= dirname(__FILE__);

@@ -622,7 +622,7 @@ function display_entity($uri)
 	
 	echo '
 	<div class="header">
-		<b>' . $config['site_name'] . '</b>
+		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?sparql">SPARQL</a>
 	</div>
 	
 	<div class="content">	
@@ -704,7 +704,7 @@ function display_entity($uri)
 			
 		</div>
 				
-		<div class="side">
+		<div class="side localkg">
 			<div class="explain">Connections within this knowledge graph.</div>
 			
 			<!-- works -->
@@ -721,7 +721,7 @@ function display_entity($uri)
 			
 		</div>
 
-		<div class="side">
+		<div class="side externalkg">
 			<div class="explain">External knowledge graphs.</div>
 			<div id="wikidata"></div>
 			<div id="orcid"></div>
@@ -911,7 +911,7 @@ function display_search($q)
 	
 	echo '
 	<div class="header">
-		<b>' . $config['site_name'] . '</b>
+		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?sparql">SPARQL</a>
 	</div>
 	
 	<div class="content">	
@@ -971,20 +971,167 @@ function display_search($q)
 	display_html_end();	
 }
 
+
 //----------------------------------------------------------------------------------------
-// Badness happened
+function display_sparql()
+{
+	global $config;
+
+	$title = $config['site_name'] . ' - SPARQL';
+	$meta = '';
+	$script = '<link href="//cdn.jsdelivr.net/yasgui/2.5.0/yasgui.min.css" rel="stylesheet" type="text/css"/>';
+	
+	$script .=  '<style>
+      /* uncomment this if you\'d like to hide the endpoint selector */
+      .yasgui .endpointText {display:none !important;}
+      /* */
+    </style>';
+	
+	display_html_start($title, $meta, $script, '$(window).resize();');
+	
+	echo '
+	<div class="header">
+		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?sparql">SPARQL</a>
+	</div>
+	
+	<div class="content">	
+		<div  class="main">			
+			<div id="main" class="main_content">
+				<div id="yasgui"></div>
+			</div>			
+		</div>
+	</div>
+		
+    <script src="//cdn.jsdelivr.net/yasgui/2.5.0/yasgui.min.js"></script>
+    <script type="text/javascript">
+        //Uncomment below to change the default endpoint
+        //Note: If you\'ve already opened the YASGUI page before, you should first clear your
+        //local-storage cache before you will see the changes taking effect 
+	    var yasgui = YASGUI(document.getElementById("yasgui"), {
+         yasqe:{sparql:{endpoint:"' . $config['web_server'] . $config['web_root'] . 'query.php"}}
+      });
+    </script>';
+
+	display_html_end();	
+}
+
+//----------------------------------------------------------------------------------------
+// Home page, or badness happened
 function default_display($error_msg = '')
 {
 	global $config;
 	
-	display_html_start('OZ');
+	$title = $config['site_name'];
+	$meta = '';
+	$script = '';
 	
+	display_html_start($title, $meta, $script, '$(window).resize();');
+	
+	echo '
+	<div class="header">
+		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?sparql">SPARQL</a>
+	</div>
+	
+	<div class="content">	
+		<div  class="main">';
+		
+	echo '	<div class="main_header">';
+			
+	display_search_bar('');
+	
+	echo '
+			</div>
+			<div id="main" class="main_content">';
+
 	if ($error_msg != '')
 	{
 		echo '<div><strong>Error!</strong> ' . $error_msg . '</div>';
+		echo '				
+			</div>	<!-- .main_content -->		
+		</div> <!-- .main -->';
 	}
+	else
+	{
+		// main content
+		
+		echo '<div style="padding:20px;"><p>Ozymandias is a proof-of-concept <a href="https://doi.org/10.3897/rio.2.e8767">biodiversity knowledge graph</a> by Rod Page <a href="https://twitter.com/rdmpage">@rdmpage</a>.</p>
+		
+		<p>The core of this knowledge graph is a classification of animals from the <a href="https://www.ala.org.au">Atlas of Living Australia</a> (ALA)
+		combined with data on taxonomic names and publications from the <a href="https://biodiversity.org.au/afd/home">Australian Faunal Directory</a> (AFD). 
+		This has been enhanced by adding lots of digital identifiers (such as DOIs) to the publications and, where possible, full text 
+		either as PDFs or as page scans from the <a href="http://biodiversitylibrary.org">Biodiversity Heritage Library</a> (BHL) (provided via <a href="http://biostor.org">BioStor</a>). 
+		Identifiers enable us to
+		further grow the knowledge graph, for example by adding "cites" and "cited by" links between publications (data from <a href="http://crossref.org">CrossRef</a>), and
+		displaying figures from the <a href="https://zenodo.org/communities/biosyslit/">Biodiversity Literature Repository</a> (BLR).</p>
+		
+		<h4>Examples</h4>
+		
+		<div class="list-item">
+ 		  <a href="?uri=https://bie.ala.org.au/species/urn:lsid:biodiversity.org.au:afd.taxon:111fc7e9-0265-453e-8e60-1761e42efc9a">
+			<div class="list-item-thumbnail">
+			 <img src="http://exeg5le.cloudimg.io/crop/100x100/n/https://images.ala.org.au/image/proxyImageThumbnail?imageId=1decca49-f45e-46da-80cf-baa8cfdf5615" />
+		    </div>
+		    <div class="list-item-body">
+		      <div class="list-item-title">Acupalpa Kröber, 1912</div>
+            </div>
+           </a>
+		</div>
+		
+		<div class="list-item">
+ 		  <a href="?uri=https://biodiversity.org.au/afd/publication/%23creator/r-mesibov">
+			<div class="list-item-thumbnail">
+			 <img src="images/no-icon.svg" />
+		    </div>
+		    <div class="list-item-body">
+		      <div class="list-item-title">R. Mesibov</div>
+            </div>
+           </a>
+		</div>
+
+		<div class="list-item">
+ 		  <a href="?uri=https://biodiversity.org.au/afd/publication/64908f75-456b-4da8-a82b-c569b4806c22">
+			<div class="list-item-thumbnail">
+			 <img src="http://exeg5le.cloudimg.io/height/100/n/https://zenodo.org/api/iiif/v2/67aaf08c-5b28-40e0-9c8f-905618da39a6:40222f16-d066-40ca-9ebd-79e80bbd29da:oo_16979.jpg/full/250,/0/default.jpg" />
+		    </div>
+		    <div class="list-item-body">
+		      <div class="list-item-title">Australian Assassins, Part I: A review of the Assassin Spiders (Araneae, Archaeidae) of mid-eastern Australia</div>
+            </div>
+           </a>
+		</div>
+		
+		<h4>Technical details</h4>
+		<p><b>TL;DR</b> the knowledge graph is implemented as a triple store where the data has been
+		represented using a small number of vocabularies (mostly <a href="http://schema.org">schema.org</a> with some terms borrowed from <a href="https://doi.org/10.3897/tdwgproceedings.1.20232">TAXREF-LD</a>
+		and the TDWG LSID vocabularies). All results displayed in the first two panels are the result of SPARQL queries, the content in the rightmost panel 
+		comes from calls to external APIs. Search is implemented using Elasticsearch. If you are feeling brave you can <a href="?sparql">query the knowledge graph directly in SPARQL</a>.</p>
+		
+		
+		
+		';
+		
+		echo '
+				</div>				
+			</div>	<!-- .main_content -->		
+		</div> <!-- .main -->';
+
 	
-	echo 'OZ';
+		echo '
+		<div class="side">
+			<div class="explain">Links between entites in the knowledge graph appear here, such as
+			citation links between works, lists of taxa in a publication, or where a person publishes and what
+			taxa that work on.</div>
+		</div>
+
+		<div class="side">
+			<div class="explain">This is where links to external knowledge graphs 
+			such as Wikidata will appear. There may also be links to other databases such as ORCID.
+	        </div>
+		</div>';
+			
+	}
+
+	echo '		
+	</div>';
 
 	display_html_end();
 }
@@ -1019,13 +1166,20 @@ function main()
 		exit(0);
 	}
 		
-	// Show search (text, author)
+	// Show search
 	if (isset($_GET['q']))
 	{	
 		$query = $_GET['q'];
 		display_search($query);
 		exit(0);
-	}	
+	}
+	
+	// Show sparql
+	if (isset($_GET['sparql']))
+	{	
+		display_sparql();
+		exit(0);
+	}		
 	
 }
 

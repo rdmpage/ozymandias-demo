@@ -22,10 +22,21 @@ a:hover {
 {
 	height: 30px;
 	font-size: 24px;
-	border-bottom: 3px solid rgb(82,169, 212);
-	/* background-color:orange;
-		color:white; */
+	/*border-bottom: 3px solid rgb(82,169, 212);*/
+	background-color:rgb(64,64,64);
+	color:white; 
 	/*padding:10px;*/
+}
+
+.header a{
+	color:white;
+	text-decoration:none;
+}
+
+.menuitem {
+	float:right;
+	padding:8px;
+	font-size:12px;
 }
 
 /* -------------------------------------------------------------------------------------*/
@@ -52,6 +63,16 @@ a:hover {
 	overflow-y: auto;
 	/* have a scrollbar */
 	flex: 1 0 0;
+}
+
+.localkg
+{
+	background-color:rgb(252,252,252);
+}
+
+.externalkg
+{
+	background-color:rgb(248,248,248);
 }
 
 /* -------------------------------------------------------------------------------------*/
@@ -96,8 +117,8 @@ a:hover {
 .search_button
 {
 	/* Just a little styling to make it pretty */
-	border: 1px solid blue;
-	background: blue;
+	border: 1px solid rgb(64,64,64);;
+	background: rgb(64,64,64);
 	color: white;
 }
 
