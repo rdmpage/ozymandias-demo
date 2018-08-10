@@ -1,0 +1,32 @@
+digraph {
+/*rankdir = LR; */
+graph [pad="0.5", nodesep="1", ranksep="2"];
+
+"tc:TaxonConcept" -> "accepted tn:TaxonName"[label="taxref:hasReferenceName"];
+"tc:TaxonConcept" -> "synonym tn:TaxonName"[label="taxref:hasSynonym"];
+
+"tc:TaxonConcept" -> "parent tc:TaxonConcept" [label="rdfs:subClassOf"];
+"another tc:TaxonConcept" -> "parent tc:TaxonConcept" [label="rdfs:subClassOf"];
+
+"accepted tn:TaxonName" -> "s:ScholarlyArticle" [label="tco:publishedInCitation"];
+"synonym tn:TaxonName" -> "s:ScholarlyArticle" [label="tco:publishedInCitation"];
+
+"s:ScholarlyArticle" -> "s:Periodical" [label="s:isPartOf"];
+
+"s:ScholarlyArticle" -> "s:Role" [label="s:creator"];
+"s:Role" -> "s:Person" [label="s:creator"];
+"s:Role" -> "1" [label="s:roleName"];
+
+
+"s:ScholarlyArticle" -> "other s:ScholarlyArticle" [label="s:citation"];
+
+"s:ImageObject" -> "s:ScholarlyArticle" [label="s:isPartOf"];
+
+"s:ScholarlyArticle"  -> "s:PropertyValue" [label="s:identifier"];
+
+"s:PropertyValue" -> "doi" [label="s:propertyID"];
+"s:PropertyValue" -> "\"10.11646/zootaxa.4340.1.1\"" [label="s:value"];
+
+
+
+}
