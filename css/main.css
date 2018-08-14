@@ -285,6 +285,10 @@ ul.creator li:before {
 	line-height:1.0em;
 }
 
+.list-item-description span {
+	color: black;
+}
+
 /* -------------------------------------------------------------------------------------*/
 /* links and identifiers */
 

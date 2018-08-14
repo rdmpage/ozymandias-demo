@@ -323,6 +323,8 @@ function display_creator($entity)
 		<script>creator_cocreators("' . $entity->{'@id'} . '", "creator_cocreators");</script>
 		<script>creator_containers("' . $entity->{'@id'} . '", "creator_containers");</script>
 		<script>creator_taxa("' . $entity->{'@id'} . '", "creator_taxa");</script>
+		<script>match_orcid("' . $entity->{'@id'} . '", "match_orcid");</script>
+		<script>match_wikispecies("' . $entity->{'@id'} . '", "match_wikispecies");</script>
 	';
 }
 
@@ -725,6 +727,8 @@ function display_entity($uri)
 			<div class="explain">External knowledge graphs.</div>
 			<div id="wikidata"></div>
 			<div id="orcid"></div>
+			<div id="match_orcid"></div>
+			<div id="match_wikispecies"></div>
 		</div>
 	</div>';
 	
@@ -755,10 +759,13 @@ function display_html_start($title = '', $meta = '', $script = '', $onload = '')
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script> -->
     
 	<!-- lazy loader -->
-	<script type="text/javascript" src="external/jquery.lazy-master/jquery.lazy.min.js"></script>  
+	<script type="text/javascript" src="external/jquery.lazy-master/jquery.lazy.min.js"></script>
 	
 	<!-- tree display -->
 	<script src="js/tree.js"></script>	  
+
+	<!-- fuzzy search -->
+	<script src="external/fuzzyset.js"></script>	  
        
     <!-- SPARQL queries -->
     <script src="js/biostor.js"></script>
@@ -768,6 +775,7 @@ function display_html_start($title = '', $meta = '', $script = '', $onload = '')
     <script src="js/container.js"></script>
     <script src="js/citation.js"></script>
     <script src="js/identifiers.js"></script>
+    <script src="js/match_creator.js"></script>
     <script src="js/taxon.js"></script>
     <script src="js/work.js"></script>
 

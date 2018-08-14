@@ -22,7 +22,12 @@ OPTIONAL {
 
 OPTIONAL {
 ?work <http://schema.org/thumbnailUrl> ?thumbnailUrl .
-}    
+} 
+
+OPTIONAL {
+?work <http://schema.org/isPartOf> ?container .
+?container <http://schema.org/name> ?container_name .
+}     
 
 }
 }`;
@@ -40,42 +45,51 @@ OPTIONAL {
 			
 			for (var i in data.results.bindings) {
 			
-				var year = data.results.bindings[i].datePublished.value;
-				//year = year.replace(/\b/g, '');
-				//year = year.replace(/\w/g, '');
+				// for some works we may not have this value,
+				// or it may be a date in an odd format :(
+				if (data.results.bindings[i].datePublished) {
 			
-			   year = parseInt(year);
+					var year = data.results.bindings[i].datePublished.value;
+					//year = year.replace(/\b/g, '');
+					//year = year.replace(/\w/g, '');
+			
+				   year = parseInt(year);
 			   
-			   var decade = Math.floor(year/10);
+				   var decade = Math.floor(year/10);
 			   
-			   if (!decades[decade]) {
-			    decades[decade] = [];
-			   }
+				   if (!decades[decade]) {
+					decades[decade] = [];
+				   }
 
 
-			   if (!decades[decade][year]) {
-			    decades[decade][year] = [];
-			   }
+				   if (!decades[decade][year]) {
+					decades[decade][year] = [];
+				   }
 			   
-			   var work = {
-			   	id: data.results.bindings[i].work.value,
-			   	name: data.results.bindings[i].name.value,			   	
-			   	year: year			   
-			   };
+				   var work = {
+					id: data.results.bindings[i].work.value,
+					name: data.results.bindings[i].name.value,			   	
+					year: year			   
+				   };
 			   
-				if (data.results.bindings[i].doi) {
-					work.doi = data.results.bindings[i].doi.value;
-				}			   
+					if (data.results.bindings[i].doi) {
+						work.doi = data.results.bindings[i].doi.value;
+					}			   
 
-				if (data.results.bindings[i].url) {
-					work.url = data.results.bindings[i].url.value;
-				}			   
+					if (data.results.bindings[i].url) {
+						work.url = data.results.bindings[i].url.value;
+					}			   
 
-				if (data.results.bindings[i].thumbnailUrl) {
-					work.thumbnailUrl = data.results.bindings[i].thumbnailUrl.value;
-				}			   
+					if (data.results.bindings[i].thumbnailUrl) {
+						work.thumbnailUrl = data.results.bindings[i].thumbnailUrl.value;
+					}			   
+
+					if (data.results.bindings[i].container_name) {
+						work.container = data.results.bindings[i].container_name.value;
+					}			   
 			   
-			   decades[decade][year].push(work);
+				   decades[decade][year].push(work);
+				}
 			}
 			
 			console.log(JSON.stringify(decades, null, 2));
@@ -108,6 +122,12 @@ OPTIONAL {
 						html += decades[decade][year][j].name;
 						html += '   </div>';
 						html += '   <div class="list-item-description">';
+						
+						
+						if (decades[decade][year][j].container) {
+							html += '<span>' + decades[decade][year][j].container + '</span>'
+								+ '<br />'; 
+						}						
 						
 						if (decades[decade][year][j].doi) {
 							html += '<a class="external" href="' 
