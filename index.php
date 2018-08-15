@@ -729,6 +729,7 @@ function display_entity($uri)
 			<div id="orcid"></div>
 			<div id="match_orcid"></div>
 			<div id="match_wikispecies"></div>
+			<div id="match_wikidata"></div>
 		</div>
 	</div>';
 	
