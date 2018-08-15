@@ -4,7 +4,7 @@ function figures(uri, element_id) {
 	$('#' + element_id).html();
 	
 	var query = `PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-SELECT *
+SELECT DISTINCT *
 WHERE
 {
 <` + uri + `> <http://schema.org/sameAs> ?doistring .
@@ -37,7 +37,7 @@ ORDER BY (?part)`;
 
 
 query = `PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-SELECT *
+SELECT DISTINCT ?part ?thumbnailUrl
 WHERE
 {
 {
@@ -117,22 +117,27 @@ function figure_is_part_of(uri, element_id) {
 	$('#' + element_id).html();
 	
 	var query = `PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-SELECT DISTINCT ?work ?name 
+SELECT DISTINCT ?work ?name
 WHERE 
 {
+  VALUES ?part { <` + uri + `> }
 {
-<` + uri + `> <http://schema.org/isPartOf> ?zenodo .
+ ?part <http://schema.org/isPartOf> ?zenodo .  
   
+    
 BIND(REPLACE(STR(?zenodo), "https://zenodo.org/record/", "", "i") AS ?identifier_value).
   
 ?identifier <http://schema.org/value> ?identifier_value .  
 ?identifier <http://schema.org/propertyID> "zenodo" .
 ?work <http://schema.org/identifier> ?identifier .
 ?work <http://schema.org/name> ?name .
+    ?work rdf:type ?type .
+     FILTER(STR(?type) != "http://schema.org/Person")
 }
 UNION
 {
-<` + uri + `> <http://schema.org/isPartOf> ?doi .
+?part <http://schema.org/isPartOf> ?doi .
+   
   
 BIND(REPLACE(STR(?doi), "https://doi.org/", "", "i") AS ?identifier_value).
   
@@ -140,11 +145,15 @@ BIND(REPLACE(STR(?doi), "https://doi.org/", "", "i") AS ?identifier_value).
 ?identifier <http://schema.org/propertyID> "doi" .
 ?work <http://schema.org/identifier> ?identifier .
 ?work <http://schema.org/name> ?name .
+    ?work rdf:type ?type .
+     FILTER(STR(?type) != "http://schema.org/Person")
 }
 
-}
+ 
+ 
+}`;
 
-`;
+	console.log(query);
 
 	$.getJSON('query.php?query=' + encodeURIComponent(query)
 			+ '&callback=?',
