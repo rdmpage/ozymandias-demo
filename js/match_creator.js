@@ -155,6 +155,8 @@ GRAPH <https://species.wikimedia.org>
 					var html = '<h4>Wikispecies match.</h4>';
 					html += '<div>';
 					//html += '<ul>';
+					
+					var wikispecies = '';
 			
 					for (var i in matches) {
 						html += '<div>';
@@ -162,11 +164,15 @@ GRAPH <https://species.wikimedia.org>
 						html += data.results.bindings[matches[i]].external_name.value;
 						html += '</a>';
 						html += '</div>';
+						
+						wikispecies = data.results.bindings[matches[i]].external_creator.value;
 					}
 					//html += '</ul>';
 					html += '</div>';
 			
 					$('#' + element_id).html(html);
+					
+					wikispecies_author_wikidata(wikispecies, 'match_wikidata');
 										
 				}
 						
