@@ -117,7 +117,7 @@ function figure_is_part_of(uri, element_id) {
 	$('#' + element_id).html();
 	
 	var query = `PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-SELECT * 
+SELECT DISTINCT ?work ?name 
 WHERE 
 {
 {
