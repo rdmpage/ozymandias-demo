@@ -624,7 +624,7 @@ function display_entity($uri)
 	
 	echo '
 	<div class="header">
-		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?sparql">SPARQL</a>
+		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?sparql">SPARQL</a> <a class="menuitem" href="?tree">Tree</a>
 	</div>
 	
 	<div class="content">	
@@ -832,6 +832,59 @@ WHERE
 }
 
 //----------------------------------------------------------------------------------------
+function display_html_start_d3($title = '')
+{
+	global $config;
+	
+	echo '<!DOCTYPE html>
+<html lang="en">
+<head>';
+
+	echo '<meta charset="utf-8">
+	<!-- base -->
+    <base href="' . $config['web_root'] . '" /><!--[if IE]></base><![endif]-->
+
+    <script src="external/d3/d3.v3.min.js"></script>
+    <script src="external/d3sparql.js"></script>
+    <script>
+    function exec() {
+      var endpoint = d3.select("#endpoint").property("value")
+      var sparql = d3.select("#sparql").property("value")
+      d3sparql.query(endpoint, sparql, render)
+    }
+    function render(json) {
+      var config = {
+        // for d3sparql.tree()
+        "root": "root_name",
+        "parent": "parent_name",
+        "child": "child_name",
+        // for d3sparql.roundtree()
+        "diameter": 800,
+        "angle": 360,
+        "depth": 200,
+        "radius": 5,
+        "selector": "#result"
+      }
+      d3sparql.roundtree(json, config)
+    }
+
+    function exec_offline() {
+      d3.json("cache/taxonomy/hypsibiidae.json", render)
+    }
+    function toggle() {
+      d3sparql.toggle()
+    }
+    </script>
+	<title>' . $title . '</title>
+	
+	<link href="css/main.css" rel="stylesheet"> 
+	
+	</head>';
+	
+	echo '<body>';
+}
+
+//----------------------------------------------------------------------------------------
 function display_html_end()
 {
 	global $config;
@@ -920,7 +973,7 @@ function display_search($q)
 	
 	echo '
 	<div class="header">
-		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?sparql">SPARQL</a>
+		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?sparql">SPARQL</a> <a class="menuitem" href="?tree">Tree</a>
 	</div>
 	
 	<div class="content">	
@@ -1000,7 +1053,7 @@ function display_sparql()
 	
 	echo '
 	<div class="header">
-		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?sparql">SPARQL</a>
+		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?sparql">SPARQL</a> <a class="menuitem" href="?tree">Tree</a>
 	</div>
 	
 	<div class="content">	
@@ -1025,6 +1078,56 @@ function display_sparql()
 }
 
 //----------------------------------------------------------------------------------------
+function display_tree()
+{
+	global $config;
+
+	$title = $config['site_name'] . ' - SPARQL';
+	
+	display_html_start_d3($title);
+
+	
+	//display_html_start($title, $meta, $script, '');
+	
+	echo '
+	<div class="header">
+		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?sparql">SPARQL</a> <a class="menuitem" href="?tree">Tree</a>
+	</div>
+	
+	<div class="content">
+		<div style="flex: 1 0 0;">	
+		<div class="explain">Display a taxonomic classification for a taxon, based on <a href="http://biohackathon.org/d3sparql/">d3sparql.js</a>.</div>
+		  <form class="form-inline">
+			<!-- <label>SPARQL endpoint:</label> -->
+			<div class="input-append">
+			  <input style="display:none;" id="endpoint" value="' . $config['web_server'] . $config['web_root'] . '/query.php" type="text" size="40">
+			  <button style="font-size:18px;" type="button" onclick="exec()">Query</button>
+			  <!-- <button type="button" onclick="exec_offline()">Use cache</button> -->
+			  <!-- <button type="button" onclick="toggle()"><i id="button" class="icon-chevron-up"></i></button> -->
+			</div>
+		  </form>
+		  <textarea id="sparql" class="sparqlquery" rows=15>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?root_name ?parent_name ?child_name  WHERE
+{   
+VALUES ?root_name {"Aedes Meigen, 1818"}
+?root <http://schema.org/name> ?root_name .
+?child rdfs:subClassOf+ ?root .
+?child rdfs:subClassOf ?parent .
+?child <http://schema.org/name> ?child_name .
+?parent <http://schema.org/name> ?parent_name .
+}
+		  </textarea>
+		</div>
+		<div id="result" style="flex: 1 0 0;"></div>	
+		</div>		
+	</div>
+	
+ </body>
+</html>';	
+}
+
+//----------------------------------------------------------------------------------------
 // Home page, or badness happened
 function default_display($error_msg = '')
 {
@@ -1038,7 +1141,7 @@ function default_display($error_msg = '')
 	
 	echo '
 	<div class="header">
-		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?sparql">SPARQL</a>
+		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?sparql">SPARQL</a> <a class="menuitem" href="?tree">Tree</a>
 	</div>
 	
 	<div class="content">	
@@ -1107,6 +1210,19 @@ function default_display($error_msg = '')
             </div>
            </a>
 		</div>
+
+		<div class="list-item">
+ 		  <a href="?uri=https://biodiversity.org.au/afd/publication/3e0c1402-de05-4227-9df3-803e68300623">
+			<div class="list-item-thumbnail">
+			 <img src="https://cdn.rawgit.com/rdmpage/oz-afd-export/master/thumbnails/3/2/3e0c1402-de05-4227-9df3-803e68300623.png" />
+		    </div>
+		    <div class="list-item-body">
+		      <div class="list-item-title">Revision of genera of the dragonets (Pisces : Callionymidae)</div>
+            </div>
+           </a>
+		</div>
+		
+		
 		
 		<h4>Technical details</h4>
 		<p><b>TL;DR</b> the knowledge graph is implemented as a triple store where the data has been
@@ -1188,7 +1304,14 @@ function main()
 	{	
 		display_sparql();
 		exit(0);
-	}		
+	}	
+	
+	// Show tree
+	if (isset($_GET['tree']))
+	{	
+		display_tree();
+		exit(0);
+	}			
 	
 }
 

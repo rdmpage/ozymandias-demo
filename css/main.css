@@ -605,3 +605,10 @@ tree, .tree ul, .tree li {
 	font-style: italic;
 }
 */
+
+/* -------------------------------------------------------------------------------------*/
+/* d3sparql */
+.sparqlquery {
+    	width:400px;
+    	font-family:monospace;    	
+}

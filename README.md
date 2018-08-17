@@ -63,9 +63,18 @@ Beyond classifying people as researcher/non-researcher https://twitter.com/Siobh
 
 ## Examples, errors, etc.
 
-### Nice examples
+### Examples
+
+Lots of papers
 
 http://localhost/~rpage/ozymandias-demo/?uri=https://biodiversity.org.au/afd/publication/%23creator/m-m-drummond
+
+Wallacellus is Euwallacea: molecular phylogenetics settles generic relationships (Coleoptera: Curculionidae: Scolytinae: Xyleborini)
+
+
+Three new species of Fergusonina Malloch gall-flies (Diptera: Fergusoninidae) from terminal leaf bud galls on Eucalyptus (Myrtaceae) in south-eastern Australia
+
+http://localhost/~rpage/ozymandias-demo/?uri=https://biodiversity.org.au/afd/publication/565511c4-2c18-48c1-a141-0ccc26dacd48
 
 
 
@@ -79,4 +88,38 @@ Variation in author names causes problems, e.g. http://localhost/~rpage/ozymandi
 - T-Y. Chan
 
 All due to missing “.” and “-“.
+
+
+
+## Script
+
+- home page
+
+- flies
+
+-- basic ideas
+
+
+
+- spiders
+
+-- cites "A new spider of the genus Archaea from Australia"
+
+---- Queensland on a map
+
+then SPARQL demo
+
+
+then tree display
+
+
+
+
+
+
+
+
+
+
+
 
