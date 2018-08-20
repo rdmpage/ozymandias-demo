@@ -311,6 +311,90 @@ SELECT ?thumbnailUrl WHERE
   		
 		
 		}	
+		
+		
+
+		//--------------------------------------------------------------------------------
+		// display children of uri in main window
+		function taxon_figures(uri, element_id) {
+		
+			
+			var query = `PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT * WHERE { 
+  # get name of taxon withotu authorship
+  <` + uri + `> <http://rs.tdwg.org/ontology/voc/TaxonConcept#nameString> ?nameString .
+   
+  # get work(s) for this taxon
+<` + uri + `>  <http://taxref.mnhn.fr/lod/property/hasReferenceName>|<http://taxref.mnhn.fr/lod/property/hasSynonym> ?taxonName .
+  ?taxonName <http://schema.org/name> ?tname .
+ 
+  ?taxonName <http://rs.tdwg.org/ontology/voc/Common#publishedInCitation> ?work .
+  
+  # get Zenodo figures (assume isPartOf works for now)
+  ?work <http://schema.org/identifier> ?identifier .
+  ?identifier <http://schema.org/propertyID> "doi" .
+  ?identifier <http://schema.org/value> ?identifier_value .
+ 
+  BIND(IRI(CONCAT("https://doi.org/", STR(?identifier_value))) AS ?doi) . 
+
+  # a figure
+  ?part <http://schema.org/isPartOf> ?doi  .
+  ?part rdf:type <http://schema.org/ImageObject> .
+  ?part <http://schema.org/thumbnailUrl> ?thumbnailUrl .
+  ?part <http://schema.org/description> ?description .
+
+  # filter those that have the name
+  FILTER regex(?description, ?nameString)
+  
+} `;
+
+//alert(query);
+		
+			$.getJSON('query.php?query=' + encodeURIComponent(query)
+					+ '&callback=?',
+				function(data){
+  					//alert(JSON.stringify(data ));
+  					
+  					console.log(JSON.stringify(data, null, 2));
+  					
+  					//$('#main').html('<div style="background:rgb(242,242,242);white-space:pre;font-size:10px;padding:10px;">' + JSON.stringify(data, null, 2) + '</style>');
+  					
+  					if (data.results.bindings.length > 0) {
+					
+						var html = '<h4>Images of taxon</h4>';
+					
+						html += '<div class="taxa-grid clearfix">';
+					
+						for (var i in data.results.bindings) {  					
+							html += '<div class="taxa-thumbnail">';
+						
+							
+							html += '<a href="?uri='
+								+ data.results.bindings[i].part.value 
+								+ '">';
+								//+ '<span>' + data.results.bindings[i].child_name.value + '</span>';
+							
+							if (data.results.bindings[i].thumbnailUrl) {
+								html += '<img src="' 
+									+ 'http://exeg5le.cloudimg.io/crop/100x100/n/'
+									+ data.results.bindings[i].thumbnailUrl.value 
+									+ '" />';
+							} 
+							html += '</a>';  						
+							html += '</div>';  						
+						}
+						html += '</div>';  
+					
+						$('#' + element_id).html(html);
+					}  					
+  
+  				}
+  			);
+  			
+  		
+		
+		}		
+		
 
 //----------------------------------------------------------------------------------------
 
