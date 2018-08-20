@@ -165,7 +165,13 @@ GRAPH <https://species.wikimedia.org>
 						html += '</a>';
 						html += '</div>';
 						
-						wikispecies = data.results.bindings[matches[i]].external_creator.value;
+						// The Wikispecies link might be a redirect, we could try and 
+						// and resolve that, or we can assume that the longest URL is likely to
+						// be the definitive one as it will have the full names
+						if (data.results.bindings[matches[i]].external_creator.value.length > wikispecies.length) {
+							wikispecies = data.results.bindings[matches[i]].external_creator.value;
+						}
+						//wikispecies = data.results.bindings[matches[i]].external_creator.value;
 					}
 					//html += '</ul>';
 					html += '</div>';
