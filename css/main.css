@@ -320,6 +320,12 @@ ul.creator li:before {
   padding-right: 3px;
 }
 
+.gbif:before {
+  content: url('../images/gbif_16x16.png');
+  vertical-align: middle;
+  padding-right: 3px;
+}
+
 ul.identifier-list  {
   padding-left: 0px;
 }
