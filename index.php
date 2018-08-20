@@ -426,6 +426,10 @@ function display_taxon($entity)
 		<script>taxon_lineage("' . $entity->{'@id'} . '", "lineage"); </script>
 		<script>taxon_thumbnail("' . $entity->{'@id'} . '", "taxon-thumbnail"); </script>
 		<script>works_for_taxon("' . $entity->{'@id'} . '", "taxon-works"); </script>
+		
+		<script>taxon_figures("' . $entity->{'@id'} . '", "taxon_figures"); </script>
+				
+		<script>name_in_gbif("' . $entity->name . '", "gbif"); </script>
 	';
 }
 
@@ -619,8 +623,8 @@ function display_entity($uri)
 	$script = '<script type="application/ld+json">' . "\n"
 		. json_encode($entity, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
     	. "\n" . '</script>';
-	
-	display_html_start($title, $meta, $script, '$(window).resize();');
+    	
+ 	display_html_start($title, $meta, $script, '$(window).resize();');
 	
 	echo '
 	<div class="header">
@@ -716,6 +720,9 @@ function display_entity($uri)
 			<div id="taxon-works"></div>
 			<div id="taxa"></div>
 			
+			<!-- figures -->
+			<div id="taxon_figures"></div>
+			
 			<!-- creator -->
 			<div id="creator_cocreators"></div>
 			<div id="creator_containers"></div>	
@@ -727,9 +734,14 @@ function display_entity($uri)
 			<div class="explain">External knowledge graphs.</div>
 			<div id="wikidata"></div>
 			<div id="orcid"></div>
+			<div id="gbif"></div>
 			<div id="match_orcid"></div>
 			<div id="match_wikispecies"></div>
 			<div id="match_wikidata"></div>
+			
+			<!-- can we track user scrolling within the document viewer so 
+			     we can display page-specific info, such as taxonomic names? -->
+			<div id="page_change"></div>
 		</div>
 	</div>';
 	
@@ -779,6 +791,7 @@ function display_html_start($title = '', $meta = '', $script = '', $onload = '')
     <script src="js/match_creator.js"></script>
     <script src="js/taxon.js"></script>
     <script src="js/work.js"></script>
+    <script src="js/gbif.js"></script>
 
 	<!-- hacks to find external identifiers -->
     <script src="js/identifier-queries.js"></script>
@@ -1176,51 +1189,9 @@ function default_display($error_msg = '')
 		further grow the knowledge graph, for example by adding "cites" and "cited by" links between publications (data from <a href="http://crossref.org">CrossRef</a>), and
 		displaying figures from the <a href="https://zenodo.org/communities/biosyslit/">Biodiversity Literature Repository</a> (BLR).</p>
 		
-		<h4>Examples</h4>
-		
-		<div class="list-item">
- 		  <a href="?uri=https://bie.ala.org.au/species/urn:lsid:biodiversity.org.au:afd.taxon:111fc7e9-0265-453e-8e60-1761e42efc9a">
-			<div class="list-item-thumbnail">
-			 <img src="http://exeg5le.cloudimg.io/crop/100x100/n/https://images.ala.org.au/image/proxyImageThumbnail?imageId=1decca49-f45e-46da-80cf-baa8cfdf5615" />
-		    </div>
-		    <div class="list-item-body">
-		      <div class="list-item-title">Acupalpa Kröber, 1912</div>
-            </div>
-           </a>
-		</div>
-		
-		<div class="list-item">
- 		  <a href="?uri=https://biodiversity.org.au/afd/publication/%23creator/r-mesibov">
-			<div class="list-item-thumbnail">
-			 <img src="images/no-icon.svg" />
-		    </div>
-		    <div class="list-item-body">
-		      <div class="list-item-title">R. Mesibov</div>
-            </div>
-           </a>
-		</div>
-
-		<div class="list-item">
- 		  <a href="?uri=https://biodiversity.org.au/afd/publication/64908f75-456b-4da8-a82b-c569b4806c22">
-			<div class="list-item-thumbnail">
-			 <img src="http://exeg5le.cloudimg.io/height/100/n/https://zenodo.org/api/iiif/v2/67aaf08c-5b28-40e0-9c8f-905618da39a6:40222f16-d066-40ca-9ebd-79e80bbd29da:oo_16979.jpg/full/250,/0/default.jpg" />
-		    </div>
-		    <div class="list-item-body">
-		      <div class="list-item-title">Australian Assassins, Part I: A review of the Assassin Spiders (Araneae, Archaeidae) of mid-eastern Australia</div>
-            </div>
-           </a>
-		</div>
-
-		<div class="list-item">
- 		  <a href="?uri=https://biodiversity.org.au/afd/publication/3e0c1402-de05-4227-9df3-803e68300623">
-			<div class="list-item-thumbnail">
-			 <img src="https://cdn.rawgit.com/rdmpage/oz-afd-export/master/thumbnails/3/2/3e0c1402-de05-4227-9df3-803e68300623.png" />
-		    </div>
-		    <div class="list-item-body">
-		      <div class="list-item-title">Revision of genera of the dragonets (Pisces : Callionymidae)</div>
-            </div>
-           </a>
-		</div>
+		<p>
+		<img src="images/kg.png" width="500" />
+		</p>
 		
 		
 		
@@ -1245,6 +1216,66 @@ function default_display($error_msg = '')
 			<div class="explain">Links between entites in the knowledge graph appear here, such as
 			citation links between works, lists of taxa in a publication, or where a person publishes and what
 			taxa that work on.</div>
+			
+			<h4>Examples</h4>
+		
+			<div class="list-item">
+			  <a href="?uri=https://bie.ala.org.au/species/urn:lsid:biodiversity.org.au:afd.taxon:111fc7e9-0265-453e-8e60-1761e42efc9a">
+				<div class="list-item-thumbnail">
+				 <img src="http://exeg5le.cloudimg.io/crop/100x100/n/https://images.ala.org.au/image/proxyImageThumbnail?imageId=1decca49-f45e-46da-80cf-baa8cfdf5615" />
+				</div>
+				<div class="list-item-body">
+				  <div class="list-item-title">Acupalpa Kröber, 1912</div>
+				</div>
+			   </a>
+			</div>
+		
+			<div class="list-item">
+			  <a href="?uri=https://biodiversity.org.au/afd/publication/%23creator/r-mesibov">
+				<div class="list-item-thumbnail">
+				 <img src="images/no-icon.svg" />
+				</div>
+				<div class="list-item-body">
+				  <div class="list-item-title">R. Mesibov</div>
+				</div>
+			   </a>
+			</div>
+
+			<div class="list-item">
+			  <a href="?uri=https://biodiversity.org.au/afd/publication/64908f75-456b-4da8-a82b-c569b4806c22">
+				<div class="list-item-thumbnail">
+				 <img src="http://exeg5le.cloudimg.io/height/100/n/https://zenodo.org/api/iiif/v2/67aaf08c-5b28-40e0-9c8f-905618da39a6:40222f16-d066-40ca-9ebd-79e80bbd29da:oo_16979.jpg/full/250,/0/default.jpg" />
+				</div>
+				<div class="list-item-body">
+				  <div class="list-item-title">Australian Assassins, Part I: A review of the Assassin Spiders (Araneae, Archaeidae) of mid-eastern Australia</div>
+				</div>
+			   </a>
+			</div>
+
+			<div class="list-item">
+			  <a href="?uri=https://biodiversity.org.au/afd/publication/3e0c1402-de05-4227-9df3-803e68300623">
+				<div class="list-item-thumbnail">
+				 <img src="https://cdn.rawgit.com/rdmpage/oz-afd-export/master/thumbnails/3/2/3e0c1402-de05-4227-9df3-803e68300623.png" />
+				</div>
+				<div class="list-item-body">
+				  <div class="list-item-title">Revision of genera of the dragonets (Pisces : Callionymidae)</div>
+				</div>
+			   </a>
+			</div>
+		
+		
+			<div class="list-item">
+			  <a href="?uri=https://biodiversity.org.au/afd/publication/8adcca9b-ba23-4332-8764-3137d09e3776">
+				<div class="list-item-thumbnail">
+				 <img src="images/no-icon.svg" />
+				</div>
+				<div class="list-item-body">
+				  <div class="list-item-title">The Beagle, Records of the Museums and Art Galleries of the Northern Territory</div>
+				</div>
+			   </a>
+			</div>
+					
+			
 		</div>
 
 		<div class="side">
