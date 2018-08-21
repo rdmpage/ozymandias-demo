@@ -31,7 +31,11 @@ See https://github.com/adobe-type-tools/cmap-resources
 
     <link rel="stylesheet" href="viewer.css">
 
-
+<script type="text/javascript">
+  document.addEventListener("pagechange", function(e) {
+  	window.parent.postMessage(e.pageNumber, "*");
+  });
+</script>
 
 <!-- This snippet is used in production (included from viewer.html) -->
 <link rel="resource" type="application/l10n" href="locale/locale.properties">
