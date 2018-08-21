@@ -630,6 +630,8 @@ window.addEventListener("message", receiveMessage, false);
 
 function receiveMessage(event)
 {
+	console.log("receiveMessage" + JSON.stringify(event.data));
+	console.log("receiveMessage" + JSON.stringify(event));
 	if (typeof event.data === "number") {
 	   //alert(event.data);
 	   $("#page_change").html("Page " + event.data);
@@ -778,7 +780,7 @@ function display_html_start($title = '', $meta = '', $script = '', $onload = '')
     '<!-- base -->
     <base href="' . $config['web_root'] . '" /><!--[if IE]></base><![endif]-->
 
-    <script src="js/jquery.js"></script>
+    <script src="external/jquery.js"></script>
     
 	<link href="external/fontawesome/css/all.css" rel="stylesheet">     
     
@@ -830,6 +832,7 @@ WHERE
 					// biostor_viewer(uri, element_id);
 					
 					var html = \'<iframe id="scan" width="100%" height="800" src="viewer.php?uri=\' + encodeURIComponent(uri) + \'" />\';				
+					
 					$(\'#\' + element_id).html(html);					
 					$(window).resize();
 					
