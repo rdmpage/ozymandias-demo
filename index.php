@@ -624,6 +624,19 @@ function display_entity($uri)
 		. json_encode($entity, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
     	. "\n" . '</script>';
     	
+    	
+    $script .= '<script type="text/javascript">
+window.addEventListener("message", receiveMessage, false);
+
+function receiveMessage(event)
+{
+	if (typeof event.data === "number") {
+	   //alert(event.data);
+	   $("#page_change").html("Page " + event.data);
+	}
+}  
+  </script>';
+
  	display_html_start($title, $meta, $script, '$(window).resize();');
 	
 	echo '
@@ -770,10 +783,7 @@ function display_html_start($title = '', $meta = '', $script = '', $onload = '')
 	<link href="external/fontawesome/css/all.css" rel="stylesheet">     
     
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script> -->
-    
-	<!-- lazy loader -->
-	<script type="text/javascript" src="external/jquery.lazy-master/jquery.lazy.min.js"></script>
-	
+    	
 	<!-- tree display -->
 	<script src="js/tree.js"></script>	  
 
@@ -781,7 +791,7 @@ function display_html_start($title = '', $meta = '', $script = '', $onload = '')
 	<script src="external/fuzzyset.js"></script>	  
        
     <!-- SPARQL queries -->
-    <script src="js/biostor.js"></script>
+    <!-- <script src="js/biostor.js"></script> -->
     <script src="js/creators.js"></script>
     <script src="js/blr_figures.js"></script>
     <script src="js/works_by_creator.js"></script>
@@ -817,7 +827,13 @@ WHERE
 					$(\'#\' + element_id).html(html);					
 					$(window).resize();
 				} else {
-					biostor_viewer(uri, element_id);
+					// biostor_viewer(uri, element_id);
+					
+					var html = \'<iframe id="scan" width="100%" height="800" src="viewer.php?uri=\' + encodeURIComponent(uri) + \'" />\';				
+					$(\'#\' + element_id).html(html);					
+					$(window).resize();
+					
+					
 				}
 			}
 		);				
