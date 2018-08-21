@@ -16,10 +16,10 @@ var query = `PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 SELECT *
 WHERE
 {
-<` + uri + `> <http://schema.org/sameAs> ?biostor_string .
-BIND(IRI(?biostor_string) AS ?biostor) . 
-?biostor rdf:type <http://schema.org/CreativeWork> .
-?biostor <http://schema.org/hasPart> ?hasPart .
+<` + uri + `> <http://schema.org/sameAs> ?uri_string .
+BIND(IRI(?uri_string) AS ?uri) . 
+?uri rdf:type <http://schema.org/CreativeWork> .
+?uri <http://schema.org/hasPart> ?hasPart .
 ?hasPart <http://schema.org/name> ?name .
 ?hasPart <http://schema.org/position> ?position .
 ?hasPart <http://schema.org/contentUrl> ?contentUrl .
