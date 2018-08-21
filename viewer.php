@@ -38,9 +38,8 @@ if ($json != '')
 		<meta charset="utf-8">
 		<!-- base -->
 		<base href="' . $config['web_root'] . '" /><!--[if IE]></base><![endif]-->
-		<script src="js/jquery.js"></script>
-		<!-- lazy loader -->
-		<script type="text/javascript" src="external/jquery.lazy-master/jquery.lazy.min.js"></script>
+		<script src="external/jquery.js"></script>
+		<script type="text/javascript" src="external/jquery.inview.min.js"></script>
 
 		<style>
 		body {
@@ -59,10 +58,12 @@ if ($json != '')
 		.image-viewer img {
 			background-color:white;
 			width:90%;
+			/* min-height:100px; */
 		}
 		</style>
 		
-		<script src="//hypothes.is/embed.js" async></script>
+		<!-- <script src="//hypothes.is/embed.js" async></script> -->
+		
 		
 </head>
 <body>';
@@ -72,7 +73,9 @@ if ($json != '')
 	foreach ($data->results->bindings as $binding)
 	{
 		echo '<div>';		
-		echo '<img class="lazy" src="' . $binding->contentUrl->value . '" />';
+		//echo '<img class="lazy" data-src="' . $binding->contentUrl->value . '"  />';
+		//echo '<img id="' . $binding->position->value . '" class="lazy" data-src="' . $binding->contentUrl->value . '"  />';
+		echo '<img id="' . $binding->position->value . '" class="lazy" src="' . $binding->contentUrl->value . '"  />';
 		echo '</div>';
 		
 		/* Spacer between pages, hack for now */
@@ -80,6 +83,45 @@ if ($json != '')
 	}
 	
 	echo '</div>';
+
+echo '<script>
+
+
+$(".lazy").on("inview", function(event, isInView) {
+  if (isInView) {
+  
+     // element is now visible in the viewport
+    var $this = $(this);
+    //alert($this.attr("id"));
+    window.parent.postMessage(parseInt($this.attr("id")), "*");
+    
+    /*
+    if ($this.attr("data-src")) {
+	     $this.attr("src", $this.attr("data-src"));
+    	  $this.removeAttr("data-src");
+    	}
+    */
+    
+  } else {
+    // element has gone out of viewport
+  }
+});
+
+</script>';
+
+	
+	/*
+	echo '
+	<script>
+	$(function() {
+    	$("#image-viewer .lazy").lazy({
+            appendScroll: $("#image-viewer")
+        });
+	});
+	</script>	';	
+	*/
+
+	
 	echo '</body>
 </html>';
 	
