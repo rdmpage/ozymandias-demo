@@ -794,6 +794,7 @@ function display_html_start($title = '', $meta = '', $script = '', $onload = '')
        
     <!-- SPARQL queries -->
     <!-- <script src="js/biostor.js"></script> -->
+    <script src="js/counts.js"></script>
     <script src="js/creators.js"></script>
     <script src="js/blr_figures.js"></script>
     <script src="js/works_by_creator.js"></script>
@@ -1236,6 +1237,9 @@ function default_display($error_msg = '')
 			citation links between works, lists of taxa in a publication, or where a person publishes and what
 			taxa that work on.</div>
 			
+			<h4>How big is the knowledge graph?</h4>
+			<div id="counts"></div>
+			
 			<h4>Examples</h4>
 		
 			<div class="list-item">
@@ -1304,6 +1308,8 @@ function default_display($error_msg = '')
 		</div>';
 			
 	}
+
+	echo '<script>count_types("counts");</script>';
 
 	echo '		
 	</div>';

@@ -1,0 +1,29 @@
+<html>
+<head>
+ <script src="js/jquery.js"></script>
+
+<script type="text/javascript">
+	window.addEventListener("message", receiveMessage, false);
+
+	function receiveMessage(event)
+	{
+		console.log("receiveMessage" + JSON.stringify(event.data));
+		console.log("receiveMessage" + JSON.stringify(event));
+		if (typeof event.data === "number") {
+		   //alert(event.data);
+		   $("#page_change").html("Page " + event.data);
+		}
+	}  
+  </script>
+
+</head>
+<body>
+<div style="height:400px;border:1px solid red;">
+<p>Hi. I'm some test text</p>
+<p id="page_change"></p>
+</div>
+<div>
+<iframe height="400" src="http://localhost/~rpage/ozymandias-demo/viewer.php?uri=https%3A%2F%2Fbiodiversity.org.au%2Fafd%2Fpublication%2F6a7c93fe-4f3b-4791-8e28-0802f169e00b" ></iframe>
+</div>
+</body>
+</html>
