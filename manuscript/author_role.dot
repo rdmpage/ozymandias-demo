@@ -1,0 +1,30 @@
+digraph G {
+
+ScholarlyArticle [label="ScholarlyArticle"] ;
+
+role1 [label="Role"] ;
+		
+ScholarlyArticle -> role1 [label="creator"];
+
+role2 [label="Role"] ;
+
+ScholarlyArticle -> role2 [label="creator"];
+		
+creator1 [label="Person"] ;	
+creator2 [label="Person"] ;	
+
+role1 -> creator1 [label="creator"];
+role2 -> creator2 /*[label="creator"]*/;
+
+name1 [label="B Y Main"] ;
+name2 [label="L W Popple"] ;
+
+creator1 -> name1 [label="name"];
+creator2 -> name2 [label="name"];	
+
+role1 -> 1 /*[label="roleName"]*/;	
+role2 -> 2 [label="roleName"];	
+
+
+
+}

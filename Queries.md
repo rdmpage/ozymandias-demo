@@ -160,3 +160,40 @@ LIMIT 1000```
 
 
 
+### Top cited papers in a year
+
+```
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?w ?w_name (COUNT(?work) as ?c)
+WHERE
+{
+  ?w <http://schema.org/datePublished> "2012" .
+  ?w <http://schema.org/identifier> ?identifier .
+  ?w <http://schema.org/name> ?w_name .
+  ?identifier <http://schema.org/value> ?identifier_value .
+
+# For CrossRef records, we will have another object with this DOI 
+?cited_identifier <http://schema.org/value> ?identifier_value .
+?cited <http://schema.org/identifier> ?cited_identifier .
+  
+  # Work citing this work (typically from CrossRef data)
+?cited_by <http://schema.org/citation> ?cited .
+  
+  # Translate the citing work's DOI (or other identifier) into AFD identifier
+# Get identifier (typically a DOI) for citing work
+?cited_by <http://schema.org/identifier> ?cited_by_identifier .
+?cited_by_identifier <http://schema.org/value> ?cited_by_identifier_value .
+
+# Get work(s) with this identifer (may have > 1 if we have CrossRef record in our triple store
+?work_identifier <http://schema.org/value> ?cited_by_identifier_value .
+?work <http://schema.org/identifier> ?work_identifier .
+?work <http://schema.org/name> ?name .
+
+# Just include citing records that are also in ALA
+FILTER regex(str(?work),'biodiversity.org.au') .
+
+} 
+GROUP BY ?w ?w_name
+ORDER BY DESC(?c)
+LIMIT 10
+```

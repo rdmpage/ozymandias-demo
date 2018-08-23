@@ -1,0 +1,59 @@
+digraph G {
+	rankdir=LR;
+	
+	newrank=true;
+
+	subgraph cluster_0 {
+		style=filled;
+		color=lightgrey;
+		node [style=filled,color=white];
+
+		label = "ORCID";
+		
+		ScholarlyArticle1 -> role1 [label="creator"];
+		
+		ScholarlyArticle1 [label="ScholarlyArticle"] ;
+		creator1 [label="Person"] ;
+		role1 [label="Role"] ;
+		
+		name1 [label="Lindsay W Popple"] ;
+		
+		role1 -> creator1 [label="creator"] ;
+		creator1 -> name1 [label="name"];
+		
+	}
+
+	
+    subgraph cluster_1 {
+		style=filled;
+		color=lightgrey;
+		node [style=filled,color=white];
+
+		label = "OZ";
+		
+		ScholarlyArticle2 [label="ScholarlyArticle"] ;
+		creator2 [label="Person"] ;
+		role2 [label="Role"] ;
+		
+		name2 [label="L W Popple"] ;
+		
+
+		ScholarlyArticle2 -> role2 [label="creator"];
+		role2 -> creator2 [label="creator"];
+		creator2 -> name2 [label="name"];
+
+	}
+	
+	{ rank=same; ScholarlyArticle1; ScholarlyArticle2; }
+	{ rank=same; name1; name2; }
+
+role1 -> 1 [label="roleName"];	
+role2 -> 1 [label="roleName"];	
+
+ name1 -> name2 [label="match"];	
+ name2 -> name1 [label="match"];	
+
+	
+
+
+}
