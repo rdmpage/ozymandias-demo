@@ -200,7 +200,7 @@ WHERE
        // bionames names 
     function bionames_page_names(identifier, name_space, page, element_id) {
        
-      $.getJSON('http://bionames.org/bionames-api/oz-names-on-page.php?identifier=' 
+      $.getJSON('//bionames.org/bionames-api/oz-names-on-page.php?identifier=' 
       	+ encodeURIComponent(identifier) 
       	+ '&namespace=' + name_space
       	+ '&page=' + page      	
