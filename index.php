@@ -441,7 +441,9 @@ function meta_work($entity)
 	
 	$meta = '';
 	
-	$query = 'SELECT ?citation_title ?citation_date ?citation_volume ?citation_firstpage ?citation_lastpage ?citation_abstract_html_url ?citation_doi ?citation_pdf_url
+	$query = 'SELECT ?citation_title ?citation_date ?citation_volume ?citation_firstpage 
+	?citation_lastpage ?citation_abstract_html_url ?citation_doi ?citation_pdf_url
+	?citation_biostor ?citation_handle
 WHERE {
   
   # title
@@ -485,6 +487,22 @@ WHERE {
 ?encoding <http://schema.org/fileFormat> "application/pdf" .
 ?encoding <http://schema.org/contentUrl> ?citation_pdf_url .
     }
+    
+  # rdmp hacks, maybe rethink to store as URLs
+  # BioStor
+  OPTIONAL {
+  <URI> <http://schema.org/identifier> ?biostor_identifier .
+?biostor_identifier <http://schema.org/propertyID> "biostor" .
+?biostor_identifier <http://schema.org/value> ?citation_biostor .
+    } 
+    
+  # Handle
+  OPTIONAL {
+  <URI> <http://schema.org/identifier> ?handle_identifier .
+?handle_identifier <http://schema.org/propertyID> "handle" .
+?handle_identifier <http://schema.org/value> ?citation_handle .
+    }      
+         
  }
 ';
 	
@@ -493,6 +511,8 @@ WHERE {
 	
 	$result = json_decode($json);
 	
+	//echo '<pre>' . $result . '</pre>';
+	
 	$meta_list = array();
 	
 	if (isset($result->results->bindings))
@@ -500,14 +520,39 @@ WHERE {
 		if (isset($result->results->bindings[0]))
 		{
 			foreach ($result->results->bindings[0] as $k => $v)
-			{
-				$meta_list[] = '<meta name="' . $k . '" content="' . htmlentities($v->value, ENT_COMPAT | ENT_HTML5, 'UTF-8') . '" />';
+			{				
+				$key = '';
+				
+				switch ($k) 
+				{
+					case 'citation_biostor':
+						$key = 'citation_abstract_html_url';
+						$value = 'https://biostor.org/reference/' . $v->value;
+						break;
+
+					case 'citation_handle':
+						$key = 'citation_abstract_html_url';
+						$value = 'https://hdl.handle.net/' . $v->value;
+						break;
+										
+					default:
+						$key = $k;
+						$value = $v->value;
+						break;
+				}
+			
+				if (!isset($meta_list[$key]))
+				{
+					$meta_list[$key] = array();
+				}
+			
+				$meta_list[$key][] = $value;
 			}		
 		}	
 	}
-	$meta = join("\n", $meta_list);
 	
-	return $meta;
+	
+	return $meta_list;
 }
 		
 //----------------------------------------------------------------------------------------
@@ -561,7 +606,7 @@ function display_entity($uri)
 		$title = get_literal_display($entity->name);
 	}
 	
-	$meta = '';
+	$meta_list = array();
 	
 	// What meta tags do we display?	
 	$displayed = false;	
@@ -572,7 +617,7 @@ function display_entity($uri)
 		switch ($types[$i])
 		{
 			case 'ScholarlyArticle':
-				$meta = meta_work($entity);
+				$meta_list = meta_work($entity);
 				$displayed = true;	
 				break;
 /*
@@ -612,17 +657,93 @@ function display_entity($uri)
 				break;
 */				
 			default:
-				$meta = '';
+				//$meta = '';
 				$displayed = true;	
 				break;
 		
 		}
 	
-	}		
+	}	
+	
+	$meta_tags = array();
+	foreach ($meta_list as $k => $values)
+	{
+		foreach ($values as $value)
+		{
+			$meta_tags[] = 				
+				'<meta name="' . $k . '" content="' . htmlentities($value, ENT_COMPAT | ENT_HTML5, 'UTF-8') . '" />';
+		}
+	}
+	
+	$meta = join("\n", $meta_tags);
+	
+	
+    // get preferred external identifier for use in trying to link to page
+    $identifier = '';
+    $namespace = '';
+    
+    // DOI preferred
+    if ($identifier == '')
+    {
+    	if (isset($meta_list['citation_doi']))
+    	{
+    		$identifier = $meta_list['citation_doi'][0];
+    		$namespace = 'doi';
+    	}
+    }
+
+    if ($identifier == '')
+    {    	
+    	if (isset($meta_list['citation_abstract_html_url']))
+    	{
+    		$n = count($meta_list['citation_abstract_html_url']);
+    		$i = 0;
+    		while ($i < $n)
+    		{
+    			if ($identifier == '')
+    			{
+					if (preg_match('/https:\/\/hdl.handle.net\/(?<id>.*)/', $meta_list['citation_abstract_html_url'][$i], $m))
+					{
+						$identifier = $m['id'];
+						$namespace = 'handle';
+					}
+				}
+
+    			if ($identifier == '')
+    			{
+					if (preg_match('/https:\/\/biostor.org\/reference\/(?<id>.*)/', $meta_list['citation_abstract_html_url'][$i], $m))
+					{
+						$identifier = $m['id'];
+						$namespace = 'biostor';
+					}
+				}
+	
+				if ($identifier == '')
+    			{
+					if (preg_match('/https:\/\/www.jstor.org\/stable\/(?<id>.*)/', $meta_list['citation_abstract_html_url'][$i], $m))
+					{
+						$identifier = $m['id'];
+						$namespace = 'jstor';
+					}
+				}
+		    	
+		    	$i++;
+		    }
+		    
+			if ($identifier == '')
+			{
+				$identifier = $meta_list['citation_abstract_html_url'][0];
+				$namespace = 'url';
+			}		    
+		}
+    }
+	
 		
+	// JSON-LD for structured data in HTML
 	$script = '<script type="application/ld+json">' . "\n"
 		. json_encode($entity, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
     	. "\n" . '</script>';
+    	
     	
     	
     $script .= '<script type="text/javascript">
@@ -635,6 +756,20 @@ function receiveMessage(event)
 	if (typeof event.data === "number") {
 	   //alert(event.data);
 	   $("#page_change").html("Page " + event.data);
+	   // dummy 
+
+		';
+		
+	  if (1) // $identifier != "")
+	  {
+	  	$script .= 'bionames_page_names(
+	   		"' . $identifier . '",
+	   		"' . $namespace . '",
+	   		event.data,
+	   		"page_names"	   		
+	   		);';
+	   }
+$script .= '	   	
 	}
 }  
   </script>';
@@ -757,6 +892,7 @@ function receiveMessage(event)
 			<!-- can we track user scrolling within the document viewer so 
 			     we can display page-specific info, such as taxonomic names? -->
 			<div id="page_change"></div>
+			<div id="page_names"></div>
 		</div>
 	</div>';
 	

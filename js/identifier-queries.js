@@ -194,3 +194,33 @@ WHERE
 			});			
 
 		}  		 
+		
+		
+       //--------------------------------------------------------------------------------
+       // bionames names 
+    function bionames_page_names(identifier, name_space, page, element_id) {
+       
+      $.getJSON('http://bionames.org/bionames-api/oz-names-on-page.php?identifier=' 
+      	+ encodeURIComponent(identifier) 
+      	+ '&namespace=' + name_space
+      	+ '&page=' + page      	
+      	+ '&callback=?',
+            function(data){
+				      if (data.names) {
+				         	var html = '';
+							for (var i in data.names) {
+								// need to think about mapping between page numbers in
+								// physical and digital documents :()
+														
+							   if (i == page) {
+							   	for (var j in data.names[i]) {
+								  html += data.names[i][j].name + '<br />';
+								  html += '<a class="external" href="http://www.organismnames.com/details.htm?lsid=' + data.names[i][j].id.replace(/urn:lsid:organismnames.com:name:/, '') + '" target=_new">' +  data.names[i][j].id + '<br />';
+								}
+							   }				         	
+				            }
+				         document.getElementById(element_id).innerHTML = html;
+				     } 
+			    });       
+    
+    }		
