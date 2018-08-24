@@ -215,7 +215,7 @@ WHERE
 							   if (i == page) {
 							   	for (var j in data.names[i]) {
 								  html += data.names[i][j].name + '<br />';
-								  html += '<a class="external" href="http://www.organismnames.com/details.htm?lsid=' + data.names[i][j].id.replace(/urn:lsid:organismnames.com:name:/, '') + '" target=_new">' +  data.names[i][j].id + '<br />';
+								  html += '<a class="external" href="http://www.organismnames.com/details.htm?lsid=' + data.names[i][j].id.replace(/urn:lsid:organismnames.com:name:/, '') + '" target=_new">' +  data.names[i][j].id + '</a><br />';
 								}
 							   }				         	
 				            }
