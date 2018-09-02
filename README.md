@@ -77,20 +77,20 @@ Beyond classifying people as researcher/non-researcher https://twitter.com/Siobh
 
 Lots of papers
 
-http://localhost/~rpage/ozymandias-demo/?uri=https://biodiversity.org.au/afd/publication/%23creator/m-m-drummond
+https://ozymandias-demo.herokuapp.com/?uri=https://biodiversity.org.au/afd/publication/%23creator/m-m-drummond
 
 Wallacellus is Euwallacea: molecular phylogenetics settles generic relationships (Coleoptera: Curculionidae: Scolytinae: Xyleborini)
 
 
 Three new species of Fergusonina Malloch gall-flies (Diptera: Fergusoninidae) from terminal leaf bud galls on Eucalyptus (Myrtaceae) in south-eastern Australia
 
-http://localhost/~rpage/ozymandias-demo/?uri=https://biodiversity.org.au/afd/publication/565511c4-2c18-48c1-a141-0ccc26dacd48
+https://ozymandias-demo.herokuapp.com/?uri=https://biodiversity.org.au/afd/publication/565511c4-2c18-48c1-a141-0ccc26dacd48
 
 
 
 ### Multiple author names
 
-Variation in author names causes problems, e.g. http://localhost/~rpage/ozymandias-demo/?uri=https://biodiversity.org.au/afd/publication/a7cc7f8d-7e09-4cc8-916c-423b21b19d98 
+Variation in author names causes problems, e.g. https://ozymandias-demo.herokuapp.com?uri=https://biodiversity.org.au/afd/publication/a7cc7f8d-7e09-4cc8-916c-423b21b19d98 
 - T. Y. Chan
 - T.-Y. Chan
 - T. Y Chan
