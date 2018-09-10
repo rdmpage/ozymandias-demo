@@ -52,6 +52,9 @@ role2 -> 1 [label="roleName"];
 
  name1 -> name2 [label="match"];	
  name2 -> name1 [label="match"];	
+ 
+  ScholarlyArticle2 -> ScholarlyArticle1 [label="same"];	
+   ScholarlyArticle1 -> ScholarlyArticle2 [label="same"];	
 
 	
 
