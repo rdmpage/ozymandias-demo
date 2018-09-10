@@ -197,3 +197,26 @@ GROUP BY ?w ?w_name
 ORDER BY DESC(?c)
 LIMIT 10
 ```
+
+
+### Number of authors per work and year
+
+```
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?datePublished (count(?creator) as ?count)
+WHERE
+{
+  ?work <http://schema.org/datePublished> ?datePublished .
+  ?work <http://schema.org/name> ?name .
+  
+  ?work <http://schema.org/creator> ?role .
+  ?role <http://schema.org/creator> ?creator .
+
+
+  FILTER (STR(?datePublished) = "2016")
+} 
+GROUP BY ?datePublished ?work
+#ORDER BY DESC(?c)
+LIMIT 100
+```
+

@@ -52,6 +52,10 @@ WHERE
   OPTIONAL {
 	?item wdt:P2007 ?zoobank .
  }
+ 
+ OPTIONAL {
+	?item wdt:P1019 ?rss .
+ }
   
  OPTIONAL {
    ?item wdt:P123 ?publisher .
@@ -63,12 +67,12 @@ WHERE
     
     OPTIONAL {
 	   ?publisher wdt:P18 ?image .
-		}     
+		}   
+		
     
     FILTER (lang(?publisher_name) = 'en')
  }  
-  
-  
+   
 }`;
 
 			sparql = sparql.replace(/ISSN/, issn.toUpperCase());
@@ -86,6 +90,10 @@ WHERE
 						 
 						 if (data.results.bindings[0].zoobank) {
 						   html += 'Zoobank <a href="http://zoobank.org/' + data.results.bindings[0].zoobank.value + '" target="_new">' + data.results.bindings[0].zoobank.value + '</a><br />';
+						 }
+
+						 if (data.results.bindings[0].rss) {
+						   html += 'RSS <a href="' + data.results.bindings[0].rss.value + '" target="_new">feedUrl</a><br />';
 						 }
 						 
 						 if (data.results.bindings[0].publisher_name) {
