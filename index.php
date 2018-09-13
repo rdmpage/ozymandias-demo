@@ -893,6 +893,9 @@ $script .= '
 			     we can display page-specific info, such as taxonomic names? -->
 			<div id="page_change"></div>
 			<div id="page_names"></div>
+			
+			<!-- gbif experiments -->
+			<div id="gbif_occurrences"></div>
 		</div>
 	</div>';
 	
