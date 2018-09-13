@@ -29,45 +29,54 @@
 				  if (data.results) {
 
 					if (data.results.length > 0) {
-
-						var html = '<h4>Type specimens in GBIF</h4>';
-					
-						html += '<ul>';
-					
+						// GBIF will return occurrences for all taxa rooted on this node, so filter
+					    var count = 0;
 						for (var i in data.results) {
 							if (data.results[i].speciesKey == id) {
-					
-								html += '<li>';
-						
-								html += '<a class="external gbif" href="https://gbif.org/occurrence/' + data.results[i].key + '">' +  data.results[i].key + '</a>';
-						
-								html += ' ' + data.results[i].typeStatus;
-						
-								var terms = [];
-								
-								if (data.results[i].year) {
-									terms.push(data.results[i].year);
-								}
-
-								if (data.results[i].recordedBy) {
-									terms.push('recorded by ' + data.results[i].recordedBy);
-								}				    	
-						
-								if (data.results[i].identifiedBy) {
-									terms.push('identified by ' + data.results[i].identifiedBy);
-								}
-								
-								html += terms.join(', ');
-						
-								html += '</li>';
+							   count++;
 							}
-					
 						}
-						html += '</ul>';
-						document.getElementById(element_id).innerHTML = html;
-					 }
+						if (count > 0) {
+
+							var html = '<h4>Type specimens in GBIF</h4>';
+					
+							html += '<ul>';
+					
+							for (var i in data.results) {
+								if (data.results[i].speciesKey == id) {
+					
+									html += '<li>';
+						
+									html += '<a class="external gbif" href="https://gbif.org/occurrence/' + data.results[i].key + '">' +  data.results[i].key + '</a>';
+						
+									html += ' ' + data.results[i].typeStatus;
+						
+									var terms = [];
+								
+									if (data.results[i].year) {
+										terms.push(data.results[i].year);
+									}
+
+									if (data.results[i].recordedBy) {
+										terms.push('recorded by ' + data.results[i].recordedBy);
+									}				    	
+						
+									if (data.results[i].identifiedBy) {
+										terms.push('identified by ' + data.results[i].identifiedBy);
+									}
+								
+									html += ' ' + terms.join(', ');
+						
+									html += '</li>';
+								}
+							
+					
+							}
+							html += '</ul>';
+							document.getElementById(element_id).innerHTML = html;
+						 }
+					  }
 				  }
-				  
 			});			
 		
 		
