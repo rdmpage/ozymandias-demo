@@ -428,6 +428,9 @@ function display_taxon($entity)
 		<script>works_for_taxon("' . $entity->{'@id'} . '", "taxon-works"); </script>
 		
 		<script>taxon_figures("' . $entity->{'@id'} . '", "taxon_figures"); </script>
+		
+		<script>occurrence_images("' . $entity->{'@id'} . '", "occurrence_figures"); </script>
+		<script>occurrence_lag("' . $entity->{'@id'} . '", "occurrence_lag"); </script>
 				
 		<script>name_in_gbif("' . $entity->name . '", "gbif"); </script>
 	';
@@ -876,7 +879,11 @@ $script .= '
 			<!-- creator -->
 			<div id="creator_cocreators"></div>
 			<div id="creator_containers"></div>	
-			<div id="creator_taxa"></div>			
+			<div id="creator_taxa"></div>	
+			
+			<!-- occurrences -->		
+			<div id="occurrence_figures"></div>
+			<div id="occurrence_lag"></div>
 			
 		</div>
 
@@ -923,8 +930,12 @@ function display_html_start($title = '', $meta = '', $script = '', $onload = '')
 </script>
 ";
 
+	echo '<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">';
+ 
+
 	echo '<meta charset="utf-8">'
-    
+	
+   
     . $meta . 
     
     '<!-- base -->
@@ -952,6 +963,7 @@ function display_html_start($title = '', $meta = '', $script = '', $onload = '')
     <script src="js/citation.js"></script>
     <script src="js/identifiers.js"></script>
     <script src="js/match_creator.js"></script>
+    <script src="js/occurrence.js"></script>
     <script src="js/taxon.js"></script>
     <script src="js/work.js"></script>
     <script src="js/gbif.js"></script>

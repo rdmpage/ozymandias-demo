@@ -2,7 +2,7 @@
 
 # Introduction
 
-The announcement that GBIF has reached the milestone of one billion occurrence records online reflects the success the biodiversity community has had in mobilising data. Part of this success comes from standardising on a simple column-based data format (Darwin Core) and indexing that data using three fields: taxonomic name, location, and date (what, where, and when). None of these fields is unproblematic, but they enable basic searching, and compelling visualisations such as maps with hundreds of millions of data points. By flattening the data into one table of columns and rows, Darwin Core makes data easy to enter and view, but at the cost of potentially obscuring relationships between entities that are better represented using a network. In this paper I explore the representation of biodiversity data using a network or “knowledge graph” (). (Need to say it is Australia here)
+The announcement that GBIF has reached the milestone of one billion occurrence records online reflects the success the biodiversity community has had in mobilising data. Much of this success comes from standardising on a simple column-based data format (Darwin Core, cite) and indexing that data using three fields: taxonomic name, location, and date (what, where, and when). None of these fields is unproblematic (cite data quality issues), but they enable basic searching, and compelling visualisations such as maps with hundreds of millions of data points. By flattening the data into a single table Darwin Core makes data easy to enter and view, but at the cost of potentially obscuring relationships between entities that are better represented using a network. In this paper I explore the representation of biodiversity data using a network or “knowledge graph” (). (Need to say it is Australia here)
 
 ## Knowledge graph
 
@@ -17,7 +17,9 @@ Mapping strings to things give us a way to refer to the nodes in the knowledge g
 This knowledge graph is populated using a regional-scale dataset (the Australian fauna) to balance scalability with realism. I wanted a dataset that would be sufficiently large to do interesting things with, without being too distracted by issues of engineering for scale.
 		
 
+## Previous work
 
+Need to discuss previous work, such as other RDF-based efforts
 
 
 ### Scope

@@ -315,7 +315,7 @@ SELECT ?thumbnailUrl WHERE
 		
 
 		//--------------------------------------------------------------------------------
-		// display children of uri in main window
+		// display figures of taxon from BLR
 		function taxon_figures(uri, element_id) {
 		
 			

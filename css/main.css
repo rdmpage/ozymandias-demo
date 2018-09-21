@@ -2,7 +2,8 @@ body
 {
 	padding: 0px;
 	margin: 0px;
-	font-family: "Arial Narrow", Arial, sans-serif;
+	/* font-family: "Arial Narrow", Arial, sans-serif; */
+	font-family: 'Google Sans',Roboto,Arial,sans-serif;
 	overflow: hidden;
 	/* stop any scrolling of whole browser contents */
 }
@@ -215,11 +216,11 @@ ul.creator {
 
 ul.creator li {
     display:inline;
-    padding:2px;
-    background-color:rgb(240,240,240); 
+    padding:4px;
+    /* background-color:rgb(240,240,240); */
     border:1px solid blue;
-    border-radius: 4px;
-    line-height: 1.6em;
+    border-radius: 10px;
+    line-height: 2.0em;
     margin:2px;    
 }
 
@@ -372,7 +373,7 @@ img.figure{
   max-width: 100%;
   min-width: 100%;
   vertical-align: bottom;
-  border:1px solid rgb(192,192,192);
+  border:1px solid rgb(242,242,242);
 }	
 
 /* -------------------------------------------------------------------------------------*/
@@ -573,7 +574,11 @@ li.remarks:before {
 /* tree */
 /* https://two-wrongs.com/draw-a-tree-structure-with-only-css */
 
-tree, .tree ul, .tree li {
+.tree {
+	font-size:10px;
+}
+
+.tree, .tree ul, .tree li {
      position: relative;
 }
 

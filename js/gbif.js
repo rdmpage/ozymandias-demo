@@ -29,6 +29,7 @@
 				  if (data.results) {
 
 					if (data.results.length > 0) {
+					
 						// GBIF will return occurrences for all taxa rooted on this node, so filter
 					    var count = 0;
 						for (var i in data.results) {
