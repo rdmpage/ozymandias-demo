@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>baseURL</key>
-	<string>http://api.gbif.org/v1/occurrence/search</string>
+	<string>https://api.gbif.org/v1/occurrence/search</string>
 	<key>followRedirect</key>
 	<true/>
 	<key>handleJSONPCallbacks</key>
@@ -24,7 +24,7 @@
 			<key>parameter</key>
 			<string>taxonKey</string>
 			<key>value</key>
-			<string>1384201</string>
+			<string>8300689</string>
 		</dict>
 		<dict>
 			<key>inUse</key>
