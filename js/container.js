@@ -142,7 +142,8 @@ OPTIONAL {
 				
 						if (decades[decade][year][j].thumbnailUrl) {
 							html += '<img src="' 
-								+ decades[decade][year][j].thumbnailUrl 
+								//+ decades[decade][year][j].thumbnailUrl 
+								+ decades[decade][year][j].thumbnailUrl.replace(/https:\/\/cdn.rawgit.com\//, 'https://raw.githubusercontent.com/')  
 								+ '" />';
 						}
 						html += '</div>';

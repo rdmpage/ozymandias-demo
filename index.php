@@ -74,6 +74,9 @@ function get_thumbnail_url($value)
 		$thumbnailUrl = $value;	
 	}
 	
+	// hack to handle CDN issues
+	$thumbnailUrl = preg_replace('/https:\/\/cdn.rawgit.com\//', 'https://raw.githubusercontent.com/', $thumbnailUrl);
+	
 	return $thumbnailUrl;
 }
 
