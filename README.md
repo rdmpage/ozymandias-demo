@@ -91,6 +91,14 @@ https://ozymandias-demo.herokuapp.com/?uri=https://biodiversity.org.au/afd/publi
 
 Experimenting with adding GBIF occurrences, e.g. https://ozymandias-demo.herokuapp.com/?uri=https://gbif.org/occurrence/1100252191
 
+https://ozymandias-demo.herokuapp.com/?uri=https://gbif.org/occurrence/1101089151
+
+### Nice figures
+
+https://ozymandias-demo.herokuapp.com/?uri=https://doi.org/10.5281/zenodo.189913
+
+
+
 ### Multiple author names
 
 Variation in author names causes problems, e.g. https://ozymandias-demo.herokuapp.com?uri=https://biodiversity.org.au/afd/publication/a7cc7f8d-7e09-4cc8-916c-423b21b19d98 
