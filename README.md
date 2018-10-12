@@ -87,6 +87,9 @@ Three new species of Fergusonina Malloch gall-flies (Diptera: Fergusoninidae) fr
 https://ozymandias-demo.herokuapp.com/?uri=https://biodiversity.org.au/afd/publication/565511c4-2c18-48c1-a141-0ccc26dacd48
 
 
+### Occurrences
+
+Experimenting with adding GBIF occurrences, e.g. https://ozymandias-demo.herokuapp.com/?uri=https://gbif.org/occurrence/1100252191
 
 ### Multiple author names
 

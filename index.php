@@ -440,6 +440,53 @@ function display_taxon($entity)
 }
 
 //----------------------------------------------------------------------------------------
+// Container of works
+function display_occurrence($entity)
+{
+	echo '
+			<div class="heading-block clearfix">
+				<div class="heading-thumbnail">';
+				
+	if (isset($entity->thumbnailUrl))
+	{
+		echo '<img src="' . get_thumbnail_url($entity->thumbnailUrl) . '" />';
+	}	
+	else
+	{
+		echo '<img src="images/no-icon.svg" />';
+	}
+
+	echo '
+				</div>
+				<div class="heading-body">
+					<div class="heading-title">';
+					
+	echo  $entity->{'@id'};
+	echo '
+					</div>';
+					
+	echo '
+	            <div class="heading-description">
+	             </div>
+	        </div>
+	    </div>
+	';	            
+
+	
+	echo '<div id="occurrence_evidence"></div>';
+	echo '<div class="figures" id="occurrence_image"></div>';
+	
+	echo '
+		<script>occurrence_event("' . $entity->{'@id'} . '", "occurrence_event"); </script>
+		<script>occurrence_location("' . $entity->{'@id'} . '", "occurrence_location"); </script>
+		<script>occurrence_evidence("' . $entity->{'@id'} . '", "occurrence_evidence"); </script>
+		<script>occurrence_image("' . $entity->{'@id'} . '", "occurrence_image"); </script>
+		<script>occurrence_identification("' . $entity->{'@id'} . '", "occurrence_identification"); </script>
+	';	
+	
+}
+
+//----------------------------------------------------------------------------------------
 // Google Scholar tags for work
 function meta_work($entity)
 {
@@ -592,7 +639,8 @@ function display_entity($uri)
 			$entity = json_decode($json);
 			
 			$ok = isset($entity->{'@id'});
-			$ok = isset($entity->name);
+			// Not everything has a name so need a better test
+			//$ok = isset($entity->name);
 		}
 	}
 		
@@ -855,6 +903,12 @@ $script .= '
 				$displayed = true;									
 				break;
 				
+			// occurrence
+			case 'http://rs.tdwg.org/dwc/terms/Occurrence':
+				display_occurrence($entity);
+				$displayed = true;									
+				break;
+				
 			default:
 				echo 'Unknown type' . $types[$i];
 				exit();
@@ -887,6 +941,10 @@ $script .= '
 			<!-- occurrences -->		
 			<div id="occurrence_figures"></div>
 			<div id="occurrence_lag"></div>
+			<div id="occurrence_event"></div>
+			<div id="occurrence_location"></div>
+			
+			<div id="occurrence_identification"></div>
 			
 		</div>
 
