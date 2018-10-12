@@ -377,11 +377,11 @@ WHERE
   					
   					if (data.results.bindings.length > 0) {
 					
-						var html = '<section>';
+						var html = '';
 						
 						for (var i in data.results.bindings) {
 							if (data.results.bindings[i].contentUrl) {
-								html += '<div class="figure">';
+								html += '<div>';
 							
 								html += '<img src="' 
 									+ 'http://exeg5le.cloudimg.io/crop/100x100/n/'
@@ -391,8 +391,6 @@ WHERE
 								html += '</div>';
 							}
 						}
-						
-						html += '</section>';	
 					
 						$('#' + element_id).html(html);
 					}  					

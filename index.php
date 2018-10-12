@@ -466,15 +466,15 @@ function display_occurrence($entity)
 					</div>';
 					
 	echo '
-	            <div class="heading-description">
-	             </div>
-	        </div>
-	    </div>
+	            	<div class="heading-description">
+	              </div>
+	          </div>
+	      </div>
 	';	            
 
 	
 	echo '<div id="occurrence_evidence"></div>';
-	echo '<div class="figures" id="occurrence_image"></div>';
+	echo '<div id="occurrence_image"></div>';
 	
 	echo '
 		<script>occurrence_event("' . $entity->{'@id'} . '", "occurrence_event"); </script>
