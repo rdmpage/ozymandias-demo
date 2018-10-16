@@ -154,6 +154,10 @@ WHERE
   OPTIONAL {  
   	?event <http://rs.tdwg.org/dwc/terms/day> ?day .
   }
+  OPTIONAL {  
+  	?event <http://rs.tdwg.org/dwc/terms/recordedBy> ?recordedBy .
+  }
+  
 }`;
 
 //alert(query);
@@ -179,7 +183,12 @@ WHERE
 							}
 							if (data.results.bindings[i].day) {
 								date_terms.push(data.results.bindings[i].day.value);
-							}							
+							}	
+							
+							if (data.results.bindings[i].recordedBy) {
+								html += 'Recorded by: ' + data.results.bindings[i].recordedBy.value + '<br />';
+							}	
+													
 							
 						}
 						
@@ -429,6 +438,11 @@ WHERE
   OPTIONAL {
 	  ?identification <http://rs.tdwg.org/dwc/terms/typeStatus> ?typeStatus  .
   }
+  
+  # identifiedBy
+  OPTIONAL {
+	  ?identification <http://rs.tdwg.org/dwc/terms/identifiedBy> ?identifiedBy  .
+  }  
 }
 
 
@@ -460,8 +474,12 @@ WHERE
 									html += data.results.bindings[i].scientificName.value + '<br />';
 								}
 																
-								if (data.results.bindings[i].collectionCode) {
+								if (data.results.bindings[i].typeStatus) {
 									html += data.results.bindings[i].typeStatus.value + '<br />';
+								}
+
+								if (data.results.bindings[i].identifiedBy) {
+									html += data.results.bindings[i].identifiedBy.value + '<br />';
 								}
 								
 								html += '</li>';
@@ -478,4 +496,69 @@ WHERE
   			
   		
 		
-		}				
+		}	
+		
+//----------------------------------------------------------------------------------------
+// sequence(s)
+// poorly designed output because if we have > 1 external link per sequence it looks like we have
+// more sequences than we do. Need to group external links by sequence.
+function occurrence_sequence(uri, element_id) {
+
+			var query = `SELECT * 
+WHERE 
+{
+  <` + uri +  `> <http://purl.org/dsw/occurrenceOf> ?organism .
+   
+  # "token"
+  ?sequence  <http://purl.org/dsw/derivedFrom> ?organism .
+  
+  # we want sequences
+  ?sequence  <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.uniprot.org/core/Nucleotide_Resource>  .
+  
+  ?sequence  <http://schema.org/name> ?name  .
+  
+  
+  # external links
+  OPTIONAL {    
+    ?sequence <http://schema.org/sameAs> ?external .
+  }
+ 
+}
+`;
+		
+			$.getJSON('query.php?query=' + encodeURIComponent(query)
+					+ '&callback=?',
+				function(data){
+  					
+  					console.log(JSON.stringify(data, null, 2));
+  					
+  					if (data.results.bindings.length > 0) {
+					
+						var html = '<h4>Sequence(s)</h4>';
+						
+						html += '<ul>';
+					
+						for (var i in data.results.bindings) {
+								html += '<li>';
+																
+								if (data.results.bindings[i].name) {
+									html += data.results.bindings[i].name.value + '<br />';
+								}
+								
+								if (data.results.bindings[i].external) {
+									html += data.results.bindings[i].external.value + '<br />';
+								}
+								html += '</li>';							
+						}
+						
+						html += '</ul>';	
+					
+						$('#' + element_id).html(html);
+					}  					
+  
+  				}
+  			);
+  			
+  		
+		
+		}						

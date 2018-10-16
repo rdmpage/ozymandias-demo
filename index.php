@@ -440,7 +440,7 @@ function display_taxon($entity)
 }
 
 //----------------------------------------------------------------------------------------
-// Container of works
+// Occurrence
 function display_occurrence($entity)
 {
 	echo '
@@ -461,7 +461,16 @@ function display_occurrence($entity)
 				<div class="heading-body">
 					<div class="heading-title">';
 					
-	echo  $entity->{'@id'};
+					if (isset($entity->name))
+					{
+						echo  $entity->name;
+					}
+					else
+					{
+						echo  $entity->{'@id'};
+					}
+					
+	
 	echo '
 					</div>';
 					
@@ -482,6 +491,7 @@ function display_occurrence($entity)
 		<script>occurrence_evidence("' . $entity->{'@id'} . '", "occurrence_evidence"); </script>
 		<script>occurrence_image("' . $entity->{'@id'} . '", "occurrence_image"); </script>
 		<script>occurrence_identification("' . $entity->{'@id'} . '", "occurrence_identification"); </script>
+		<script>occurrence_sequence("' . $entity->{'@id'} . '", "occurrence_sequence"); </script>
 	';	
 	
 }
@@ -945,6 +955,7 @@ $script .= '
 			<div id="occurrence_location"></div>
 			
 			<div id="occurrence_identification"></div>
+			<div id="occurrence_sequence"></div>
 			
 		</div>
 
