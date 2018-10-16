@@ -5,19 +5,22 @@ rankdir=LR;
 	propertyValue1 [label="propertyValue"] ;
 	propertyValue2 [label="propertyValue"] ;
  
- value1 [label="10.5134/176044",shape=box] ;
+  value1 [label="10.5134/176044",shape=box] ;
   value2 [label="2433/176044",shape=box] ;
+  
+  id1 [label="doi",shape=box];
+  id2 [label="handle",shape=box];
  
  work -> "https://doi.org/10.5134/176044" [label = "@id"];
 
  work -> propertyValue1 [label="identifier"];
  propertyValue1 -> value1 [label="value"];
- propertyValue1 -> "doi" [label="propertyID"];
+ propertyValue1 -> id1 [label="propertyID"];
  
 
  work -> propertyValue2 [label="identifier"];
  propertyValue2 -> value2 [label="value"];
- propertyValue2 -> "handle" [label="propertyID"];
+ propertyValue2 -> id2 [label="propertyID"];
  
 
 }

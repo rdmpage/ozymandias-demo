@@ -16,14 +16,18 @@ creator2 [label="Person"] ;
 role1 -> creator1 [label="creator"];
 role2 -> creator2 /*[label="creator"]*/;
 
-name1 [label="B Y Main"] ;
-name2 [label="L W Popple"] ;
+name1 [label="B Y Main",shape=box] ;
+name2 [label="L W Popple",shape=box] ;
 
 creator1 -> name1 [label="name"];
-creator2 -> name2 [label="name"];	
+creator2 -> name2 [label="name"];
 
-role1 -> 1 /*[label="roleName"]*/;	
-role2 -> 2 [label="roleName"];	
+role1value [label="1",shape=box];
+role2value [label="1",shape=box];	
+	
+
+role1 -> role1value /*[label="roleName"]*/;	
+role2 -> role2value [label="roleName"];	
 
 
 

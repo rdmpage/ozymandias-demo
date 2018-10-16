@@ -1,0 +1,21 @@
+digraph G {
+
+ScholarlyArticle [label="ScholarlyArticle"] ;
+
+		
+ScholarlyArticle -> creator1 [label="creator"];
+ScholarlyArticle -> creator2 [label="creator"];
+		
+creator1 [label="Person"] ;	
+creator2 [label="Person"] ;	
+
+creator1 -> name1 [label="name"];
+creator2 -> name2 [label="name"];
+
+
+name1 [label="B Y Main",shape=box] ;
+name2 [label="L W Popple",shape=box] ;
+
+
+
+}

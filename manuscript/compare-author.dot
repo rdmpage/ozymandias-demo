@@ -16,7 +16,7 @@ digraph G {
 		creator1 [label="Person"] ;
 		role1 [label="Role"] ;
 		
-		name1 [label="Lindsay W Popple"] ;
+		name1 [label="Lindsay W Popple",shape=box] ;
 		
 		role1 -> creator1 [label="creator"] ;
 		creator1 -> name1 [label="name"];
@@ -35,7 +35,7 @@ digraph G {
 		creator2 [label="Person"] ;
 		role2 [label="Role"] ;
 		
-		name2 [label="L W Popple"] ;
+		name2 [label="L W Popple",shape=box] ;
 		
 
 		ScholarlyArticle2 -> role2 [label="creator"];
@@ -46,9 +46,11 @@ digraph G {
 	
 	{ rank=same; ScholarlyArticle1; ScholarlyArticle2; }
 	{ rank=same; name1; name2; }
+	
+	roleone [label="1",shape=box];
 
-role1 -> 1 [label="roleName"];	
-role2 -> 1 [label="roleName"];	
+role1 -> roleone [label="roleName"];	
+role2 -> roleone [label="roleName"];	
 
  name1 -> name2 [label="match"];	
  name2 -> name1 [label="match"];	

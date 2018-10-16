@@ -1,30 +1,11 @@
 digraph G {
 
-	propertyValue1 [label="propertyValue"] ;
-	propertyValue2 [label="propertyValue"] ;
 
- work1 -> propertyValue1 [label="identifier"];
- propertyValue1 -> "10.1111/aen.12172" [label="value"];
+ doi1 [label= "https://doi.org/10.1111/j.1365-294x.2011.05160.x"];
+ doi2 [label="https://doi.org/10.1111/aen.12172"];
  
-
- /*crossref_work1 -> "https://doi.org/10.1111/aen.12172" [label="@id"];
- crossref_work1 -> propertyValue1 [label="identifier"];*/
- "https://doi.org/10.1111/aen.12172" -> propertyValue1 [label="identifier"];
+doi1 -> doi2 [label="citation"];
  
- propertyValue2 -> "10.1111/j.1365-294x.2011.05160.x" [label="value"];
- work2 -> propertyValue2 [label="identifier"];
- 
-/* crossref_work2 -> "https://doi.org/10.1111/j.1365-294x.2011.05160.x" [label="@id"];
- crossref_work2 -> propertyValue2 [label="identifier"];*/
- "https://doi.org/10.1111/j.1365-294x.2011.05160.x" -> propertyValue2 [label="identifier"];
- 
- "https://doi.org/10.1111/j.1365-294x.2011.05160.x" -> "https://doi.org/10.1111/aen.12172" [label="citation"];
- 
- 
- /*
- propertyValue1 -> "doi" [label="propertyID"];
- propertyValue2 -> "doi" [label="propertyID"];
- */
  
 
 
