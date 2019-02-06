@@ -10,6 +10,12 @@ digraph G {
 
 		label = "ORCID";
 		
+		
+		orcid_identifier [label="propertyValue"] ;
+		
+		
+		ScholarlyArticle1 -> orcid_identifier [label="identifier"] ;
+		
 		ScholarlyArticle1 -> role1 [label="creator"];
 		
 		ScholarlyArticle1 [label="ScholarlyArticle"] ;
@@ -21,6 +27,8 @@ digraph G {
 		role1 -> creator1 [label="creator"] ;
 		creator1 -> name1 [label="name"];
 		
+		creator1 -> "https://orcid.org/0000-0001-8630-3114" [label="@id"];
+		
 	}
 
 	
@@ -30,6 +38,12 @@ digraph G {
 		node [style=filled,color=white];
 
 		label = "OZ";
+		
+		oz_identifier [label="propertyValue"] ;
+		
+		
+		ScholarlyArticle2 -> oz_identifier [label="identifier"] ;
+		
 		
 		ScholarlyArticle2 [label="ScholarlyArticle"] ;
 		creator2 [label="Person"] ;
@@ -44,19 +58,28 @@ digraph G {
 
 	}
 	
+	{ rank=same; oz_identifier; orcid_identifier; }
+
 	{ rank=same; ScholarlyArticle1; ScholarlyArticle2; }
 	{ rank=same; name1; name2; }
 	
-	roleone [label="1",shape=box];
+	roleone [label="2",shape=box];
+	
+	doi [label="10.11646/zootaxa.4001.1.1",shape=box] ;
+	
+	doi -> orcid_identifier  [label="value"] ;
+	doi -> oz_identifier [label="value"] ;
 
 role1 -> roleone [label="roleName"];	
 role2 -> roleone [label="roleName"];	
 
+/*
  name1 -> name2 [label="match"];	
  name2 -> name1 [label="match"];	
+ */
  
-  ScholarlyArticle2 -> ScholarlyArticle1 [label="same"];	
-   ScholarlyArticle1 -> ScholarlyArticle2 [label="same"];	
+/*  ScholarlyArticle2 -> ScholarlyArticle1 [label="same"];	
+   ScholarlyArticle1 -> ScholarlyArticle2 [label="same"];	*/
 
 	
 

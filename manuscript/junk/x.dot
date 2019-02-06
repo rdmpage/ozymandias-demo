@@ -1,0 +1,10 @@
+digraph G {
+
+node0 [shape=circle;label="Work"];
+node1 [shape=circle;label="Role"];
+node2 [shape=circle;label="Person"];
+
+node0 -> node1 [label="creator"];
+node1 -> node2 [label="creator"];
+
+}

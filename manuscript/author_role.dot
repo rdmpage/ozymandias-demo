@@ -23,7 +23,7 @@ creator1 -> name1 [label="name"];
 creator2 -> name2 [label="name"];
 
 role1value [label="1",shape=box];
-role2value [label="1",shape=box];	
+role2value [label="2",shape=box];	
 	
 
 role1 -> role1value /*[label="roleName"]*/;	

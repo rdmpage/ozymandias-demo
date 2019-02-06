@@ -93,6 +93,16 @@ Experimenting with adding GBIF occurrences, e.g. https://ozymandias-demo.herokua
 
 https://ozymandias-demo.herokuapp.com/?uri=https://gbif.org/occurrence/1101089151
 
+USNMENT809090
+https://ozymandias-demo.herokuapp.com/?uri=https://gbif.org/occurrence/1317230794
+
+BOLD ANICH163-10
+https://ozymandias-demo.herokuapp.com/?uri=http%3A%2F%2Fboldsystems.org%2Findex.php%2FPublic_RecordView%3Fprocessid%3DANICH163-10%23occurrence
+
+https://www.ncbi.nlm.nih.gov/nuccore/HQ245367.1
+https://www.ncbi.nlm.nih.gov/nuccore/GU302250.1
+https://ozymandias-demo.herokuapp.com/?uri=https://bie.ala.org.au/species/urn:lsid:biodiversity.org.au:afd.taxon:e69a24f8-a906-4bff-8776-c836f87aa4ad
+
 ### Nice figures
 
 https://ozymandias-demo.herokuapp.com/?uri=https://doi.org/10.5281/zenodo.189913
