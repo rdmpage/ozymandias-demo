@@ -46,11 +46,34 @@ http://130.209.46.63/blazegraph/sparql
 
 ### Blazegraph
 
+Need Java version 7, which can be obtained from Oracle.
+
+To start:
+
+```
+java -server -Xmx4g -jar blazegraph.jar
+```
+
+This runs on port 9999 so we use nginx as a reverse proxy (see below).
+
 If loading times are getting very slow, specially when reloading data and experimenting you may want to start from scratch. To do this stop the server, delete the file ```blazegraph.jnl``` and restart blazegraph.
 
 ### nginx
 
-I use nginx to act as reverse proxy for Blazegraph running on Windows. When uploading data I often got **HTTP 413 Request Entity Too Large** errors, which can be fixed by setting ```client_max_body_size``` to a suitable value in the ```server``` part of nginx.conf file, for example:
+I use nginx to act as reverse proxy for Blazegraph running on Windows. 
+
+```
+        # forward to Blazegraph listening on 127.0.0.1:9999
+        #
+        location /blazegraph {
+            proxy_set_header   X-Real-IP $remote_addr;
+            proxy_set_header   Host      $http_host;
+            proxy_pass         http://127.0.0.1:9999;
+        }
+```
+
+
+When uploading data I often got **HTTP 413 Request Entity Too Large** errors, which can be fixed by setting ```client_max_body_size``` to a suitable value in the ```server``` part of nginx.conf file, for example:
 
 ```
 client_max_body_size. 200M;
@@ -66,6 +89,10 @@ send_timeout                600;
 ```
 
 (See [How to Fix 504 Gateway Timeout using Nginx](https://www.scalescale.com/tips/nginx/504-gateway-time-out-using-nginx/)).
+
+### Firewall
+
+Need to add nginx to the Windows Firewall rules so that it can be accessed by the outside world.
 
 ## Other notes
 

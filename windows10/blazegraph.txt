@@ -1,0 +1,13 @@
+To run server:
+
+java -server -Xmx4g -jar blazegraph.jar
+
+Trying to run dataloader
+
+java -cp blazegraph.jar com.bigdata.rdf.store.DataLoader RWStore.properties taxa-1000000.nt
+
+
+Trying to POST data
+
+>curl -X POST --data-binary @dataloader.xml --header 'Content-Type:application/xml' http://127.0.0.1:9999/blazegraph/dataloader
+
