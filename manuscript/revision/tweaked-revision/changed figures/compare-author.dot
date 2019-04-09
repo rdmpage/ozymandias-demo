@@ -1,0 +1,98 @@
+digraph G {
+	rankdir=LR;
+	
+	newrank=true;
+
+	subgraph cluster_0 {
+		style=filled;
+		color=grey90;
+		node [style=filled,color=white];
+
+		label = "ORCID";
+		
+		
+		orcid_identifier [label="propertyValue"] ;
+		
+		
+		ScholarlyArticle1 -> orcid_identifier [label="identifier"] ;
+		
+		ScholarlyArticle1 -> role1 [label="creator"];
+		
+		ScholarlyArticle1 [label="ScholarlyArticle"] ;
+		creator1 [label="Person"] ;
+		role1 [label="Role"] ;
+		
+		name1 [label="Lindsay W Popple",shape=box] ;
+		
+		role1 -> creator1 [label="creator"] ;
+		creator1 -> name1 [label="name"];
+		
+		creator1 -> "https://orcid.org/0000-0001-8630-3114" [label="@id"];
+		
+	}
+
+	
+    subgraph cluster_1 {
+		style=filled;
+		color=grey90;
+		node [style=filled,color=white];
+
+		label = "Ozymandias";
+		
+		oz_identifier [label="propertyValue"] ;
+		
+		
+		ScholarlyArticle2 -> oz_identifier [label="identifier"] ;
+		
+		
+		ScholarlyArticle2 [label="ScholarlyArticle"] ;
+		creator2 [label="Person"] ;
+		role2 [label="Role"] ;
+		
+		name2 [label="L W Popple",shape=box] ;
+		
+
+		ScholarlyArticle2 -> role2 [label="creator"];
+		role2 -> creator2 [label="creator"];
+		creator2 -> name2 [label="name"];
+
+	}
+	
+	{ rank=same; oz_identifier; orcid_identifier; }
+
+	{ rank=same; ScholarlyArticle1; ScholarlyArticle2; doi }
+	{ rank=same; name1; name2; }
+	
+	
+	roleone [label="2",shape=box];
+	
+	doi [label="10.11646/zootaxa.4001.1.1",shape=box] ;
+	
+	
+	
+	orcid_identifier -> doi [label="value"] ;
+	oz_identifier -> doi [label="value"] ;
+	
+	/*
+	{ rank=same; propertyID; orcid_identifier; oz_identifier; }
+	propertyID [label="doi",shape=box] ;
+	orcid_identifier -> propertyID [label="propertyID"];
+	oz_identifier -> propertyID [label="propertyID"];
+	*/
+	
+
+role1 -> roleone [label="roleName"];	
+role2 -> roleone [label="roleName"];	
+
+/*
+ name1 -> name2 [label="match"];	
+ name2 -> name1 [label="match"];	
+ */
+ 
+/*  ScholarlyArticle2 -> ScholarlyArticle1 [label="same"];	
+   ScholarlyArticle1 -> ScholarlyArticle2 [label="same"];	*/
+
+	
+
+
+}

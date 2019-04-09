@@ -1,0 +1,31 @@
+Response
+========
+
+
+
+SELECT ?g (COUNT(?g) AS ?c) WHERE { GRAPH ?g { ?s ?p ?o }} GROUP BY ?g
+	g	c
+1	https://bie.ala.org.au
+"1596986"^^xsd:integer
+2	https://biodiversity.org.au/afd/publication
+"6548348"^^xsd:integer
+3	https://gbif.org/species
+"17240"^^xsd:integer
+4	https://crossref.org
+"374102"^^xsd:integer
+5	https://zenodo.org
+"111754"^^xsd:integer
+6	https://orcid.org
+"443456"^^xsd:integer
+7	https://species.wikimedia.org
+"62449"^^xsd:integer
+8	http://boldsystems.org
+"132"^^xsd:integer
+9	https://gbif.org
+"67"^^xsd:integer
+
+
+
+
+
+
