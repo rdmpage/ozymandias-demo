@@ -92,7 +92,11 @@ function sparql_describe($sparql_endpoint, $uri, $format='application/ld+json')
 		$doc = $obj[0];
 		
 		$context = (object)array(
-			'@vocab' => 'http://schema.org/'
+			'@vocab' => 'http://schema.org/',			
+			'dwc' => 'http://rs.tdwg.org/dwc/terms/',			
+			'rdfs' => 'http://www.w3.org/2000/01/rdf-schema#',			
+			'tc' => 'http://rs.tdwg.org/ontology/voc/TaxonConcept#',			
+			'taxref' => 'http://taxref.mnhn.fr/lod/property/',
 		);
 	
 		$compacted = jsonld_compact($doc, $context);
