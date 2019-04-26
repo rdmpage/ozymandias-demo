@@ -19,6 +19,17 @@ if (isset($_GET['callback']))
 	$callback = $_GET['callback'];
 }
 
+// output
+if (0)
+{
+	header("Content-type: text/plain;charset=utf-8");
+}
+else
+{
+	header("Content-type: application/json;charset=utf-8");
+}
+header("Access-Control-Allow-Origin: *");
+
 if ($callback != '')
 {
 	echo $callback . '(';
