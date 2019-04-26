@@ -9,7 +9,7 @@ $elastic = new ElasticSearch($config['elastic_options']);
 class ElasticSearch
 {
 	//----------------------------------------------------------------------------------------------
-     function ElasticSearch($options)
+     function __construct($options)
      {
          foreach($options AS $key => $value) {
              $this->$key = $value;
