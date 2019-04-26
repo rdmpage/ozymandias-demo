@@ -909,12 +909,14 @@ $script .= '
 								
 			// taxon
 			case 'http://rs.tdwg.org/ontology/voc/TaxonConcept#TaxonConcept':	
+			case 'tc:TaxonConcept':	
 				display_taxon($entity);
 				$displayed = true;									
 				break;
 				
 			// occurrence
 			case 'http://rs.tdwg.org/dwc/terms/Occurrence':
+			case 'dwc:Occurrence':
 				display_occurrence($entity);
 				$displayed = true;									
 				break;
@@ -931,6 +933,10 @@ $script .= '
 		</div>
 				
 		<div class="side localkg">
+			<div class="explain">Record in RDF.</div>
+			<!-- get RDF -->
+			<a href="describe.php?uri=' . str_replace("#", "%23", $uri) . '"><img src="images/json-ld-logo.svg" width="32" ></a>
+			
 			<div class="explain">Connections within this knowledge graph.</div>
 			
 			<!-- works -->
@@ -1261,7 +1267,8 @@ function display_search($q)
  		$entity = $hit->_source->search_result_data;
  	
  		echo '<div class="list-item">';
- 		echo '  <a href="?uri=' . $entity->id .'">';
+ 		//echo '  <a href="?uri=' . $entity->id .'">';
+ 		echo '  <a href="uri/' . $entity->id .'">';
 		echo '    <div class="list-item-thumbnail">';
 		
 		if (isset($entity->thumbnailUrl))
