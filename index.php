@@ -454,6 +454,8 @@ function display_taxon($entity)
 	echo '
 					</div>
 					<div class="heading-description">';
+					
+	echo '<div id="match_dbpedia"></div>';
 	
 	echo '<div id="identifiers">';
 	echo '<ul class="identifier-list">';
@@ -1020,8 +1022,7 @@ $script .= '
 			<div id="wikidata"></div>
 			<div id="orcid"></div>
 			<div id="gbif"></div>
-			<div id="match_taxon_external"></div>
-			<div id="match_dbpedia"></div>
+			<div id="match_taxon_external"></div>			
 			<div id="match_orcid"></div>
 			<div id="match_wikispecies"></div>
 			<div id="match_wikidata"></div>
