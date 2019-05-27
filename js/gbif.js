@@ -82,8 +82,8 @@ WHERE
 		
       //--------------------------------------------------------------------------------		
 		function dbpedia_summary(wikipedia, element_id) {
-		
-			$.getJSON('http://dbpedia.org/sparql?default-graph-uri=http://dbpedia.org&query=DESCRIBE <http://dbpedia.org/resource/' + wikipedia + '>&format=application/json-ld',
+			$.getJSON('dbpedia_proxy.php?query=' + encodeURIComponent('DESCRIBE <http://dbpedia.org/resource/' + wikipedia + '>'),
+			//$.getJSON('http://dbpedia.org/sparql?default-graph-uri=http://dbpedia.org&query=DESCRIBE <http://dbpedia.org/resource/' + wikipedia + '>&format=application/json-ld',
 				function(data){
 				  if (data) {
 				  	var html = '';
@@ -91,7 +91,7 @@ WHERE
 				  		if (data[i]['http://www.w3.org/2000/01/rdf-schema#comment']) {	
 				  			for (var j in data[i]['http://www.w3.org/2000/01/rdf-schema#comment'])	{	  			
 				  				if (data[i]['http://www.w3.org/2000/01/rdf-schema#comment'][j].lang == 'en') {
-				  			  		html += '<div style="color: #999;font-size:0.8em;">' 
+				  			  		html += '<div style="color: #999;font-size:0.8em;padding-top:10px;">' 
 				  			  		+ data[i]['http://www.w3.org/2000/01/rdf-schema#comment'][j].value 
 				  			  		+ ' ' 
 				  			  		+ '(from <a href="https://en.wikipedia.org/wiki/' + wikipedia + '" target="_new">Wikipedia</a>)'
