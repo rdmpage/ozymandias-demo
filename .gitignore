@@ -8,3 +8,5 @@ junk/*
 manuscript/r/R-tutorial.pdf
 manuscript/r/r.Rproj
 manuscript/r/xy.txt
+manuscript/.DS_Store
+.DS_Store

@@ -146,7 +146,7 @@ function display_container($entity)
 
 //----------------------------------------------------------------------------------------
 // Published work
-function display_work($entity)
+function display_work($entity, $meta_list = array())
 {
 
 	echo '
@@ -200,6 +200,52 @@ function display_work($entity)
 	}
 	
 	echo '<span id="details">' . join('', $terms) . '</span>';
+	
+	// COinS
+	if (count($meta_list) > 0)
+	{
+		$openurl = '';
+		$openurl .= 'ctx_ver=Z39.88-2004';
+				
+		// currently only for journals
+		if (isset($meta_list['citation_journal_title']))
+		{
+			$openurl .= '&amp;rft_val_fmt=info:ofi/fmt:kev:mtx:journal';
+			$openurl .= '&amp;genre=article';
+			$openurl .= '&amp;rft.atitle=' . urlencode($meta_list['citation_title'][0]);
+			$openurl .= '&amp;rft.jtitle=' . urlencode($meta_list['citation_journal_title'][0]);
+		}
+		
+		if (isset($meta_list['citation_volume']))
+		{
+			$openurl .= '&amp;rft.volume=' . $meta_list['citation_volume'][0];
+		}		
+
+		if (isset($meta_list['citation_firstpage']))
+		{
+			$openurl .= '&amp;rft.spage=' . $meta_list['citation_firstpage'][0];
+		}		
+
+		if (isset($meta_list['citation_lastpage']))
+		{
+			$openurl .= '&amp;rft.epage=' . $meta_list['citation_lastpage'][0];
+		}		
+
+		if (isset($meta_list['citation_date']))
+		{
+			$openurl .= '&amp;rft.date=' . $meta_list['citation_date'][0];
+		}		
+
+		if (isset($meta_list['citation_doi']))
+		{
+			$openurl .= '&amp;rft_id=info:doi/' . $meta_list['citation_doi'][0];
+		}		
+		
+		$coins = '<span class="Z3988" title="' . $openurl . '"></span>';	
+		echo $coins;			
+	}
+	
+	
 	echo '</div>';	
 											
 	// Display authors (SPARQL)		
@@ -504,7 +550,7 @@ function meta_work($entity)
 	
 	$meta = '';
 	
-	$query = 'SELECT ?citation_title ?citation_date ?citation_volume ?citation_firstpage 
+	$query = 'SELECT ?citation_title ?citation_journal_title ?citation_date ?citation_volume ?citation_firstpage 
 	?citation_lastpage ?citation_abstract_html_url ?citation_doi ?citation_pdf_url
 	?citation_biostor ?citation_handle
 WHERE {
@@ -520,6 +566,10 @@ WHERE {
 # authors  
 
   # journal
+  OPTIONAL {
+    <URI> <http://schema.org/isPartOf> ?container .
+    ?container <http://schema.org/name> ?citation_journal_title .
+   }  
   
   OPTIONAL {
   <URI> <http://schema.org/volume> ?citation_volume .
@@ -868,17 +918,17 @@ $script .= '
 		switch ($types[$i])
 		{
 			case 'ScholarlyArticle':
-				display_work($entity);
+				display_work($entity, $meta_list);
 				$displayed = true;	
 				break;
 
 			case 'Book':
-				display_work($entity);
+				display_work($entity, $meta_list);
 				$displayed = true;	
 				break;
 				
 			case 'Chapter':
-				display_work($entity);
+				display_work($entity, $meta_list);
 				$displayed = true;	
 				break;
 				
@@ -970,6 +1020,8 @@ $script .= '
 			<div id="wikidata"></div>
 			<div id="orcid"></div>
 			<div id="gbif"></div>
+			<div id="match_taxon_external"></div>
+			<div id="match_dbpedia"></div>
 			<div id="match_orcid"></div>
 			<div id="match_wikispecies"></div>
 			<div id="match_wikidata"></div>
