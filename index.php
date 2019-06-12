@@ -1495,6 +1495,8 @@ function default_display($error_msg = '')
 		
 		echo '<div style="padding:20px;"><p>Ozymandias is a proof-of-concept <a href="https://doi.org/10.3897/rio.2.e8767">biodiversity knowledge graph</a> by Rod Page <a href="https://twitter.com/rdmpage">@rdmpage</a>.</p>
 		
+		<div style="min-height:64px"><img style="float:left;width:64px;margin-right:8px;" src="images/xgyGFDJk_400x400.jpg" width="64">Page RDM. 2019. Ozymandias: a biodiversity knowledge graph. PeerJ 7:e6739 <a href="https://doi.org/10.7717/peerj.6739" target="_new">https://doi.org/10.7717/peerj.6739</a></div>
+		
 		<p>The core of this knowledge graph is a classification of animals from the <a href="https://www.ala.org.au">Atlas of Living Australia</a> (ALA)
 		combined with data on taxonomic names and publications from the <a href="https://biodiversity.org.au/afd/home">Australian Faunal Directory</a> (AFD). 
 		This has been enhanced by adding lots of digital identifiers (such as DOIs) to the publications and, where possible, full text 
