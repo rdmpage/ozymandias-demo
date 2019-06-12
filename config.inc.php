@@ -36,6 +36,7 @@ switch ($site)
 		// Files--------------------------------------------------------------------------
 		$config['web_dir']		= dirname(__FILE__);
 		$config['web_root']		= '/~rpage/ozymandias-demo/';
+		break;
 }
 
 
@@ -43,11 +44,18 @@ $config['thumbnail_cdn'] = 'http://exeg5le.cloudimg.io/height/100/n/';
 
 
 $config['sparql_endpoint'] 	= '';
-$config['triplestore'] 		= 'blazegraph';
+$config['triplestore'] 		= 'blazegraph-windows10';
+$config['triplestore'] 		= 'blazegraph-sloppy.io';
 
-if ($config['triplestore'] == 'blazegraph')
+if ($config['triplestore'] == 'blazegraph-windows10')
 {
 	$config['blazegraph-url'] 	= 'http://130.209.46.63';	
+	$config['sparql_endpoint']	= $config['blazegraph-url'] . '/blazegraph/sparql'; 
+}
+
+if ($config['triplestore'] == 'blazegraph-sloppy.io')
+{
+	$config['blazegraph-url'] 	= 'http://kg-blazegraph.sloppy.zone';	
 	$config['sparql_endpoint']	= $config['blazegraph-url'] . '/blazegraph/sparql'; 
 }
 
