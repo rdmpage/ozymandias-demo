@@ -71,6 +71,25 @@ if (isset($_GET['q']))
 		
 	</div>
 	
+	<div style="color:rgb(56,64,71);">
+		<h4>Proof of concept for displaying references in ALA</h4>
+		
+		<p>This demo shows one way to enhance the display of taxonomic names and associated 
+		literature in the "Names" tab for a taxon in ALA. The demo is "live" in that all results are generated
+		by querying <a href="https://ozymandias-demo.herokuapp.com">Ozymandias</a>. Here are some examples to try:</p>
+		
+		<ul>
+			<li><a href="alademo.php?q=Calomantispa+picta+Stitz%2C+1913">Calomantispa picta Stitz, 1913</a></li>
+			<li><a href="alademo.php?q=Repomucenus+russelli+%28Johnson%2C+1976%29">Repomucenus russelli (Johnson, 1976)</a></li>
+			<li><a href="alademo.php?q=Maricoccus+brucei+Poore%2C+1994">Maricoccus brucei Poore, 1994</a></li>
+		</ul>
+		
+		<p>Feel free to try other examples, but remember that the taxon name must be for an animal in AFD,
+		and the name must be <bold>exactly</bold> as in the corresponding ALA page.</p>
+	
+	
+	</div>
+	
 <?php
 
 if ($query != "")

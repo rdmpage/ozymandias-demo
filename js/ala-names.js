@@ -66,92 +66,72 @@ ORDER BY (?datePublished)`;
 				var html = '';
 			
 				for (var i in data.results.bindings) {
-					html += '<div style="font-weight:lighter;color:rgb(45,45,45);border-top:2px solid rgb(135,135,135);padding:5px;">';
+					
+					html += '<table width="100%" cellspacing="0" cellpadding="4">';
+					
+					html += '<tbody style="font-weight:lighter;color:rgb(45,45,45);">';
+					
+					html += '<tr>';
+					html += '<th align="left" style="border-bottom:2px solid rgb(135,135,135);" width="50%"><br>' + data.results.bindings[i].taxonomicStatus.value + '</th>';
+					html += '<th align="left" style="border-bottom:2px solid rgb(135,135,135);"><br>Source</th>';
+					html += '</tr>';
 						
-					html += '<div style="padding:5px">';
-					/*	
-					html += '<li class="';
-				
-					var css_class = 'unknown';
-					if (data.results.bindings[i].taxonomicStatus) {
-						css_class = data.results.bindings[i].taxonomicStatus.value; 
-					}				
-					if (data.results.bindings[i].nomenclaturalStatus) {
-						css_class += ' ' + data.results.bindings[i].nomenclaturalStatus.value; 
-					}								
-					html += css_class + '">';	
-					*/
-								
+							
+					html += '<tr>';	
+					html += '<td>';
 					html += data.results.bindings[i].tname.value;
+					html += '</td>';					
+					html += '<td>AFD</td>';
+					html += '</tr>';
 				
-					
-					if (data.results.bindings[i].taxonomicStatus) {
-						html += ' [' + data.results.bindings[i].taxonomicStatus.value + '] '; 
-					}
-				
-					/*
-					if (data.results.bindings[i].nomenclaturalStatus) {
-						html += ' [' + data.results.bindings[i].nomenclaturalStatus.value + '] '; 
-					}
-					*/
-					
-				
-					html += '</div>';
-				
-					// html += '<li class="guid">' + data.results.bindings[i].taxonName.value.replace(/urn:uuid:/, '') + '</li>';
-			
 					if (data.results.bindings[i].work) {
-					  html += '<div style="padding:5px">';
-				
-						/*
-					  html += '<a href="?uri='
-						+ data.results.bindings[i].work.value 
-						+ '">';
-						*/
 
-					  if (data.results.bindings[i].name) {
+					  if (data.results.bindings[i].name) {					  
+						html += '<tr>';	
+						html += '<td>';
 						html += data.results.bindings[i].name.value 
+						html += '</td>';
+						html += '<td>AFD</td>';
+						html += '</tr>';
 					  }
-
-					 // html += '</a>';
-					  html += '</div>';	
 					  
 					  if (data.results.bindings[i].doi) {
-					  	html += '<div style="padding:5px">';
+						html += '<tr>';	
+						html += '<td>';
 					  	html += '<a href="https://doi.org/' + data.results.bindings[i].doi.value + '" target="_new">';
 						html += 'https://doi.org/' + data.results.bindings[i].doi.value; 
 						html += '</a>';
-						html += '</div>';
+						html += '</td>';
+						html += '<td>Ozymandias</td>';
+						html += '</tr>';
 					  }
 
 					  if (data.results.bindings[i].biostor) {
-					  	html += '<div style="padding:5px">';
+						html += '<tr>';	
+						html += '<td>';
 					  	html += '<a href="https://biostor.org/reference/' + data.results.bindings[i].biostor.value + '" target="_new">';
 						html += 'https://biostor.org/reference/' + data.results.bindings[i].biostor.value; 
 						html += '</a>';
-						html += '</div>';
+						html += '</td>';
+						html += '<td>Ozymandias</td>';
+						html += '</tr>';
 					  }
 
 					  if (data.results.bindings[i].handle) {
-					  	html += '<div style="padding:5px">';
+						html += '<tr>';	
+						html += '<td>';
 					  	html += '<a href="https://hdl.handle.net/' + data.results.bindings[i].handle.value + '" target="_new">';
 						html += 'https://hdl.handle.net/' + data.results.bindings[i].handle.value; 
 						html += '</a>';
-						html += '</div>';
+						html += '</td>';
+						html += '<td>Ozymandias</td>';
+						html += '</tr>';
 					  }
 
 		      
 					}
-				
-					/*
-					if (data.results.bindings[i].remarks) {
-					  html += '<li class="remarks">';
-					  html += data.results.bindings[i].remarks.value 
-					  html += '</li>';			      
-					}
-					*/
-				
-					html += '</div>'; 
+					html += '</tbody>'; 
+					html += '</table>'; 
 				}
 			
 				$('#' + element_id).html(html);
