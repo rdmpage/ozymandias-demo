@@ -18,6 +18,11 @@ if (isset($_GET['q']))
     <!-- SPARQL queries -->
     <script src="js/ala-names.js"></script> 
     
+	<!-- altmetric -->
+	<!-- 
+	<script type="text/javascript" src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+	-->
+    
 	<style>
 		body {
 			padding-left:40px;
@@ -28,6 +33,28 @@ if (isset($_GET['q']))
 		.h1 {
 			font-size:36px;
 			color: rgb(56,64,71);
+		}
+		
+		.tab {
+			padding:10px;
+			display:block;
+			float:left;
+		}
+		
+		.tab-active {
+			padding:10px;
+			border-bottom:1px solid white;
+			border-top:1px solid rgb(135,135,135);
+			border-left:1px solid rgb(135,135,135);
+			border-right:1px solid rgb(135,135,135);
+			display:block;
+			float:left;
+			color: rgb(56,64,71);
+		}
+		
+		a {
+			text-decoration:none;
+			color:rgb(190,85,61);
 		}
 	</style>
 </head>
@@ -52,14 +79,14 @@ if (isset($_GET['q']))
 		<!-- tabs -->
 		<div>
 		<ul style="color:rgb(190,85,61);display:block;list-style-position:outside;list-style-type:none;">
-			<li style="padding:10px;display:block;float:left;">Overview</li>
-			<li style="padding:10px;display:block;float:left;">Gallery</li>
-			<li style="padding:10px;border-bottom:1px solid white;border-top:1px solid rgb(135,135,135);border-left:1px solid rgb(135,135,135);border-right:1px solid rgb(135,135,135);display:block;float:left;color: rgb(56,64,71);">Names</li>
-			<li style="padding:10px;display:block;float:left;">Classification</li>
-			<li style="padding:10px;display:block;float:left;">Records</li>
-			<li style="padding:10px;display:block;float:left;">Literature</li>
-			<li style="padding:10px;display:block;float:left;">Sequences</li>
-			<li style="padding:10px;display:block;float:left;">Data Partners</li>
+			<li class="tab">Overview</li>
+			<li class="tab">Gallery</li>
+			<li class="tab-active">Names</li>
+			<li class="tab">Classification</li>
+			<li class="tab">Records</li>
+			<li class="tab">Literature</li>
+			<li class="tab">Sequences</li>
+			<li class="tab">Data Partners</li>
 		</ul>
 		</div>
 		<div style="clear:both;"></div>
@@ -82,10 +109,14 @@ if (isset($_GET['q']))
 			<li><a href="alademo.php?q=Calomantispa+picta+Stitz%2C+1913">Calomantispa picta Stitz, 1913</a></li>
 			<li><a href="alademo.php?q=Repomucenus+russelli+%28Johnson%2C+1976%29">Repomucenus russelli (Johnson, 1976)</a></li>
 			<li><a href="alademo.php?q=Maricoccus+brucei+Poore%2C+1994">Maricoccus brucei Poore, 1994</a></li>
+			<li><a href="alademo.php?q=Bellatorias+obiri+%28Wells+%26+Wellington%2C+1985%29">Bellatorias obiri (Wells & Wellington, 1985)</a></li>
 		</ul>
 		
-		<p>Feel free to try other examples, but remember that the taxon name must be for an animal in AFD,
-		and the name must be <bold>exactly</bold> as in the corresponding ALA page.</p>
+		<p>Feel free to try other examples, but remember that the taxon name must be for an <strong>animal in AFD</strong>,
+		and the name must be <strong>exactly</strong> as in the corresponding ALA page. This is because all the data comes from 
+		<a href="https://ozymandias-demo.herokuapp.com/">Ozymandias</a> (which uses data from AFD), and 
+		the demo doesn't do approximate search matching like the ALA website itself, it simply takes the taxon name as given and searches on that. 
+		</p>
 	
 	
 	</div>

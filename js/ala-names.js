@@ -79,9 +79,11 @@ ORDER BY (?datePublished)`;
 							
 					html += '<tr>';	
 					html += '<td>';
+					//html += '<a href="' + data.results.bindings[i].taxon.value + '">';
 					html += data.results.bindings[i].tname.value;
+					//html += '</a>';
 					html += '</td>';					
-					html += '<td>AFD</td>';
+					html += '<td><ul><li><a href="https://collections.ala.org.au/public/show/dr2699">AFD</a></li></ul></td>';
 					html += '</tr>';
 				
 					if (data.results.bindings[i].work) {
@@ -89,9 +91,12 @@ ORDER BY (?datePublished)`;
 					  if (data.results.bindings[i].name) {					  
 						html += '<tr>';	
 						html += '<td>';
-						html += data.results.bindings[i].name.value 
+						html += 'Published in: ';
+						//html += '<a href="' + data.results.bindings[i].work.value + '">';
+						html += data.results.bindings[i].name.value;
+						//html += '</a>';
 						html += '</td>';
-						html += '<td>AFD</td>';
+						html += '<td><ul><li><a href="https://collections.ala.org.au/public/show/dr2699">AFD</a></li></ul></td>';
 						html += '</tr>';
 					  }
 					  
@@ -102,7 +107,7 @@ ORDER BY (?datePublished)`;
 						html += 'https://doi.org/' + data.results.bindings[i].doi.value; 
 						html += '</a>';
 						html += '</td>';
-						html += '<td>Ozymandias</td>';
+						html += '<td><ul><li><a href="https://ozymandias-demo.herokuapp.com">Ozymandias</a></li></ul></td>';
 						html += '</tr>';
 					  }
 
@@ -113,7 +118,7 @@ ORDER BY (?datePublished)`;
 						html += 'https://biostor.org/reference/' + data.results.bindings[i].biostor.value; 
 						html += '</a>';
 						html += '</td>';
-						html += '<td>Ozymandias</td>';
+						html += '<td><ul><li><a href="https://ozymandias-demo.herokuapp.com">Ozymandias</a></li></ul></td>';
 						html += '</tr>';
 					  }
 
@@ -124,10 +129,9 @@ ORDER BY (?datePublished)`;
 						html += 'https://hdl.handle.net/' + data.results.bindings[i].handle.value; 
 						html += '</a>';
 						html += '</td>';
-						html += '<td>Ozymandias</td>';
+						html += '<td><ul><li><a href="https://ozymandias-demo.herokuapp.com">Ozymandias</a></li></ul></td>';
 						html += '</tr>';
 					  }
-
 		      
 					}
 					html += '</tbody>'; 
