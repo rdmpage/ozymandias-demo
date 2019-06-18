@@ -104,7 +104,8 @@ if (isset($_GET['q']))
 		<p>This demo shows one way to enhance the display of taxonomic names and associated 
 		literature in the "Names" tab for a taxon in ALA. The demo is "live" in that all results are generated
 		by querying <a href="https://ozymandias-demo.herokuapp.com">Ozymandias</a>. Here are some examples to try. 
-		Note that the categories "paywall" and "free to read" need not apply to all the papers listed, just some.</p>
+		Note that the categories "paywall" and "free to read" need not apply to all the papers listed, just some. 
+		We use <a href="https://unpaywall.org">Unpaywall</a> to locate legally free versions you can read.</p>
 		
 		
 		<h4>Paywall</h4>
@@ -125,16 +126,21 @@ if (isset($_GET['q']))
 			<li><a href="alademo.php?q=Maricoccus+brucei+Poore%2C+1994">Maricoccus brucei Poore, 1994</a></li>
 		</ul>
 		</h4>
-
+				
+		<h4>Western Australian Museum</h4>
+		<ul>
+			<li><a href="alademo.php?q=Diplodactylus+nebulosus+Doughty+%26+Oliver%2C+2013">Diplodactylus nebulosus Doughty & Oliver, 2013</a></li>
+		</ul>
+		</h4>
 		
-		<h4>Records of the Australian Museum</h4>
+		<h4>Australian Museum</h4>
 		<ul>		
 			<li><a href="alademo.php?q=Pauropsalta+herveyensis+Owen+%26+Moulds%2C+2016">Pauropsalta herveyensis Owen & Moulds, 2016</a></li>
 		</ul>
 		</h4>
 		
 		
-		<h4>Iconic animals</h4>
+		<h4>Other examples</h4>
 		<ul>
 			<li><a href="alademo.php?q=Thylacinus cynocephalus (Harris, 1808)">Thylacinus cynocephalus (Harris, 1808)</a></li>
 			<li><a href="alademo.php?q=Dactylopsila trivirgata Gray, 1858">Dactylopsila trivirgata Gray, 1858</a></li>

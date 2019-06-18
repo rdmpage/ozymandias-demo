@@ -85,7 +85,7 @@ ORDER BY (?datePublished)`;
 					html += data.results.bindings[i].tname.value;
 					//html += '</a>';
 					html += '</td>';					
-					html += '<td><ul><li><a href="https://collections.ala.org.au/public/show/dr2699">AFD</a></li></ul></td>';
+					html += '<td><ul><li><a href="https://collections.ala.org.au/public/show/dr2699">AFD</a></li></ul></td>';					
 					html += '</tr>';
 				
 					if (data.results.bindings[i].work) {
@@ -98,7 +98,8 @@ ORDER BY (?datePublished)`;
 						html += data.results.bindings[i].name.value;
 						//html += '</a>';
 						html += '</td>';
-						html += '<td><ul><li><a href="https://collections.ala.org.au/public/show/dr2699">AFD</a></li></ul></td>';
+						//html += '<td><ul><li><a href="https://collections.ala.org.au/public/show/dr2699">AFD</a></li></ul></td>';
+						html += '<td></td>';
 						html += '</tr>';
 					  }
 					  
@@ -161,7 +162,7 @@ ORDER BY (?datePublished)`;
 						function(data){
 							//console.log(data);
 							if (data.is_oa) {
-								$('#' + id).html('<a href="' + data.oa_locations[0].url_for_pdf + '">Unpaywall</a>');
+								$('#' + id).html('<a style="background:orange;color:white;" href="' + data.oa_locations[0].url_for_pdf + '"> Read for free </a>');
 							}
 						}
 					);
