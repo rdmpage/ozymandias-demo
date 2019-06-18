@@ -112,8 +112,8 @@ if (isset($_GET['q']))
 			<li><a href="alademo.php?q=Bellatorias+obiri+%28Wells+%26+Wellington%2C+1985%29">Bellatorias obiri (Wells & Wellington, 1985)</a></li>
 		</ul>
 		
-		<p>Feel free to try other examples, but remember that the taxon name must be for an <strong>animal in AFD</strong>,
-		and the name must be <strong>exactly</strong> as in the corresponding ALA page. This is because all the data comes from 
+		<p>Feel free to try other examples, but remember that (for the purposes of this demo) the taxon name <strong>must be for an animal in AFD</strong>,
+		and the name <strong>must be exactly</strong> as in the corresponding ALA page. This is because all the data comes from 
 		<a href="https://ozymandias-demo.herokuapp.com/">Ozymandias</a> (which uses data from AFD), and 
 		the demo doesn't do approximate search matching like the ALA website itself, it simply takes the taxon name as given and searches on that. 
 		</p>
