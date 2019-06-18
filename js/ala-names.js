@@ -28,6 +28,12 @@ OPTIONAL {
 ?taxonName <http://rs.tdwg.org/ontology/voc/Common#publishedInCitation> ?work .
 
 ?work <http://schema.org/name> ?name .
+
+OPTIONAL {
+?work <http://schema.org/isPartOf> ?container .
+?container <http://schema.org/name> ?container_name .
+}  
+
 OPTIONAL {
 ?work <http://schema.org/datePublished> ?datePublished . 
 
@@ -41,6 +47,13 @@ OPTIONAL {
 ?work <http://schema.org/identifier> ?identifierb .
 ?identifierb <http://schema.org/propertyID> "biostor" .
 ?identifierb <http://schema.org/value> ?biostor .
+
+
+?work <http://schema.org/sameAs> ?uri_string .
+BIND(IRI(?uri_string) AS ?uri) . 
+?uri rdf:type <http://schema.org/CreativeWork> .
+?uri <http://schema.org/hasPart> ?bhl .
+?bhl <http://schema.org/position> "1" .  
 } 
 
 OPTIONAL {
@@ -69,7 +82,7 @@ ORDER BY (?datePublished)`;
 			
 				for (var i in data.results.bindings) {									
 					
-					html += '<table width="100%" cellspacing="0" cellpadding="4">';
+					html += '<table width="100%" cellspacing="0" cellpadding="2">';
 					
 					html += '<tbody style="font-weight:lighter;color:rgb(45,45,45);">';
 					
@@ -95,7 +108,19 @@ ORDER BY (?datePublished)`;
 						html += '<td>';
 						html += 'Published in: ';
 						//html += '<a href="' + data.results.bindings[i].work.value + '">';
+						
+						html += '<b>';
 						html += data.results.bindings[i].name.value;
+						html += '</b>';
+						
+						if (data.results.bindings[i].container_name) {	
+							html += ' in <i>' + data.results.bindings[i].container_name.value + '</i>';						
+						}
+
+						if (data.results.bindings[i].datePublished) {	
+							html += ', ' + data.results.bindings[i].datePublished.value;						
+						}						
+						
 						//html += '</a>';
 						html += '</td>';
 						//html += '<td><ul><li><a href="https://collections.ala.org.au/public/show/dr2699">AFD</a></li></ul></td>';
@@ -118,6 +143,7 @@ ORDER BY (?datePublished)`;
 						html += '</tr>';
 					  }
 
+						/*
 					  if (data.results.bindings[i].biostor) {
 						html += '<tr>';	
 						html += '<td>';
@@ -128,6 +154,19 @@ ORDER BY (?datePublished)`;
 						html += '<td><ul><li><a href="https://ozymandias-demo.herokuapp.com">Ozymandias</a></li></ul></td>';
 						html += '</tr>';
 					  }
+					  */
+					  
+					  if (data.results.bindings[i].bhl) {
+						html += '<tr>';	
+						html += '<td>';
+					  	html += '<a href="' + data.results.bindings[i].bhl.value + '" target="_new">';
+						html += data.results.bindings[i].bhl.value; 
+						html += '</a>';
+						html += '</td>';
+						html += '<td><ul><li><a href="https://ozymandias-demo.herokuapp.com">Ozymandias</a></li></ul></td>';
+						html += '</tr>';
+					  }
+					  
 
 					  if (data.results.bindings[i].handle) {
 						html += '<tr>';	
@@ -162,7 +201,7 @@ ORDER BY (?datePublished)`;
 						function(data){
 							//console.log(data);
 							if (data.is_oa) {
-								$('#' + id).html('<a style="background:orange;color:white;" href="' + data.oa_locations[0].url_for_pdf + '"> Read for free </a>');
+								$('#' + id).html('<a style="background:orange;color:white;" href="' + data.oa_locations[0].url_for_pdf + '">&nbsp;Read for free&nbsp;</a>');
 							}
 						}
 					);
