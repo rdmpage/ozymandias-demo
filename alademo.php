@@ -99,17 +99,45 @@ if (isset($_GET['q']))
 	</div>
 	
 	<div style="color:rgb(56,64,71);">
-		<h4>Proof of concept for displaying references in ALA</h4>
+		<h3>Proof of concept for displaying references in ALA</h3>
 		
 		<p>This demo shows one way to enhance the display of taxonomic names and associated 
 		literature in the "Names" tab for a taxon in ALA. The demo is "live" in that all results are generated
-		by querying <a href="https://ozymandias-demo.herokuapp.com">Ozymandias</a>. Here are some examples to try:</p>
+		by querying <a href="https://ozymandias-demo.herokuapp.com">Ozymandias</a>. Here are some examples to try. 
+		Note that the categories "paywall" and "free to read" need not apply to all the papers listed, just some.</p>
 		
+		
+		<h4>Paywall</h4>
 		<ul>
 			<li><a href="alademo.php?q=Calomantispa+picta+Stitz%2C+1913">Calomantispa picta Stitz, 1913</a></li>
 			<li><a href="alademo.php?q=Repomucenus+russelli+%28Johnson%2C+1976%29">Repomucenus russelli (Johnson, 1976)</a></li>
-			<li><a href="alademo.php?q=Maricoccus+brucei+Poore%2C+1994">Maricoccus brucei Poore, 1994</a></li>
+		</ul>
+		</h4>
+		
+		<h4>Free to read</h4>
+		<ul>
 			<li><a href="alademo.php?q=Bellatorias+obiri+%28Wells+%26+Wellington%2C+1985%29">Bellatorias obiri (Wells & Wellington, 1985)</a></li>
+		</ul>
+		</h4>		
+		
+		<h4>Museums Victoria</h4>
+		<ul>
+			<li><a href="alademo.php?q=Maricoccus+brucei+Poore%2C+1994">Maricoccus brucei Poore, 1994</a></li>
+		</ul>
+		</h4>
+
+		
+		<h4>Records of the Australian Museum</h4>
+		<ul>		
+			<li><a href="alademo.php?q=Pauropsalta+herveyensis+Owen+%26+Moulds%2C+2016">Pauropsalta herveyensis Owen & Moulds, 2016</a></li>
+		</ul>
+		</h4>
+		
+		
+		<h4>Iconic animals</h4>
+		<ul>
+			<li><a href="alademo.php?q=Thylacinus cynocephalus (Harris, 1808)">Thylacinus cynocephalus (Harris, 1808)</a></li>
+			<li><a href="alademo.php?q=Dactylopsila trivirgata Gray, 1858">Dactylopsila trivirgata Gray, 1858</a></li>
 		</ul>
 		
 		<p>Feel free to try other examples, but remember that (for the purposes of this demo) the taxon name <strong>must be for an animal in AFD</strong>,

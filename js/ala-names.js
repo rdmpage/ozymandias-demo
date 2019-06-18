@@ -64,8 +64,10 @@ ORDER BY (?datePublished)`;
 						
 			if (data.results.bindings.length > 0) {
 				var html = '';
+				
+				var unpaywall_counter = 1;
 			
-				for (var i in data.results.bindings) {
+				for (var i in data.results.bindings) {									
 					
 					html += '<table width="100%" cellspacing="0" cellpadding="4">';
 					
@@ -106,6 +108,10 @@ ORDER BY (?datePublished)`;
 					  	html += '<a href="https://doi.org/' + data.results.bindings[i].doi.value + '" target="_new">';
 						html += 'https://doi.org/' + data.results.bindings[i].doi.value; 
 						html += '</a>';
+						
+						html += ' <span id="unpaywall' + unpaywall_counter++ + '" class="unpaywall" data="' + data.results.bindings[i].doi.value + '"></span>';
+						
+						
 						html += '</td>';
 						html += '<td><ul><li><a href="https://ozymandias-demo.herokuapp.com">Ozymandias</a></li></ul></td>';
 						html += '</tr>';
@@ -137,8 +143,32 @@ ORDER BY (?datePublished)`;
 					html += '</tbody>'; 
 					html += '</table>'; 
 				}
+				
 			
 				$('#' + element_id).html(html);
+				
+				// code to call unpaywall
+				$( "span" ).each(function( index ) {
+  					console.log( index + ": " + $( this ).text() );
+  					
+  					var id = $(this).attr('id');
+  					var doi = $(this).attr('data');
+  					
+  					var url = 'https://api.oadoi.org/v2/' + encodeURIComponent(doi) 
+  						+ '?email=unpaywall@impactstory.org' ;
+  					
+  					$.getJSON(url,
+						function(data){
+							//console.log(data);
+							if (data.is_oa) {
+								$('#' + id).html('<a href="' + data.oa_locations[0].url_for_pdf + '">Unpaywall</a>');
+							}
+						}
+					);
+
+  					
+				});
+				
 			}			
 		}
 	);	
