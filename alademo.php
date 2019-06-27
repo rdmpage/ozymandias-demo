@@ -63,7 +63,7 @@ if (isset($_GET['q']))
 		<div style="display:block;float:left;"><img src="images/ala-logo-2016-inline.png"></div>
 		<div>
 			<form action="alademo.php">
-				<input style="font-weight:lighter;margin-left:30px;color:rgb(56,64,71);font-size:20px;height:36px;display:block;float:left;border:1px solid rgb(135,135,135);padding-left:4px;" id="search" placeholder="Search" name="q" value="<?php echo $query; ?>"/>
+				<input style="font-weight:lighter;margin-left:30px;color:rgb(56,64,71);font-size:20px;height:36px;display:block;float:left;width:400px;border:1px solid rgb(135,135,135);padding-left:4px;" id="search" placeholder="Pauropsalta herveyensis Owen & Moulds, 2016" name="q" value="<?php echo $query; ?>"/>
 			</form>
 			
 		</div>
@@ -124,6 +124,7 @@ if (isset($_GET['q']))
 		<h4>Museums Victoria</h4>
 		<ul>
 			<li><a href="alademo.php?q=Maricoccus+brucei+Poore%2C+1994">Maricoccus brucei Poore, 1994</a></li>
+			<li><a href="alademo.php?q=Lasioglossum (Chilalictus) copleyense Walker, 1995">Lasioglossum (Chilalictus) copleyense Walker, 1995</a></li>
 		</ul>
 		</h4>
 				

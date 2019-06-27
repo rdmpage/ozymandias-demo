@@ -332,13 +332,23 @@ SELECT * WHERE {
   
   # get Zenodo figures (assume isPartOf works for now)
   ?work <http://schema.org/identifier> ?identifier .
-  ?identifier <http://schema.org/propertyID> "doi" .
-  ?identifier <http://schema.org/value> ?identifier_value .
- 
-  BIND(IRI(CONCAT("https://doi.org/", STR(?identifier_value))) AS ?doi) . 
-
+  
+ {
+   ?identifier <http://schema.org/propertyID> "doi" .
+   ?identifier <http://schema.org/value> ?identifier_value .
+   BIND(IRI(CONCAT("https://doi.org/", STR(?identifier_value))) AS ?doi) .
+   ?part <http://schema.org/isPartOf> ?doi  .
+  }
+  UNION {
+   ?identifier <http://schema.org/propertyID> "zenodo" .
+   ?identifier <http://schema.org/value> ?identifier_value .
+   BIND(IRI(CONCAT("https://zenodo.org/record/", STR(?identifier_value))) AS ?zenodo) .
+   ?part <http://schema.org/isPartOf> ?zenodo  .
+  }  
+  
+  
   # a figure
-  ?part <http://schema.org/isPartOf> ?doi  .
+  #?part <http://schema.org/isPartOf> ?doi  .
   ?part rdf:type <http://schema.org/ImageObject> .
   ?part <http://schema.org/thumbnailUrl> ?thumbnailUrl .
   ?part <http://schema.org/description> ?description .
