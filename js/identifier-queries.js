@@ -203,6 +203,72 @@ WHERE
 
 		}  		 
 		
+       //--------------------------------------------------------------------------------
+		function zoobank_author_wikidata(zoobank, element_id) {
+		   zoobank = zoobank.replace(/urn:lsid:zoobank.org:author:/, '').toUpperCase();
+		   
+			var sparql = `SELECT *
+WHERE
+{
+	?item wdt:P2006 "` + zoobank + `" .
+  OPTIONAL {
+	   ?item wdt:P213 ?isni .
+		}
+	  OPTIONAL {
+	   ?item wdt:P214 ?viaf .
+		}    
+	  OPTIONAL {
+	   ?item wdt:P18 ?image .
+		} 
+	  OPTIONAL {
+	   ?item wdt:P496 ?orcid .
+		} 	
+	  OPTIONAL {
+	   ?item wdt:P2038 ?researchgate .
+		} 					
+	  OPTIONAL {
+	   ?item wdt:P586 ?ipni .
+		} 
+		
+}`;
+			
+			console.log(sparql);
+	
+			$.getJSON('https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=' + encodeURIComponent(sparql),
+				function(data){
+				  if (data.results.bindings.length > 0) {
+				     var html = '';
+				     
+						 if (data.results.bindings[0].item) {
+						   html += 'Wikidata <a class="external" href="' + data.results.bindings[0].item.value + '" target="_new">' + data.results.bindings[0].item.value.replace(/http:\/\/www.wikidata.org\/entity\//, "") + '</a><br />';
+						 }
+						 
+						 if (data.results.bindings[0].viaf) {
+						   html += 'VIAF <a class="external" href="https://viaf.org/viaf/' + data.results.bindings[0].viaf.value + '" target="_new">' + data.results.bindings[0].viaf.value + '</a><br />';
+						 }
+
+						 if (data.results.bindings[0].orcid) {
+						   html += 'ORCID <a class="external orcid" href="https://orcid.org/' + data.results.bindings[0].orcid.value + '" target="_new">' + data.results.bindings[0].orcid.value + '</a><br />';
+						 }
+
+						 if (data.results.bindings[0].researchgate) {
+						   html += 'ResearchGate <a class="external" href="https://www.researchgate.net/profile/' + data.results.bindings[0].researchgate.value + '" target="_new">' + data.results.bindings[0].researchgate.value + '</a><br />';
+						 }
+						 
+						 if (data.results.bindings[0].image) {
+						   html += '<img src="' + data.results.bindings[0].image.value + '" width="100" />';
+						 }
+						 
+						 
+				  } else {
+				     html = '';         
+				  }
+				  
+				  document.getElementById(element_id).innerHTML = html;
+			});			
+
+		}  				
+		
 		
        //--------------------------------------------------------------------------------
        // bionames names 

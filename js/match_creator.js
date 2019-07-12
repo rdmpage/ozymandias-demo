@@ -185,4 +185,102 @@ GRAPH <https://species.wikimedia.org>
 			}
 		}
 	);
+}	
+
+//--------------------------------------------------------------------------------
+// Match creator to zoobank using works and named graphs
+function match_zoobank(uri, element_id) {
+	
+	var query = `SELECT DISTINCT ?name ?external_creator ?external_name
+WHERE
+{
+  GRAPH <https://biodiversity.org.au/afd/publication> {
+  <` + uri + `> <http://schema.org/name> ?name .
+?role <http://schema.org/creator> <` + uri + `>  .
+?role <http://schema.org/roleName> ?roleName  .
+
+?work <http://schema.org/creator> ?role  .
+
+?work <http://schema.org/identifier> ?identifier .
+?identifier <http://schema.org/value> ?identifier_value .
+}
+  
+GRAPH <http://zoobank.org>
+  {
+    ?external_identifier <http://schema.org/value> ?identifier_value .
+    ?external_work <http://schema.org/identifier> ?external_identifier .
+    
+	?external_work <http://schema.org/creator> ?external_role  . 
+    ?external_role <http://schema.org/roleName> ?external_roleName  .
+    
+    ?external_role <http://schema.org/creator> ?external_creator  .
+    
+    ?external_creator <http://schema.org/name> ?external_name .
+  }   
+  
+  
+  FILTER(?roleName = ?external_roleName)
+}`;
+
+	$.getJSON('query.php?query=' + encodeURIComponent(query)
+			+ '&callback=?',
+		function(data){
+		
+			console.log(JSON.stringify(data, null, 2));			
+			
+			if (data.results.bindings.length > 0) {
+			
+				// First check that we have a good match
+				var matches = [];
+								
+				// dictionary is name
+				var fs = FuzzySet([data.results.bindings[0].name.value], false);
+				for (var i in data.results.bindings) {
+					// test for match
+					
+					var ename = data.results.bindings[i].external_name.value;
+					// commas?
+					var m = ename.split(',');
+					if (m.length == 2) {
+						ename = m[1] + ' ' + m[0];
+					}
+					var s = fs.get(ename);
+					
+					if (s) {
+              			if (s[0][0] > 0.5) {
+              				console.log(data.results.bindings[i].external_name.value + ' ' + s[0][0] + ' ' + i);
+              				matches.push(i);
+						}
+					}
+				}					
+				
+				
+				if (matches.length > 0) {
+					var html = '<h4>ZooBank match.</h4>';
+					html += '<div>';
+					//html += '<ul>';
+					
+					var zoobank = '';
+			
+					for (var i in matches) {
+						html += '<div>';
+						html += '<a class="external" href="http://zoobank.org/' + data.results.bindings[matches[i]].external_creator.value + '">';
+						html += data.results.bindings[matches[i]].external_name.value;
+						html += '</a>';
+						html += '</div>';
+						
+						zoobank = data.results.bindings[matches[i]].external_creator.value;
+					}
+					//html += '</ul>';
+					html += '</div>';
+			
+					$('#' + element_id).html(html);
+					
+					zoobank_author_wikidata(zoobank, 'match_wikidata');
+										
+				}
+						
+			}
+		}
+	);
 }		
