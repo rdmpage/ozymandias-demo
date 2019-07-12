@@ -191,28 +191,6 @@ All due to missing “.” and “-“.
 
 
 
-## Script
-
-- home page
-
-- flies
-
--- basic ideas
-
-
-
-- spiders
-
--- cites "A new spider of the genus Archaea from Australia"
-
----- Queensland on a map
-
-then SPARQL demo
-
-
-then tree display
-
-
 
 
 
