@@ -11,4 +11,6 @@ manuscript/r/xy.txt
 manuscript/.DS_Store
 .DS_Store
 data/*.nt
+data/version3/*.nt
 
+manuscript/.DS_Store
