@@ -68,7 +68,7 @@ WHERE
 						
 					case 'zoobank':
 						html += '<li>';	
-						html += '<a class="external" href="http://zoobank.org/' + data.results.bindings[i].value.value + '" target="_new">' + 'http://zoobank.org/' + data.results.bindings[i].value.value + '</a>';
+						html += '<a class="external" href="http://zoobank.org/' + data.results.bindings[i].value.value.replace('urn:lsid:zoobank.org:pub:', '') + '" target="_new">' + 'http://zoobank.org/' + data.results.bindings[i].value.value.replace('urn:lsid:zoobank.org:pub:', '') + '</a>';
 						html += '</li>';	
 						break;
 						
