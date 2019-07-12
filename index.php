@@ -374,6 +374,7 @@ function display_creator($entity)
 		<script>creator_taxa("' . $entity->{'@id'} . '", "creator_taxa");</script>
 		<script>match_orcid("' . $entity->{'@id'} . '", "match_orcid");</script>
 		<script>match_wikispecies("' . $entity->{'@id'} . '", "match_wikispecies");</script>
+		<script>match_zoobank("' . $entity->{'@id'} . '", "match_zoobank");</script>
 	';
 }
 
@@ -1025,6 +1026,7 @@ $script .= '
 			<div id="match_taxon_external"></div>			
 			<div id="match_orcid"></div>
 			<div id="match_wikispecies"></div>
+			<div id="match_zoobank"></div>
 			<div id="match_wikidata"></div>
 			
 			<!-- can we track user scrolling within the document viewer so 
