@@ -183,9 +183,9 @@ function display_work($entity, $meta_list = array())
 		$terms[] = $entity->datePublished;
 	}
 	$terms[] = '; ';
-	if (isset($entity->volume))
+	if (isset($entity->volumeNumber))
 	{
-		$terms[] = $entity->volume;
+		$terms[] = $entity->volumeNumber;
 	}
 	if (isset($entity->issueNumber))
 	{
@@ -575,7 +575,7 @@ WHERE {
    }  
   
   OPTIONAL {
-  <URI> <http://schema.org/volume> ?citation_volume .
+  <URI> <http://schema.org/volumeNumber> ?citation_volume .
     }           
 
  OPTIONAL {
@@ -1568,7 +1568,7 @@ function default_display($error_msg = '')
 				 <img src="http://exeg5le.cloudimg.io/height/100/n/https://zenodo.org/api/iiif/v2/67aaf08c-5b28-40e0-9c8f-905618da39a6:40222f16-d066-40ca-9ebd-79e80bbd29da:oo_16979.jpg/full/250,/0/default.jpg" />
 				</div>
 				<div class="list-item-body">
-				  <div class="list-item-title">Australian Assassins, Part I: A review of the Assassin Spiders (Araneae, Archaeidae) of mid-eastern Australia</div>
+				  <div class="list-item-title">Australian Assassins, Part I: A review of the Assassin Spiders...</div>
 				</div>
 			   </a>
 			</div>
@@ -1583,8 +1583,18 @@ function default_display($error_msg = '')
 				</div>
 			   </a>
 			</div>
-		
-		
+			
+			<div class="list-item">
+			  <a href="?uri=https://doi.org/10.5281/zenodo.189913">
+				<div class="list-item-thumbnail">
+				 <img src="http://exeg5le.cloudimg.io/height/100/n/https://zenodo.org/api/iiif/v2/4beed3a3-3ba1-4541-a7d6-c12516b35a6a:6b4d532b-bba8-43af-9682-4b785abaf6bd:figure.png/full/250,/0/default.png" />
+				</div>
+				<div class="list-item-body">
+				  <div class="list-item-title">FIGURES 1 – 6 in A conspectus of the flower fly genus Allograptas...</div>
+				</div>
+			   </a>
+			</div>
+			
 			<div class="list-item">
 			  <a href="?uri=https://biodiversity.org.au/afd/publication/8adcca9b-ba23-4332-8764-3137d09e3776">
 				<div class="list-item-thumbnail">
