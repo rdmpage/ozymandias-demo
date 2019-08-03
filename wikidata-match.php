@@ -84,11 +84,14 @@ body {
 			    if ($(this).attr('data-position')) {
 			    	data[qid].position = $(this).attr('data-position');
 			    }
+
+			    if ($(this).attr('data-affiliation')) {
+			    	data[qid].affiliation = JSON.parse(decodeURIComponent($(this).attr('data-affiliation')));
+			    }
+
 			});
 			
-			//alert(JSON.stringify(data));
-			
-			
+			//alert(JSON.stringify(data));			
 			
 			if (author_qid != '') {
 				
@@ -108,6 +111,14 @@ body {
 						s.push('P1932');
 						s.push('"' + data[i].name + '"');
 						
+						// Add affiliation string to author so we preserve thus info
+						if (data[i].affiliation && data[i].affiliation.length > 0) {
+							for (var j in data[i].affiliation) {
+								s.push('P6424');
+								s.push('"' + data[i].affiliation + '"');
+							}
+						}
+
 						qs.push(s.join("\t"));
 	
 						// delete
@@ -141,12 +152,16 @@ body {
 		   //alert(name);
 		   
 			var sparql = `SELECT 
-?work ?title ?container_label ?author_order 
+?work ?title ?container_label ?author_order ?author_affiliation
 ?author_name
 { 
  ?statement ps:P2093 "` + name + `" .
  ?work p:P2093 ?statement.
  ?statement pq:P1545 ?author_order. 
+  OPTIONAL 
+  {
+    ?statement pq:P6424 ?author_affiliation. 
+  }
 
  ?work wdt:P2093 ?author_name. 
   
@@ -163,6 +178,9 @@ ORDER BY ?container_label`;
 	
 			$.getJSON('https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=' + encodeURIComponent(sparql),
 				function(data){
+				
+				console.log(JSON.stringify(data));
+				
 				  if (data.results.bindings.length > 0) {
 				      var rows = {};
 				      
@@ -172,6 +190,7 @@ ORDER BY ?container_label`;
 						 if (!rows[work]) {
 							rows[work] = {};
 							rows[work].authors = [];
+							rows[work].affiliation = [];
 						 }				      
 					  
 						  if (data.results.bindings[i].title) {
@@ -185,7 +204,11 @@ ORDER BY ?container_label`;
 			  			 if (data.results.bindings[i].author_order) {
 			  			    var k = data.results.bindings[i].author_order.value;
 			  			    var v = data.results.bindings[i].author_name.value;
-			  			 	rows[work].authors.push(v);
+			  			    
+			  			    // Store all names in a list just to help give clues about author
+			  			    if (rows[work].authors.indexOf(v) === -1) {
+				  			 	rows[work].authors.push(v);
+				  			 }
 			  			 	
 			  			 	if (v === name) {
 			  			 		rows[work].position = k;
@@ -194,6 +217,16 @@ ORDER BY ?container_label`;
 			  			 	
 			  			 	
 						  }
+						  
+			  			 if (data.results.bindings[i].author_affiliation) {
+			  			    var k = data.results.bindings[i].author_affiliation.value;
+			  			    var v = data.results.bindings[i].author_name.value;
+			  			 	
+			  			 	if (v === name) {
+			  			 		rows[work].affiliation.push(k);
+			  			 	}
+						  }
+						  
 									  
 						}
 										  
@@ -213,7 +246,17 @@ ORDER BY ?container_label`;
 				     							     	
 				     	
 				     	html += '<td align="center">';
-				     	html += '<input id="' + i + '" data-entity="work" data-name="' + name + '" data-position="' + rows[i].position + '" type="checkbox">';
+				     	
+				     	// Store data as attributes so we can use these to generate quickstatements
+				     	html += '<input id="' + i + '"'
+				     		+ ' data-entity="work" data-name="' + name + '"'
+				     		+ ' data-position="' + rows[i].position + '"';
+				     		
+				     	if (rows[i].affiliation.length > 0) {
+				     		html += ' data-affiliation="' + encodeURIComponent(JSON.stringify(rows[i].affiliation)) + '"';				     	
+				     	}
+				     	
+				     	html += ' type="checkbox">';
 				     	html += '</td>';
 
 						/*
