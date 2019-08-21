@@ -895,7 +895,7 @@ $script .= '
 	
 	echo '
 	<div class="header">
-		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?sparql">SPARQL</a> <a class="menuitem" href="?tree">Tree</a>
+		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?demo">Demo</a> <a class="menuitem" href="?sparql">SPARQL</a> <a class="menuitem" href="?tree">Tree</a>
 	</div>
 	
 	<div class="content">	
@@ -1301,7 +1301,7 @@ function display_search($q)
 	
 	echo '
 	<div class="header">
-		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?sparql">SPARQL</a> <a class="menuitem" href="?tree">Tree</a>
+		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?demo">Demo</a> <a class="menuitem" href="?sparql">SPARQL</a> <a class="menuitem" href="?tree">Tree</a>
 	</div>
 	
 	<div class="content">	
@@ -1382,7 +1382,7 @@ function display_sparql()
 	
 	echo '
 	<div class="header">
-		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?sparql">SPARQL</a> <a class="menuitem" href="?tree">Tree</a>
+		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?demo">Demo</a> <a class="menuitem" href="?sparql">SPARQL</a> <a class="menuitem" href="?tree">Tree</a>
 	</div>
 	
 	<div class="content">	
@@ -1420,7 +1420,7 @@ function display_tree()
 	
 	echo '
 	<div class="header">
-		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?sparql">SPARQL</a> <a class="menuitem" href="?tree">Tree</a>
+		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?demo">Demo</a> <a class="menuitem" href="?sparql">SPARQL</a> <a class="menuitem" href="?tree">Tree</a>
 	</div>
 	
 	<div class="content">
@@ -1456,6 +1456,43 @@ VALUES ?root_name {"Aedes Meigen, 1818"}
 </html>';	
 }
 
+
+//----------------------------------------------------------------------------------------
+function display_demo()
+{
+	global $config;
+
+	$title = $config['site_name'] . ' - SPARQL';
+	$meta = '';
+	$script = '';
+		
+	display_html_start($title, $meta, $script, '$(window).resize();');
+	
+	echo '
+	<div class="header">
+		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?demo">Demo</a> <a class="menuitem" href="?sparql">SPARQL</a> <a class="menuitem" href="?tree">Tree</a>
+	</div>
+	
+	<div class="content">	
+		<div  class="main">			
+			<div id="main" class="main_content">
+				<div style="padding:20px;">
+					<h1>ALA demos</h1>
+					<p>A series of demos of how the Ozymandias knowledge graph could enhance ALA.</p>
+					<ol>
+						<li><a href="alademo.php?q=Repomucenus+russelli+%28Johnson%2C+1976%29">Linking ALA names to references</a></li>
+						<li><a href="alahero.php?q=Trigonopterus%20Fauvel,%201862">ALA hero images for taxa</li>
+						<li><a href="alaauthor.php?letter=A">ALA authors</a></li>				
+					</ol>
+				</div>				
+			</div>			
+		</div>
+	</div>
+		';
+
+	display_html_end();	
+}
+
 //----------------------------------------------------------------------------------------
 // Home page, or badness happened
 function default_display($error_msg = '')
@@ -1470,7 +1507,7 @@ function default_display($error_msg = '')
 	
 	echo '
 	<div class="header">
-		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?sparql">SPARQL</a> <a class="menuitem" href="?tree">Tree</a>
+		<a href=".">' . $config['site_name'] . '</a></b> <a class="menuitem" href="?demo">Demo</a> <a class="menuitem" href="?sparql">SPARQL</a> <a class="menuitem" href="?tree">Tree</a>
 	</div>
 	
 	<div class="content">	
@@ -1675,7 +1712,15 @@ function main()
 	{	
 		display_tree();
 		exit(0);
-	}			
+	}	
+	
+	
+	// Show demo
+	if (isset($_GET['demo']))
+	{	
+		display_demo();
+		exit(0);
+	}				
 	
 }
 
