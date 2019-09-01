@@ -94,6 +94,56 @@ send_timeout                600;
 
 Need to add nginx to the Windows Firewall rules so that it can be accessed by the outside world.
 
+### Sloppy.io
+
+To host knowledge graph on [Sloppy.io](https://sloppy.io) use [openkbs/blazegraph](https://hub.docker.com/r/openkbs/blazegraph/) with 8GB of RAM and 3 volumes (24 GB in total):
+
+```
+{
+  "project": "kg",
+  "services": [
+    {
+      "id": "blazegraph",
+      "apps": [
+        {
+          "id": "openkbs",
+          "image": "openkbs/blazegraph",
+          "instances": 1,
+          "mem": 8192,
+          "domain": {
+            "uri": "kg-blazegraph.sloppy.zone"
+          },
+          "ssl": false,
+          "port_mappings": [
+            {
+              "container_port": 9999
+            }
+          ],
+          "volumes": [
+            {
+              "container_path": "/data",
+              "size": "8GB"
+            },
+            {
+              "container_path": "/home/developer/blazegraph/conf",
+              "size": "8GB"
+            },
+            {
+              "container_path": "/home/developer/data",
+              "size": "8GB"
+            }
+          ],
+          "health_checks": [
+          ],
+          "logging": null
+        }
+      ]
+    }
+  ]
+}
+```
+
+
 ## Other notes
 
 Beyond classifying people as researcher/non-researcher https://twitter.com/SiobhanLeachman/status/1025203488102334464

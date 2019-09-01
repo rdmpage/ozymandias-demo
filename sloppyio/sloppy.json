@@ -1,0 +1,42 @@
+{
+  "project": "kg",
+  "services": [
+    {
+      "id": "blazegraph",
+      "apps": [
+        {
+          "id": "openkbs",
+          "image": "openkbs/blazegraph",
+          "instances": 1,
+          "mem": 8192,
+          "domain": {
+            "uri": "kg-blazegraph.sloppy.zone"
+          },
+          "ssl": false,
+          "port_mappings": [
+            {
+              "container_port": 9999
+            }
+          ],
+          "volumes": [
+            {
+              "container_path": "/data",
+              "size": "8GB"
+            },
+            {
+              "container_path": "/home/developer/blazegraph/conf",
+              "size": "8GB"
+            },
+            {
+              "container_path": "/home/developer/data",
+              "size": "8GB"
+            }
+          ],
+          "health_checks": [
+          ],
+          "logging": null
+        }
+      ]
+    }
+  ]
+}

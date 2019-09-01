@@ -45,7 +45,7 @@ $config['thumbnail_cdn'] = 'http://exeg5le.cloudimg.io/height/100/n/';
 
 $config['sparql_endpoint'] 	= '';
 $config['triplestore'] 		= 'blazegraph-windows10';
-$config['triplestore'] 		= 'blazegraph-sloppy.io';
+//$config['triplestore'] 		= 'blazegraph-sloppy.io';
 
 if ($config['triplestore'] == 'blazegraph-windows10')
 {
