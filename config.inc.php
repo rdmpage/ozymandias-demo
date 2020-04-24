@@ -45,7 +45,8 @@ $config['thumbnail_cdn'] = 'http://exeg5le.cloudimg.io/height/100/n/';
 
 $config['sparql_endpoint'] 	= '';
 $config['triplestore'] 		= 'blazegraph-windows10';
-//$config['triplestore'] 		= 'blazegraph-sloppy.io';
+//$config['triplestore'] 	= 'blazegraph-sloppy.io';
+$config['triplestore'] 		= 'blazegraph-digitalocean';
 
 if ($config['triplestore'] == 'blazegraph-windows10')
 {
@@ -58,5 +59,12 @@ if ($config['triplestore'] == 'blazegraph-sloppy.io')
 	$config['blazegraph-url'] 	= 'http://kg-blazegraph.sloppy.zone';	
 	$config['sparql_endpoint']	= $config['blazegraph-url'] . '/blazegraph/sparql'; 
 }
+
+if ($config['triplestore'] == 'blazegraph-digitalocean')
+{
+	$config['blazegraph-url'] 	= 'http://134.122.14.41:9999';	
+	$config['sparql_endpoint']	= $config['blazegraph-url'] . '/blazegraph/sparql'; 
+}
+
 
 ?>
