@@ -44,7 +44,11 @@ http://130.209.46.63/blazegraph/sparql
 
 ## Server notes
 
-### Blazegraph
+### Windows 10
+
+Hosting on local Windows 10 PC (to avoid cost of cloud hosting).
+
+#### Blazegraph
 
 Need Java version 7, which can be obtained from Oracle.
 
@@ -58,7 +62,7 @@ This runs on port 9999 so we use nginx as a reverse proxy (see below).
 
 If loading times are getting very slow, specially when reloading data and experimenting you may want to start from scratch. To do this stop the server, delete the file ```blazegraph.jnl``` and restart blazegraph.
 
-### nginx
+#### nginx
 
 I use nginx to act as reverse proxy for Blazegraph running on Windows. 
 
@@ -90,7 +94,7 @@ send_timeout                600;
 
 (See [How to Fix 504 Gateway Timeout using Nginx](https://www.scalescale.com/tips/nginx/504-gateway-time-out-using-nginx/)).
 
-### Firewall
+#### Firewall
 
 Need to add nginx to the Windows Firewall rules so that it can be accessed by the outside world.
 
@@ -141,6 +145,24 @@ To host knowledge graph on [Sloppy.io](https://sloppy.io) use [openkbs/blazegrap
     }
   ]
 }
+```
+
+### Digital Ocean
+
+#### 8 Gb droplet
+
+Create a droplet.
+
+```
+docker-machine create --digitalocean-size "s-4vcpu-8gb" --driver digitalocean --digitalocean-access-token xxx ozymandias
+```
+eval $(docker-machine env ozymandias)
+```
+
+#### Blazegraph
+
+```
+docker run -d -p 9999:9999 openkbs/blazegraph
 ```
 
 
