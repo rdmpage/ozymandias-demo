@@ -173,6 +173,28 @@ body {
 }
 #ORDER BY (xsd:integer(?author_order))
 ORDER BY ?container_label`;
+
+var sparql = `SELECT 
+?work ?workLabel ?containerLabel ?author_order ?author_affiliation
+?author_name
+{ 
+ ?statement ps:P2093 "` + name + `" .
+ ?work p:P2093 ?statement.
+ ?statement pq:P1545 ?author_order. 
+  OPTIONAL 
+  {
+    ?statement pq:P6424 ?author_affiliation. 
+  }
+
+ ?work wdt:P2093 ?author_name. 
+ ?work wdt:P1433 ?container .
+
+ SERVICE wikibase:label {
+    bd:serviceParam wikibase:language "en" .
+   }  
+}
+
+ORDER BY ?containerLabel`;
 			
 			console.log(sparql);
 	
@@ -193,12 +215,12 @@ ORDER BY ?container_label`;
 							rows[work].affiliation = [];
 						 }				      
 					  
-						  if (data.results.bindings[i].title) {
-							rows[work].title = data.results.bindings[i].title.value;
+						  if (data.results.bindings[i].workLabel) {
+							rows[work].title = data.results.bindings[i].workLabel.value;
 						  }
 						  
-			  			 if (data.results.bindings[i].container_label) {
-							rows[work].container_label = data.results.bindings[i].container_label.value;
+			  			 if (data.results.bindings[i].containerLabel) {
+							rows[work].container_label = data.results.bindings[i].containerLabel.value;
 						  }
 
 			  			 if (data.results.bindings[i].author_order) {
