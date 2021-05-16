@@ -1,6 +1,5 @@
 {
     "require": {
-        "php": "^5.6",
         "digitalbazaar/json-ld": "0.4.7"
     }
 }
