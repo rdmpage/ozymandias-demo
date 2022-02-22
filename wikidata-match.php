@@ -88,6 +88,11 @@ body {
 			    if ($(this).attr('data-affiliation')) {
 			    	data[qid].affiliation = JSON.parse(decodeURIComponent($(this).attr('data-affiliation')));
 			    }
+			    
+			    if ($(this).attr('data-reference')) {
+			    	data[qid].reference = JSON.parse(decodeURIComponent($(this).attr('data-reference')));
+			    }
+			    
 
 			});
 			
@@ -111,13 +116,60 @@ body {
 						s.push('P1932');
 						s.push('"' + data[i].name + '"');
 						
-						// Add affiliation string to author so we preserve thus info
+						// Add affiliation string to author so we preserve this info
 						if (data[i].affiliation && data[i].affiliation.length > 0) {
 							for (var j in data[i].affiliation) {
 								s.push('P6424');
 								s.push('"' + data[i].affiliation + '"');
 							}
 						}
+						
+						// Keep original reference(s) for name
+						// Note that this is a little odd as the reference for authorship
+						// is this script, not the original source, but this way
+						// we keep provenance intact
+						if (data[i].reference) {
+							for (var j in data[i].reference) {
+								var prefix = '!'; // separates reference groups
+								
+								if (data[i].reference[j].statedIn) {
+									s.push(prefix + 'S248');
+									s.push(data[i].reference[j].statedIn);
+									prefix = '';
+								}
+								
+								if (data[i].reference[j].referenceUrl) {
+									s.push(prefix + 'S854');
+									s.push('"' + data[i].reference[j].referenceUrl + '"');
+									prefix = '';
+								}
+								
+								
+								if (data[i].reference[j].pmid) {
+									s.push(prefix + 'S698');
+									s.push('"' + data[i].reference[j].pmid + '"');
+									prefix = '';
+								}
+
+								
+								if (data[i].reference[j].pmcid) {
+									s.push(prefix + 'S932');
+									s.push('"' + data[i].reference[j].pmcid + '"');
+									prefix = '';
+								}
+																				
+								// assume date precision is day				
+								if (data[i].reference[j].retrieved) {
+									s.push(prefix + 'S813');
+									s.push('+' + data[i].reference[j].retrieved + '/11');
+									prefix = '';
+								}
+							}
+						}
+						
+						
+						
+						
 
 						qs.push(s.join("\t"));
 	
@@ -195,6 +247,50 @@ var sparql = `SELECT
 }
 
 ORDER BY ?containerLabel`;
+
+var sparql = `SELECT 
+?work ?workLabel ?containerLabel ?author_order ?author_affiliation ?provenance ?statedIn ?referenceUrl  ?retrieved 
+?author_name ?pmid ?pmcid
+{ 
+ ?statement ps:P2093 "` + name + `" .
+ ?work p:P2093 ?statement.
+ ?statement pq:P1545 ?author_order. 
+  OPTIONAL 
+  {
+    ?statement pq:P6424 ?author_affiliation. 
+  }
+  
+OPTIONAL 
+  {
+    ?statement prov:wasDerivedFrom ?provenance . 
+    OPTIONAL {
+      ?provenance pr:P248 ?statedIn .
+    }
+    OPTIONAL {
+      ?provenance pr:P854 ?referenceUrl .
+    }    
+    OPTIONAL {
+      ?provenance pr:P813 ?retrieved .
+    }    
+    OPTIONAL {
+      ?provenance pr:P698 ?pmid .
+    }    
+    OPTIONAL {
+      ?provenance pr:P932 ?pmcid .
+    }    
+ 
+
+  }    
+
+ ?work wdt:P2093 ?author_name. 
+ ?work wdt:P1433 ?container .
+
+ SERVICE wikibase:label {
+    bd:serviceParam wikibase:language "en" .
+   }  
+}
+
+ORDER BY ?containerLabel`;
 			
 			console.log(sparql);
 	
@@ -213,6 +309,7 @@ ORDER BY ?containerLabel`;
 							rows[work] = {};
 							rows[work].authors = [];
 							rows[work].affiliation = [];
+							rows[work].reference = {};
 						 }				      
 					  
 						  if (data.results.bindings[i].workLabel) {
@@ -249,6 +346,45 @@ ORDER BY ?containerLabel`;
 			  			 	}
 						  }
 						  
+						  // reference(s)
+			  			 if (data.results.bindings[i].provenance) {
+			  			    var ref = {};
+			  			    
+			  			    if (data.results.bindings[i].statedIn) {
+			  			    	ref.statedIn = data.results.bindings[i].statedIn.value;
+			  			    	ref.statedIn = ref.statedIn.replace("http://www.wikidata.org/entity/", "");
+			  			    }
+			  			    
+			  			    if (data.results.bindings[i].referenceUrl) {
+			  			    	ref.referenceUrl = data.results.bindings[i].referenceUrl.value;
+			  			    }			  			    
+
+
+			  			    if (data.results.bindings[i].pmid) {
+			  			    	ref.pmid = data.results.bindings[i].pmid.value;
+			  			    }			  			    
+
+
+			  			    if (data.results.bindings[i].pmcid) {
+			  			    	ref.pmcid = data.results.bindings[i].pmcid.value;
+			  			    }			  			    
+
+			  			    if (data.results.bindings[i].retrieved) {
+			  			    	ref.retrieved = data.results.bindings[i].retrieved.value;
+			  			    }			  	
+			  			    
+			  			    var ref_index = data.results.bindings[i].provenance.value;
+			  			    ref_index = ref_index.replace("http://www.wikidata.org/reference/", "");
+
+			  			    //console.log(data.results.bindings[i].provenance.value);
+
+			  			 	rows[work].reference[ref_index] = ref;
+			  			 	
+			  			 	//console.log(JSON.stringify(rows[work].reference));
+			  			 	
+						  }
+						  
+						  
 									  
 						}
 										  
@@ -277,6 +413,10 @@ ORDER BY ?containerLabel`;
 				     	if (rows[i].affiliation.length > 0) {
 				     		html += ' data-affiliation="' + encodeURIComponent(JSON.stringify(rows[i].affiliation)) + '"';				     	
 				     	}
+
+				     	if (rows[i].reference) {
+				     		html += ' data-reference="' + encodeURIComponent(JSON.stringify(rows[i].reference)) + '"';				     	
+				     	}
 				     	
 				     	html += ' type="checkbox">';
 				     	html += '</td>';
@@ -300,8 +440,6 @@ ORDER BY ?containerLabel`;
 				     		} else {
 				     			html += '</span>';
 				     		}
-				     		
-				     		
 				     	
 				     	}
 				     	html += '</td>';
