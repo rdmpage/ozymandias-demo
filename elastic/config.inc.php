@@ -39,6 +39,14 @@ if (1)
 			'user' => 'user',
 			'password' => '7WbQZedlAvzQ'
 			);
+			
+	$config['elastic_options'] = array(
+			'index' 	=> 'ala',
+			'protocol' 	=> 'http',
+			'host' 		=> '65.108.58.109',
+			'port' 		=> 9200
+			);					
+			
 }
 
 if (0)

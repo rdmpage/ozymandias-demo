@@ -41,6 +41,8 @@ switch ($site)
 
 
 $config['thumbnail_cdn'] = 'http://exeg5le.cloudimg.io/height/100/n/';
+// Will need to investigate more and get square cropped images
+//$config['thumbnail_cdn'] = 'https://aipbvczbup.cloudimg.io/s/height/100/';
 
 
 $config['sparql_endpoint'] 	= '';
