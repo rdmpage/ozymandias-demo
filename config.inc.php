@@ -47,6 +47,7 @@ $config['sparql_endpoint'] 	= '';
 $config['triplestore'] 		= 'blazegraph-windows10';
 //$config['triplestore'] 	= 'blazegraph-sloppy.io';
 $config['triplestore'] 		= 'blazegraph-digitalocean';
+$config['triplestore'] 		= 'blazegraph-hetzner';
 
 if ($config['triplestore'] == 'blazegraph-windows10')
 {
@@ -63,6 +64,12 @@ if ($config['triplestore'] == 'blazegraph-sloppy.io')
 if ($config['triplestore'] == 'blazegraph-digitalocean')
 {
 	$config['blazegraph-url'] 	= 'http://134.122.14.41:9999';	
+	$config['sparql_endpoint']	= $config['blazegraph-url'] . '/blazegraph/sparql'; 
+}
+
+if ($config['triplestore'] == 'blazegraph-hetzner')
+{
+	$config['blazegraph-url'] 	= 'http://65.108.211.37:9999';	
 	$config['sparql_endpoint']	= $config['blazegraph-url'] . '/blazegraph/sparql'; 
 }
 
