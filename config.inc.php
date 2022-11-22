@@ -35,7 +35,7 @@ switch ($site)
 
 		// Files--------------------------------------------------------------------------
 		$config['web_dir']		= dirname(__FILE__);
-		$config['web_root']		= '/~rpage/ozymandias-demo/';
+		$config['web_root']		= '/ozymandias-demo/';
 		break;
 }
 
@@ -75,5 +75,6 @@ if ($config['triplestore'] == 'blazegraph-hetzner')
 	$config['sparql_endpoint']	= $config['blazegraph-url'] . '/blazegraph/sparql'; 
 }
 
+$config['use_elastic'] = false;
 
 ?>

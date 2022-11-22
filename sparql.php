@@ -207,6 +207,92 @@ function sparql_query($sparql_endpoint, $query, $format='application/json')
 	return $response;
 }
 
+//----------------------------------------------------------------------------------------
+// Simple text search
+function sparql_search($sparql_endpoint, $text, $format='application/ld+json')
+{
+	$url = $sparql_endpoint;
+
+	$query = 'PREFIX schema: <http://schema.org/>
+	PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+	CONSTRUCT {
+		<http://example.rss> rdf:type schema:DataFeed .
+		<http://example.rss>  schema:name "Search" .
+		<http://example.rss>  schema:dataFeedElement ?item .
+
+   		?item schema:name ?name .
+   		?item schema:thumbnailUrl ?thumbnailUrl .
+}
+WHERE {
+   ?item ?pred "' . addcslashes($text, '"') . '" .
+   ?item schema:name ?name .
+  OPTIONAL {
+   ?item schema:image ?image .
+   ?image schema:thumbnailUrl ?thumbnailUrl .
+  }
+}';	
+
+	$data = 'query=' . urlencode($query);
+	
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_HEADER, 0);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);   
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array("Accept: " . $format));
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+	$response = curl_exec($ch);
+	if($response == FALSE) 
+	{
+		$errorText = curl_error($ch);
+		curl_close($ch);
+		die($errorText);
+	}
+	
+	$info = curl_getinfo($ch);
+	$http_code = $info['http_code'];
+	
+	if ($http_code != 200)
+	{
+		echo $response;	
+		die ("Triple store returned $http_code\n");
+	}
+	
+	curl_close($ch);
+	
+	// Fuseki returns nicely formatted JSON-LD, Blazegraph returns array of horrible JSON-LD
+	// as first element of an array
+	
+	$obj = json_decode($response);
+	
+	if (is_array($obj))
+	{
+		$context = (object)array(
+			'@vocab' => 'http://schema.org/'
+		);
+		
+		// dataFeedElement is always an array
+		$dataFeedElement = new stdclass;
+		$dataFeedElement->{'@id'} = "dataFeedElement";
+		$dataFeedElement->{'@container'} = "@set";
+		
+		$context->{'dataFeedElement'} = $dataFeedElement;		
+		
+		$frame = (object)array(
+				'@context' => $context,
+				'@type' => 'DataFeed'
+			);
+		
+		$compacted = jsonld_frame($obj, $frame);		
+		
+		$response = json_encode($compacted, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);		
+	}
+	
+
+	return $response;
+}
+
 
 // test
 
@@ -240,6 +326,17 @@ if (0)
 	$response = sparql_query(
 	'http://localhost:32779/blazegraph/sparql',
 	'SELECT * WHERE { ?s ?p ?o . } LIMIT 5'
+	);
+	
+	echo $response;
+		
+}
+
+if (0)
+{
+	$response = sparql_search(
+	'http://65.108.211.37:9999/blazegraph/sparql',
+	'Acupalpa'
 	);
 	
 	echo $response;

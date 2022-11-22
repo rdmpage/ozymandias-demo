@@ -1253,45 +1253,6 @@ function display_search($q)
 	global $config;
 	global $elastic;
 	
-	$rows_per_page = 20;	
-
-	$json = '{
-"size":20,
-    "query": {
-       "multi_match" : {
-      "query": "",
-      "fields":["search_data.fulltext", "search_data.fulltext_boosted^4"] 
-    }
-},
-
-"aggs": {
-"type" :{
-    "terms": { "field" : "search_data.type.keyword" }
-  },
-  "year" :{
-    "terms": { "field" : "search_data.year" }
-  },
-  "container" :{
-    "terms": { "field" : "search_data.container.keyword" }
-  },
-  "author" :{
-    "terms": { "field" : "search_data.creator.keyword" }
-  },
-  "classification" :{
-    "terms": { "field" : "search_data.classification.keyword" }
-  }  
-
-}
-
-    
-}';
-
-	$obj = json_decode($json);	
-	$obj->query->multi_match->query = $q;
-	$response = $elastic->send('POST', '_search?pretty', json_encode($obj));
-	
-	$response_obj = json_decode($response);
-	
 	$title = $q;
 	
 	$meta = '';
@@ -1316,33 +1277,130 @@ function display_search($q)
 			<div id="main" class="main_content">';
 			
 			echo '<h4>Search results</h4>';
+	
+	
+	if ($config['use_elastic'])
+	{
+	
+			$rows_per_page = 20;	
+
+			$json = '{
+		"size":20,
+			"query": {
+			   "multi_match" : {
+			  "query": "",
+			  "fields":["search_data.fulltext", "search_data.fulltext_boosted^4"] 
+			}
+		},
+
+		"aggs": {
+		"type" :{
+			"terms": { "field" : "search_data.type.keyword" }
+		  },
+		  "year" :{
+			"terms": { "field" : "search_data.year" }
+		  },
+		  "container" :{
+			"terms": { "field" : "search_data.container.keyword" }
+		  },
+		  "author" :{
+			"terms": { "field" : "search_data.creator.keyword" }
+		  },
+		  "classification" :{
+			"terms": { "field" : "search_data.classification.keyword" }
+		  }  
+
+		}
+
+	
+		}';
+
+			$obj = json_decode($json);	
+			$obj->query->multi_match->query = $q;
+			$response = $elastic->send('POST', '_search?pretty', json_encode($obj));
+			$response_obj = json_decode($response);
 			
-    foreach ($response_obj->hits->hits as $hit)
- 	{
- 		$entity = $hit->_source->search_result_data;
- 	
- 		echo '<div class="list-item">';
- 		//echo '  <a href="?uri=' . $entity->id .'">';
- 		echo '  <a href="uri/' . $entity->id .'">';
-		echo '    <div class="list-item-thumbnail">';
+			foreach ($response_obj->hits->hits as $hit)
+			{
+				$entity = $hit->_source->search_result_data;
+	
+				echo '<div class="list-item">';
+				//echo '  <a href="?uri=' . $entity->id .'">';
+				echo '  <a href="uri/' . $entity->id .'">';
+				echo '    <div class="list-item-thumbnail">';
 		
-		if (isset($entity->thumbnailUrl))
-		{
-			echo '<img src="' . $entity->thumbnailUrl . '" />';
-		}
-		else
-		{
-			echo '<img src="images/no-icon.svg" />';
-		}
-		echo '    </div>';
-		echo '    <div class="list-item-body">';
-		echo '       <div class="list-item-title">';
-		echo $entity->name;
-		echo '       </div>';
-		echo '    </div>';
-		echo '  </a>';
-		echo '</div>';
- 	}
+				if (isset($entity->thumbnailUrl))
+				{
+					echo '<img src="' . $entity->thumbnailUrl . '" />';
+				}
+				else
+				{
+					echo '<img src="images/no-icon.svg" />';
+				}
+				echo '    </div>';
+				echo '    <div class="list-item-body">';
+				echo '       <div class="list-item-title">';
+				echo $entity->name;
+				echo '       </div>';
+				echo '    </div>';
+				echo '  </a>';
+				echo '</div>';
+			}
+			
+	}
+	else
+	{
+		// simple SPARQL for literal
+		$response = sparql_search($config['sparql_endpoint'], trim($q));
+		$response_obj = json_decode($response);
+		
+			if (isset($response_obj->{'@graph'}[0]))
+			{
+		
+				foreach ($response_obj->{'@graph'}[0]->dataFeedElement as $entity)
+				{
+					echo '<div class="list-item">';
+					echo '  <a href="?uri=' . rawurlencode($entity->{'@id'}) .'">';
+					echo '    <div class="list-item-thumbnail">';
+		
+					if (isset($entity->thumbnailUrl))
+					{
+						echo '<img src="' . $entity->thumbnailUrl . '" />';
+					}
+					else
+					{
+						echo '<img src="images/no-icon.svg" />';
+					}
+					echo '    </div>';
+					echo '    <div class="list-item-body">';
+					echo '       <div class="list-item-title">';
+				
+					if (is_array($entity->name))
+					{
+						echo $entity->name[0];
+					}
+					else
+					{
+						echo $entity->name;
+					}
+					echo '       </div>';
+					echo '    </div>';
+					echo '  </a>';
+					echo '</div>';
+				}
+			}
+			else
+			{
+				echo "No results";
+			}
+	
+	}
+	
+	
+	
+	
+	
+			
 
 	
 	echo '	</div>
